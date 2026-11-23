@@ -66,3 +66,7 @@ SECTORS = {
 class OptimizerConfig:
     """Everything the CLI needs in one object."""
 
+    tickers: Sequence[str] = field(default_factory=lambda: list(DEFAULT_TICKERS))
+    period: str = "3y"
+    interval: str = "1d"
+
