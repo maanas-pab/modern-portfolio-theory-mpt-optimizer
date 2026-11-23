@@ -19,3 +19,8 @@ def annualize_returns(daily: pd.DataFrame, days: int = TRADING_DAYS) -> pd.Serie
     return daily.mean() * days
 
 
+def annualize_covariance(daily: pd.DataFrame, days: int = TRADING_DAYS) -> pd.DataFrame:
+    """Sample covariance of daily returns scaled to a yearly figure."""
+    return daily.cov() * days
+
+
