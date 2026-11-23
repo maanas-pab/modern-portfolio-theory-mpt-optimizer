@@ -87,3 +87,7 @@ class OptimizerConfig:
     cache_path: Optional[str] = "data/prices_3y.csv"
     refresh: bool = False            # bypass cache, refetch from Yahoo
 
+    walk_forward: bool = False       # honest out-of-sample evaluation
+    train_days: int = 252            # observations per training window
+    test_days: int = 63              # observations each fit is held for
+
