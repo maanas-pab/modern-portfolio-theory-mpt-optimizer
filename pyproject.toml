@@ -2,3 +2,20 @@
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "mpt-optimizer"
+version = "2.0.0"
+description = "Modern Portfolio Theory optimizer: efficient frontier, max-Sharpe and min-vol portfolios with 20+ charts"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Maanas Pabbathi" }]
+requires-python = ">=3.9"
+keywords = ["portfolio", "optimization", "efficient-frontier", "sharpe", "MPT"]
+dependencies = [
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "scipy>=1.11",
+    "yfinance>=0.2.40",
+]
+
