@@ -93,3 +93,18 @@ class OptimizerConfig:
 
     black_litterman: bool = False    # blend equilibrium prior with top-pick views
 
+    def validate(self) -> "OptimizerConfig":
+        """Raise ValueError on nonsense inputs; returns self for chaining."""
+        if self.rebalance not in ("none", "weekly", "monthly", "quarterly"):
+            raise ValueError(f"rebalance must be none/weekly/monthly/quarterly, got {self.rebalance!r}")
+        if self.transaction_cost < 0:
+            raise ValueError("transaction_cost must be >= 0")
+        if self.frontier_points < 2:
+            raise ValueError("frontier_points must be >= 2")
+        if not 0.0 <= self.risk_free < 1.0:
+            raise ValueError("risk_free must be in [0, 1)")
+        if self.train_days < 2:
+            raise ValueError("train_days must be >= 2")
+        if self.test_days < 1:
+            raise ValueError("test_days must be >= 1")
+        return self
