@@ -1,17 +1,18 @@
-# Python
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.ruff_cache/
 *.egg-info/
+build/
+dist/
 .venv/
 venv/
-.env
 
-# OS / editors
+# regenerated weight CSVs (charts in figures/ ARE committed)
+outputs/
+
+# local caches
+data/*.csv
+!data/prices_3y.csv
+
 .DS_Store
-.vscode/
-.idea/
-*.swp
-
-# Local env overrides (keep tracked example outputs)
-# *.csv
-# *.png
