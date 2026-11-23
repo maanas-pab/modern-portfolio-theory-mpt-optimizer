@@ -142,3 +142,20 @@ def concentration_hhi(weights) -> float:
     return float(np.sum(w ** 2))
 
 
+def risk_contributions(weights, cov_matrix) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Per-asset (marginal risk, percent-of-total risk) contributions.
+
+    Marginal contribution is d(sigma_p)/d(w_i); percentages sum to 1
+    and are the basis for equal-risk-budget portfolios.
+    """
+    w = np.asarray(weights, dtype=float)
+    sigma = float(np.sqrt(w @ cov_matrix.values @ w))
+    if sigma <= 0:
+        n = len(w)
+        return np.zeros(n), np.repeat(1.0 / n, n)
+    marginal = (cov_matrix.values @ w) / sigma
+    pct = (w * marginal) / sigma
+    return marginal, pct
+
+
