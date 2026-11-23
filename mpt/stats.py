@@ -85,3 +85,8 @@ def ledoit_wolf_covariance(daily: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def covariance_matrix(daily: pd.DataFrame, shrinkage: bool = False) -> pd.DataFrame:
+    """Sample or shrunk annualized covariance depending on the flag."""
+    if shrinkage:
+        return ledoit_wolf_covariance(daily)
+    return annualize_covariance(daily)
