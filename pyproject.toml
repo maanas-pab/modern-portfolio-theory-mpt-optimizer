@@ -19,3 +19,6 @@ dependencies = [
     "yfinance>=0.2.40",
 ]
 
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.4"]
+
