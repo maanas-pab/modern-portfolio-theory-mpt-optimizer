@@ -70,3 +70,7 @@ class OptimizerConfig:
     period: str = "3y"
     interval: str = "1d"
 
+    risk_free: float = 0.02
+    shrinkage: bool = False          # Ledoit-Wolf style covariance shrinkage
+    benchmark: str = BENCHMARK
+
