@@ -35,3 +35,8 @@ def calculate_statistics(prices: pd.DataFrame,
     return daily, exp_returns, cov_matrix
 
 
+def correlation_matrix(prices: pd.DataFrame) -> pd.DataFrame:
+    """Pearson correlation of daily returns."""
+    return daily_returns(prices).corr()
+
+
