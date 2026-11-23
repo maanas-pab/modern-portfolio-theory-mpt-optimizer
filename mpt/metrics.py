@@ -95,3 +95,15 @@ def value_at_risk(returns: pd.Series, level: float = 0.95,
     return float(max(-q, 0.0))
 
 
+def conditional_var(returns: pd.Series, level: float = 0.95) -> float:
+    """Average loss beyond the VaR threshold (expected shortfall)."""
+    r = returns.dropna()
+    if r.empty:
+        return 0.0
+    var = value_at_risk(r, level=level, method="historical")
+    tail = r[r <= -var]
+    if tail.empty:
+        return var
+    return float(max(-tail.mean(), 0.0))
+
+
