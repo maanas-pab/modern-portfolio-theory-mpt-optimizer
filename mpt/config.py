@@ -45,3 +45,20 @@ THEMES = {
     "SPY": "US large-cap index",
 }
 
+SECTORS = {
+    "CELH": "Consumer",
+    "ENPH": "Clean energy",
+    "FSLR": "Clean energy",
+    "CRSP": "Biotech",
+    "BEAM": "Biotech",
+    "DUOL": "Technology",
+    "ETSY": "Consumer",
+    "PLTR": "Technology",
+    "NET": "Technology",
+    "DDOG": "Technology",
+    "U": "Technology",
+    "AFRM": "Financials",
+    "SPY": "Benchmark",
+}
+
+
