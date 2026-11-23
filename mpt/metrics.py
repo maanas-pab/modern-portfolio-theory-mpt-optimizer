@@ -159,3 +159,8 @@ def risk_contributions(weights, cov_matrix) -> Tuple[np.ndarray, np.ndarray]:
     return marginal, pct
 
 
+def risk_budget_loss(weights, cov_matrix) -> float:
+    """Sum of squared deviations from equal (1/N) risk budgeting - lower is better."""
+    _, pct = risk_contributions(weights, cov_matrix)
+    target = 1.0 / len(pct)
+    return float(np.sum((pct - target) ** 2))
