@@ -74,3 +74,8 @@ class OptimizerConfig:
     shrinkage: bool = False          # Ledoit-Wolf style covariance shrinkage
     benchmark: str = BENCHMARK
 
+    frontier_points: int = 60
+    random_portfolios: int = 5000
+    rebalance: str = "none"          # none | weekly | monthly | quarterly
+    transaction_cost: float = 0.0    # one-way cost per unit turnover
+
