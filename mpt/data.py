@@ -51,3 +51,11 @@ def fetch_prices(tickers: Iterable[str] = DEFAULT_TICKERS,
     return prices
 
 
+def load_cache(path: str) -> pd.DataFrame:
+    """Read a cached price CSV (index = dates)."""
+    prices = pd.read_csv(path, index_col=0, parse_dates=True)
+    if prices.empty:
+        raise ValueError(f"cache {path} is empty")
+    return prices.astype(float)
+
+
