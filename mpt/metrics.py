@@ -39,3 +39,16 @@ def downside_deviation(returns: pd.Series, risk_free: float = 0.0,
     return float(np.sqrt((downside ** 2).mean()) * np.sqrt(periods))
 
 
+def sortino_ratio(returns: pd.Series, risk_free: float = 0.0,
+                  periods: int = TRADING_DAYS) -> float:
+    """Annualized excess return per unit of downside deviation."""
+    r = returns.dropna()
+    if r.empty:
+        return 0.0
+    annual_ret = float(r.mean() * periods)
+    dd = downside_deviation(r, risk_free, periods)
+    if dd <= 0:
+        return 0.0
+    return float((annual_ret - risk_free) / dd)
+
+
