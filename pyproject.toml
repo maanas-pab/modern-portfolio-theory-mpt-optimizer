@@ -36,3 +36,10 @@ target-version = "py39"
 select = ["E", "F", "W", "I", "UP", "B"]
 ignore = ["E501"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
