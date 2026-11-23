@@ -91,3 +91,5 @@ class OptimizerConfig:
     train_days: int = 252            # observations per training window
     test_days: int = 63              # observations each fit is held for
 
+    black_litterman: bool = False    # blend equilibrium prior with top-pick views
+
