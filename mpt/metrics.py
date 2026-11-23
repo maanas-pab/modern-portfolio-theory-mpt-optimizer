@@ -70,3 +70,28 @@ def calmar_ratio(annual_return: float, max_dd: float, risk_free: float = 0.0) ->
     return float((annual_return - risk_free) / abs(max_dd))
 
 
+def value_at_risk(returns: pd.Series, level: float = 0.95,
+                  method: str = "historical") -> float:
+    """
+    Daily VaR as a positive loss fraction, e.g. 0.031 = 3.1% one-day loss.
+
+    method='historical' uses the empirical quantile; method='parametric'
+    assumes a normal distribution.
+    """
+    r = returns.dropna()
+    if r.empty:
+        return 0.0
+    if not 0.5 < level < 1.0:
+        raise ValueError("level must be in (0.5, 1)")
+    if method == "historical":
+        q = float(np.quantile(r, 1.0 - level))
+    elif method == "parametric":
+        from statistics import NormalDist
+
+        z = NormalDist().inv_cdf(level)
+        q = float(r.mean() - z * r.std(ddof=1))
+    else:
+        raise ValueError("method must be 'historical' or 'parametric'")
+    return float(max(-q, 0.0))
+
+
