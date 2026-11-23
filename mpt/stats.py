@@ -45,3 +45,26 @@ def annualized_volatility(cov_matrix: pd.DataFrame) -> pd.Series:
     return pd.Series(np.sqrt(np.diag(cov_matrix.values)), index=cov_matrix.index)
 
 
+def ledoit_wolf_intensity(daily: pd.DataFrame) -> float:
+    """
+    Analytic shrinkage intensity toward the scaled-identity target.
+
+    Implements the Ledoit & Wolf (2004) well-conditioned estimator:
+    lambda* = min(1, b^2 / d^2) where d^2 is the squared distance from
+    the sample covariance to the target and b^2 estimates the squared
+    estimation error of the sample covariance (Gaussian fourth moments).
+    """
+    x = daily.values - daily.values.mean(axis=0, keepdims=True)
+    t, n = x.shape
+    if t < 2 or n < 2:
+        return 0.0
+    s = x.T @ x / t
+    mu = np.trace(s) / n
+    delta = s - mu * np.eye(n)
+    d2 = float(np.sum(delta ** 2)) / n
+    if d2 <= 1e-18:
+        return 0.0
+    g2 = (np.trace(s) ** 2 + float(np.trace(s @ s))) / (t * n)
+    return float(min(1.0, g2 / d2))
+
+
