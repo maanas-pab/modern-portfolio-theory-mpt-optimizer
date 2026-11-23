@@ -20,3 +20,7 @@ def _portfolio_vol(weights, exp_returns, cov_matrix, risk_free_rate=None) -> flo
     return float(np.sqrt(w @ cov_matrix.values @ w))
 
 
+def _sum_to_one(weights) -> float:
+    return float(np.sum(weights) - 1.0)
+
+
