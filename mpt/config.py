@@ -84,3 +84,6 @@ class OptimizerConfig:
     no_plot: bool = False
     no_backtest: bool = False
 
+    cache_path: Optional[str] = "data/prices_3y.csv"
+    refresh: bool = False            # bypass cache, refetch from Yahoo
+
