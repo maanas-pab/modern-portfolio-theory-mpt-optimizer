@@ -66,3 +66,23 @@ def save_cache(prices: pd.DataFrame, path: str) -> str:
     return path
 
 
+def get_prices(tickers: Iterable[str] = DEFAULT_TICKERS,
+               period: str = "3y",
+               interval: str = "1d",
+               cache_path: Optional[str] = "data/prices_3y.csv",
+               refresh: bool = False) -> pd.DataFrame:
+    """Return prices from cache when possible, else download (and refresh cache)."""
+    tickers = list(tickers)
+    if cache_path and os.path.exists(cache_path) and not refresh:
+        prices = load_cache(cache_path)
+        missing = [t for t in tickers if t not in prices.columns]
+        if not missing:
+            print(f"Loaded {prices.shape[0]} x {prices.shape[1]} from cache ({cache_path})")
+            return prices[tickers] if set(tickers) <= set(prices.columns) else prices
+        print(f"Cache missing {missing} - refetching.")
+    prices = fetch_prices(tickers, period=period, interval=interval)
+    if cache_path:
+        save_cache(prices, cache_path)
+    return prices
+
+
