@@ -24,3 +24,7 @@ def _sum_to_one(weights) -> float:
     return float(np.sum(weights) - 1.0)
 
 
+def _target_return(weights, exp_returns, target) -> float:
+    return float(np.asarray(weights) @ exp_returns.values - target)
+
+
