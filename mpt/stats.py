@@ -68,3 +68,20 @@ def ledoit_wolf_intensity(daily: pd.DataFrame) -> float:
     return float(min(1.0, g2 / d2))
 
 
+def ledoit_wolf_covariance(daily: pd.DataFrame) -> pd.DataFrame:
+    """
+    Annualized covariance shrunk toward mu * I.
+
+    Shrinking eigenvalues away from zero makes the matrix far better
+    conditioned for inverting in optimizers and risk models.
+    """
+    daily = daily.dropna()
+    lam = ledoit_wolf_intensity(daily)
+    cov = daily.cov() * TRADING_DAYS
+    mu = float(np.trace(cov.values)) / len(cov)
+    shrunk = (1.0 - lam) * cov.values + lam * mu * np.eye(len(cov))
+    out = pd.DataFrame(shrunk, index=cov.index, columns=cov.columns)
+    out.attrs["shrinkage_intensity"] = lam
+    return out
+
+
