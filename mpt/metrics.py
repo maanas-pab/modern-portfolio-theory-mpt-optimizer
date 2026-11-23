@@ -119,3 +119,19 @@ def beta(portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
     return float(p.cov(b) / var)
 
 
+def alpha(portfolio_returns: pd.Series, benchmark_returns: pd.Series,
+          risk_free: float = 0.0, periods: int = TRADING_DAYS) -> float:
+    """Annualized alpha from the CAPM regression (intercept-based)."""
+    joined = pd.concat([portfolio_returns, benchmark_returns], axis=1).dropna()
+    if len(joined) < 2:
+        return 0.0
+    p, b = joined.iloc[:, 0], joined.iloc[:, 1]
+    b_var = float(b.var())
+    if b_var <= 0:
+        return 0.0
+    b_beta = float(p.cov(b) / b_var)
+    daily_rf = (1.0 + risk_free) ** (1.0 / periods) - 1.0
+    intercept = float(p.mean() - daily_rf - b_beta * (b.mean() - daily_rf))
+    return float(((1.0 + intercept) ** periods - 1.0) - risk_free)
+
+
