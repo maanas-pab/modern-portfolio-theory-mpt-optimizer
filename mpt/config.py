@@ -27,3 +27,21 @@ DEFAULT_TICKERS: List[str] = [
     "AFRM",  # Affirm Holdings
 ]
 
+BENCHMARK = "SPY"
+
+THEMES = {
+    "CELH": "Consumer / energy drinks",
+    "ENPH": "Solar microinverters",
+    "FSLR": "Solar manufacturing",
+    "CRSP": "Gene editing",
+    "BEAM": "Gene editing",
+    "DUOL": "Edtech / language learning",
+    "ETSY": "E-commerce",
+    "PLTR": "AI / data analytics",
+    "NET": "Cloud / edge",
+    "DDOG": "Cloud observability",
+    "U": "Gaming / 3D engine",
+    "AFRM": "Fintech / BNPL",
+    "SPY": "US large-cap index",
+}
+
