@@ -28,3 +28,12 @@ def _target_return(weights, exp_returns, target) -> float:
     return float(np.asarray(weights) @ exp_returns.values - target)
 
 
+def _base_constraints(exp_returns, target=None):
+    constraints = [{"type": "eq", "fun": _sum_to_one}]
+    if target is not None:
+        constraints.append(
+            {"type": "eq", "fun": lambda w, t=target: _target_return(w, exp_returns, t)}
+        )
+    return constraints
+
+
