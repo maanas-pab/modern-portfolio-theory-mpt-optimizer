@@ -63,3 +63,10 @@ def max_drawdown(returns: pd.Series) -> float:
     return float(drawdown.min())
 
 
+def calmar_ratio(annual_return: float, max_dd: float, risk_free: float = 0.0) -> float:
+    """Excess annual return divided by the magnitude of max drawdown."""
+    if max_dd >= 0:
+        return 0.0
+    return float((annual_return - risk_free) / abs(max_dd))
+
+
