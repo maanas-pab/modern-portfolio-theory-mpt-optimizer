@@ -107,3 +107,15 @@ def conditional_var(returns: pd.Series, level: float = 0.95) -> float:
     return float(max(-tail.mean(), 0.0))
 
 
+def beta(portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
+    """Covariance with the benchmark divided by benchmark variance."""
+    joined = pd.concat([portfolio_returns, benchmark_returns], axis=1).dropna()
+    if len(joined) < 2:
+        return 0.0
+    p, b = joined.iloc[:, 0], joined.iloc[:, 1]
+    var = float(b.var())
+    if var <= 0:
+        return 0.0
+    return float(p.cov(b) / var)
+
+
