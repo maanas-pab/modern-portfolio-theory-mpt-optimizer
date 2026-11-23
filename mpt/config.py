@@ -62,3 +62,7 @@ SECTORS = {
 }
 
 
+@dataclass
+class OptimizerConfig:
+    """Everything the CLI needs in one object."""
+
