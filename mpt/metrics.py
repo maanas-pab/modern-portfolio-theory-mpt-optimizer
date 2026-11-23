@@ -19,3 +19,12 @@ def sharpe_ratio(annual_return: float, annual_vol: float, risk_free: float = 0.0
     return float((annual_return - risk_free) / annual_vol)
 
 
+def portfolio_performance(weights, exp_returns, cov_matrix, risk_free_rate: float = 0.0
+                          ) -> Tuple[float, float, float]:
+    """Annualized (return, volatility, sharpe) for a weight vector."""
+    w = np.asarray(weights, dtype=float)
+    ret = float(w @ exp_returns.values)
+    vol = float(np.sqrt(w @ cov_matrix.values @ w))
+    return ret, vol, sharpe_ratio(ret, vol, risk_free_rate)
+
+
