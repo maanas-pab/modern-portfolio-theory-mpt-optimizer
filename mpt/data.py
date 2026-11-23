@@ -59,3 +59,10 @@ def load_cache(path: str) -> pd.DataFrame:
     return prices.astype(float)
 
 
+def save_cache(prices: pd.DataFrame, path: str) -> str:
+    """Persist prices to CSV, creating parent directories as needed."""
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    prices.to_csv(path)
+    return path
+
+
