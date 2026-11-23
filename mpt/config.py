@@ -79,3 +79,8 @@ class OptimizerConfig:
     rebalance: str = "none"          # none | weekly | monthly | quarterly
     transaction_cost: float = 0.0    # one-way cost per unit turnover
 
+    out_dir: str = "outputs"
+    figure_dir: str = "figures"
+    no_plot: bool = False
+    no_backtest: bool = False
+
