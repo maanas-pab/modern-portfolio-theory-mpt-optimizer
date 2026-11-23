@@ -25,3 +25,6 @@ dev = ["pytest>=8.0", "ruff>=0.4"]
 [project.scripts]
 mpt = "mpt.cli:main"
 
+[tool.setuptools.packages.find]
+include = ["mpt*"]
+
