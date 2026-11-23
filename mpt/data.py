@@ -86,3 +86,12 @@ def get_prices(tickers: Iterable[str] = DEFAULT_TICKERS,
     return prices
 
 
+def attach_benchmark(prices: pd.DataFrame, benchmark: str = BENCHMARK) -> pd.DataFrame:
+    """Return prices including the benchmark column when it is available."""
+    if benchmark in prices.columns:
+        return prices
+    bench = _download_one(benchmark, "3y", "1d")
+    if bench is None:
+        print(f"Warning: benchmark {benchmark} unavailable - continuing without it.")
+        return prices
+    return prices.join(bench, how="inner")
