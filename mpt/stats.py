@@ -24,3 +24,14 @@ def annualize_covariance(daily: pd.DataFrame, days: int = TRADING_DAYS) -> pd.Da
     return daily.cov() * days
 
 
+def calculate_statistics(prices: pd.DataFrame,
+                         days: int = TRADING_DAYS) -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame]:
+    """
+    Return (daily_returns, annualized_expected_returns, annualized_covariance).
+    """
+    daily = daily_returns(prices).dropna()
+    exp_returns = annualize_returns(daily, days)
+    cov_matrix = annualize_covariance(daily, days)
+    return daily, exp_returns, cov_matrix
+
+
