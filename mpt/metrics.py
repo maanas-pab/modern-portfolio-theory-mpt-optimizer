@@ -52,3 +52,14 @@ def sortino_ratio(returns: pd.Series, risk_free: float = 0.0,
     return float((annual_ret - risk_free) / dd)
 
 
+def max_drawdown(returns: pd.Series) -> float:
+    """Largest peak-to-trough decline of the compounded equity curve (<= 0)."""
+    r = returns.dropna()
+    if r.empty:
+        return 0.0
+    equity = (1.0 + r).cumprod()
+    running_max = equity.cummax()
+    drawdown = equity / running_max - 1.0
+    return float(drawdown.min())
+
+
