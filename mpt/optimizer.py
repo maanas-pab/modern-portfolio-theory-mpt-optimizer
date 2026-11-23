@@ -92,3 +92,8 @@ def optimize_portfolio(exp_returns: pd.Series,
     return w
 
 
+def max_sharpe_weights(exp_returns, cov_matrix, risk_free_rate: float = 0.0) -> np.ndarray:
+    """Tangency portfolio: max (ret - rf) / vol."""
+    return optimize_portfolio(exp_returns, cov_matrix, risk_free_rate, objective="sharpe")
+
+
