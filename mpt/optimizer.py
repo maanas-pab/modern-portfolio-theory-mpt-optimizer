@@ -97,3 +97,10 @@ def max_sharpe_weights(exp_returns, cov_matrix, risk_free_rate: float = 0.0) -> 
     return optimize_portfolio(exp_returns, cov_matrix, risk_free_rate, objective="sharpe")
 
 
+def min_vol_weights(exp_returns, cov_matrix,
+                    target_return: Optional[float] = None) -> np.ndarray:
+    """Global minimum variance, optionally at a target return level."""
+    return optimize_portfolio(exp_returns, cov_matrix, objective="vol",
+                              target_return=target_return)
+
+
