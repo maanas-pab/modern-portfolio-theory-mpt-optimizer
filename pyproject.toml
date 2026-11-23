@@ -28,3 +28,11 @@ mpt = "mpt.cli:main"
 [tool.setuptools.packages.find]
 include = ["mpt*"]
 
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]
+
