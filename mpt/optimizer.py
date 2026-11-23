@@ -104,3 +104,9 @@ def min_vol_weights(exp_returns, cov_matrix,
                               target_return=target_return)
 
 
+def risk_parity_weights(cov_matrix: pd.DataFrame) -> np.ndarray:
+    """Weights where every asset contributes equally to total risk."""
+    if float(np.diag(cov_matrix.values).max()) <= 0.0:
+        raise ValueError("covariance matrix must contain positive variance")
+    return optimize_portfolio(pd.Series(0.0, index=cov_matrix.index),
+                              cov_matrix, objective="risk_parity")
