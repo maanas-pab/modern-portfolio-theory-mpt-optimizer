@@ -40,3 +40,8 @@ def correlation_matrix(prices: pd.DataFrame) -> pd.DataFrame:
     return daily_returns(prices).corr()
 
 
+def annualized_volatility(cov_matrix: pd.DataFrame) -> pd.Series:
+    """Per-asset annualized standard deviation from the covariance diagonal."""
+    return pd.Series(np.sqrt(np.diag(cov_matrix.values)), index=cov_matrix.index)
+
+
