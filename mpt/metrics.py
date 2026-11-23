@@ -28,3 +28,14 @@ def portfolio_performance(weights, exp_returns, cov_matrix, risk_free_rate: floa
     return ret, vol, sharpe_ratio(ret, vol, risk_free_rate)
 
 
+def downside_deviation(returns: pd.Series, risk_free: float = 0.0,
+                       periods: int = TRADING_DAYS) -> float:
+    """Annualized standard deviation of returns below the risk-free threshold."""
+    r = returns.dropna()
+    if r.empty:
+        return 0.0
+    daily_rf = (1.0 + risk_free) ** (1.0 / periods) - 1.0
+    downside = np.minimum(r - daily_rf, 0.0)
+    return float(np.sqrt((downside ** 2).mean()) * np.sqrt(periods))
+
+
