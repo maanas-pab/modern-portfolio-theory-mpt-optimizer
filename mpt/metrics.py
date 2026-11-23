@@ -135,3 +135,10 @@ def alpha(portfolio_returns: pd.Series, benchmark_returns: pd.Series,
     return float(((1.0 + intercept) ** periods - 1.0) - risk_free)
 
 
+def concentration_hhi(weights) -> float:
+    """Herfindahl-Hirschman index of weight concentration (1/N .. 1)."""
+    w = np.asarray(weights, dtype=float)
+    w = np.abs(w) / max(np.abs(w).sum(), 1e-12)
+    return float(np.sum(w ** 2))
+
+
