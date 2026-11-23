@@ -14,3 +14,8 @@ def daily_returns(prices: pd.DataFrame) -> pd.DataFrame:
     return prices.pct_change().dropna(how="all")
 
 
+def annualize_returns(daily: pd.DataFrame, days: int = TRADING_DAYS) -> pd.Series:
+    """Mean daily return scaled to a yearly figure."""
+    return daily.mean() * days
+
+
