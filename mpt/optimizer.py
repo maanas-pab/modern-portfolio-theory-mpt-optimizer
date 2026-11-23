@@ -15,3 +15,8 @@ def _neg_sharpe(weights, exp_returns, cov_matrix, risk_free_rate) -> float:
     return -s
 
 
+def _portfolio_vol(weights, exp_returns, cov_matrix, risk_free_rate=None) -> float:
+    w = np.asarray(weights, dtype=float)
+    return float(np.sqrt(w @ cov_matrix.values @ w))
+
+
