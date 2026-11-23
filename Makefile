@@ -12,3 +12,5 @@ run:             ## full pipeline from the cached data
 figures:         ## regenerate every chart in the 30-chart gallery
 	python3 -m mpt.cli --rebalance monthly --cost 0.001 --walk-forward --black-litterman
 
+clean:           ## remove generated outputs
+	rm -rf outputs figures/*.png .pytest_cache **/__pycache__
