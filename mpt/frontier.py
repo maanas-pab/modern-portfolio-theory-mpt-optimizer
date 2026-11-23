@@ -35,3 +35,22 @@ def efficient_frontier(exp_returns: pd.Series,
     return np.array(rets), np.array(vols), np.array(weights)
 
 
+def random_portfolios(exp_returns: pd.Series,
+                      cov_matrix: pd.DataFrame,
+                      risk_free_rate: float = 0.0,
+                      n: int = 5000,
+                      seed: int = 42) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Uniformly random long-only weights -> (returns, vols, sharpes)."""
+    rng = np.random.default_rng(seed)
+    n_assets = len(exp_returns)
+    out_r = np.empty(n)
+    out_v = np.empty(n)
+    out_s = np.empty(n)
+    for i in range(n):
+        w = rng.random(n_assets)
+        w /= w.sum()
+        r, v, s = portfolio_performance(w, exp_returns, cov_matrix, risk_free_rate)
+        out_r[i], out_v[i], out_s[i] = r, v, s
+    return out_r, out_v, out_s
+
+
