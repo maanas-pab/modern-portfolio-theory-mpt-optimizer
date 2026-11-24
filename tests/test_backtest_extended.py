@@ -12,3 +12,9 @@ def test_weights_sum_to_one_always(prices):
                                atol=1e-9)
 
 
+def test_rebalance_dates_are_trading_days(prices):
+    bt = backtest(prices, [0.25] * 4, rebalance="weekly")
+    for d in bt.rebalance_dates:
+        assert d in prices.index
+
+
