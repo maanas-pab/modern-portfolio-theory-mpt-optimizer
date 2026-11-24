@@ -34,3 +34,30 @@ def plot_weights_comparison(tables: dict,
     return finish(fig, ax, "Portfolio Allocations Compared", out_path)
 
 
+def plot_weights_pies(tables: dict,
+                      out_path: str = "figures/weights_pies.png") -> str:
+    """Side-by-side pies (top-6 + 'other') for up to three strategies."""
+    setup_style()
+    names = list(tables)[:3]
+    fig, axes = plt.subplots(1, len(names), figsize=(4.6 * len(names), 4.6))
+    if len(names) == 1:
+        axes = [axes]
+    for ax, name in zip(axes, names):
+        df = tables[name].sort_values("weight", ascending=False)
+        top = df.head(6).copy()
+        rest = df["weight"].iloc[6:].sum()
+        if rest > 1e-6:
+            top = pd.concat([top, pd.DataFrame(
+                {"ticker": ["other"], "weight": [rest],
+                 "weight_pct": [rest * 100], "portfolio": [name]})], ignore_index=True)
+        wedges, _, autotexts = ax.pie(
+            top["weight"], labels=top["ticker"], autopct="%1.1f%%",
+            colors=[asset_color(i) for i in range(len(top))],
+            startangle=90, pctdistance=0.75,
+            wedgeprops={"linewidth": 1, "edgecolor": "white"})
+        for t in autotexts:
+            t.set_fontsize(8)
+        ax.set_title(name)
+    return finish(fig, axes[0], "Weight Breakdown by Strategy", out_path)
+
+
