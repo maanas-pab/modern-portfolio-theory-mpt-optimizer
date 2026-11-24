@@ -92,3 +92,44 @@ def _view_uncertainty(P: np.ndarray, tau: float, cov: np.ndarray,
     return tau * base
 
 
+def black_litterman(pi: pd.Series,
+                    cov: pd.DataFrame,
+                    P,
+                    Q,
+                    tau: float = 0.05,
+                    confidences: Optional[Sequence[float]] = None,
+                    omega_scalar: Optional[float] = None) -> pd.Series:
+    """
+    Posterior expected returns under investor views.
+
+    Parameters
+    ----------
+    pi : equilibrium (or prior) returns, one per asset
+    cov : asset covariance matrix (annualized)
+    P : (v, n) pick matrix — each row isolates the assets in a view
+    Q : length-v vector of view returns (annualized)
+    tau : prior uncertainty scaling; 0.05 is the common default
+    confidences / omega_scalar : alternative Omega controls (see helper)
+
+    Returns
+    -------
+    pd.Series of posterior means, indexed like ``pi``.
+    """
+    if not 0 < tau <= 1:
+        raise ValueError("tau must be in (0, 1]")
+    n = len(pi)
+    P = _as_pick_matrix(P, n)
+    Q = np.atleast_1d(np.asarray(Q, dtype=float))
+    if Q.shape != (P.shape[0],):
+        raise ValueError("Q must have one entry per view")
+
+    tau_sigma = tau * cov.values
+    omega = _view_uncertainty(P, tau, cov.values, confidences, omega_scalar)
+    omega_inv = np.diag(1.0 / omega)
+
+    left = np.linalg.inv(np.linalg.inv(tau_sigma) + P.T @ omega_inv @ P)
+    right = (np.linalg.inv(tau_sigma) @ pi.values + P.T @ omega_inv @ Q)
+    mu = left @ right
+    return pd.Series(mu, index=pi.index, name="bl_returns")
+
+
