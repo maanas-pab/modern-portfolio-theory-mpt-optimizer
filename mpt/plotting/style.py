@@ -55,3 +55,12 @@ def finish(fig, ax, title: str, out_path: str) -> str:
     return out_path
 
 
+def percent_axis(ax, axis: str = "y") -> None:
+    """Format one axis as percentages."""
+    fmt = mticker.FuncFormatter(lambda x, _: f"{x:.0%}")
+    if axis == "y":
+        ax.yaxis.set_major_formatter(fmt)
+    else:
+        ax.xaxis.set_major_formatter(fmt)
+
+
