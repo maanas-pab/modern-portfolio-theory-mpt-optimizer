@@ -84,3 +84,29 @@ def plot_rolling_sharpe(series: dict, window: int = 126, risk_free: float = 0.02
     return finish(fig, ax, "Rolling Sharpe Ratio", out_path)
 
 
+def plot_turnover(result, out_path: str = "figures/turnover.png") -> str:
+    """
+    Bar chart of L1 turnover paid at each rebalance of a backtest -
+    the direct driver of `total_cost`.
+    """
+    setup_style()
+    turn = result.turnover
+    fig, ax = plt.subplots(figsize=(10, 5))
+    if len(turn) == 0:
+        ax.text(0.5, 0.5, "No rebalances in this backtest",
+                ha="center", va="center", transform=ax.transAxes)
+        ax.set_axis_off()
+        return finish(fig, ax, "Turnover at Each Rebalance", out_path)
+    ax.bar(turn.index, turn.values, width=18, color=PALETTE["min_vol"],
+           edgecolor="black", linewidth=0.5)
+    ax.set_ylabel("Turnover (L1 distance)")
+    percent_axis(ax, "y")
+    for d in turn.index:
+        ax.axvline(d, color="grey", lw=0.5, alpha=0.4)
+    avg = float(turn.mean())
+    ax.axhline(avg, ls="--", c=PALETTE["max_sharpe"], lw=1.4,
+               label=f"average ({avg:.1%})")
+    ax.legend()
+    return finish(fig, ax, "Turnover at Each Rebalance", out_path)
+
+
