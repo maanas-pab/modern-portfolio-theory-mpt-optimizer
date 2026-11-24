@@ -31,3 +31,7 @@ def test_quarterly_schedule(prices):
     assert sched.isin(idx).all()
 
 
+def test_none_schedule(prices):
+    assert len(rebalance_schedule(prices.index, "none")) == 0
+
+
