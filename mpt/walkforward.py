@@ -26,3 +26,35 @@ from .optimizer import max_sharpe_weights, min_vol_weights, risk_parity_weights
 from .stats import calculate_statistics
 
 
+@dataclass
+class WalkForwardResult:
+    """Out-of-sample equity plus the per-window weights that produced it."""
+
+    equity: pd.Series
+    returns: pd.Series
+    windows: List[Tuple[pd.Timestamp, pd.Timestamp]] = field(default_factory=list)
+    weights_by_window: List[dict] = field(default_factory=list)
+
+    @property
+    def n_windows(self) -> int:
+        return len(self.windows)
+
+    @property
+    def total_return(self) -> float:
+        # equity compounds from 1.0 before the first out-of-sample day
+        return float(self.equity.iloc[-1] - 1.0)
+
+    def summary(self, risk_free: float = 0.02) -> dict:
+        """Headline out-of-sample metrics."""
+        r = self.returns
+        ann = float((1.0 + r.mean()) ** 252 - 1.0) if len(r) else 0.0
+        vol = float(r.std() * np.sqrt(252)) if len(r) else 0.0
+        return {
+            "annual_return": ann,
+            "annual_vol": vol,
+            "sharpe": sharpe_ratio(ann, vol, risk_free),
+            "max_drawdown": max_drawdown(r),
+            "n_windows": self.n_windows,
+        }
+
+
