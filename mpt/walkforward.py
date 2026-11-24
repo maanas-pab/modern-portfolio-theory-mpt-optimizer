@@ -94,3 +94,11 @@ _OBJECTIVES = {
 }
 
 
+def _fit_weights(train: pd.DataFrame, objective: str, risk_free: float) -> np.ndarray:
+    _, exp, cov = calculate_statistics(train)
+    if objective not in _OBJECTIVES:
+        raise ValueError(
+            f"objective must be one of {sorted(_OBJECTIVES)}, got {objective!r}")
+    return _OBJECTIVES[objective](exp, cov, risk_free)
+
+
