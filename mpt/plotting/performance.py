@@ -50,3 +50,18 @@ def plot_drawdown(series: dict,
     return finish(fig, ax, "Underwater Curves", out_path)
 
 
+def plot_rolling_volatility(series: dict, window: int = 63,
+                            out_path: str = "figures/rolling_volatility.png") -> str:
+    """Annualized rolling standard deviation (default: one quarter)."""
+    setup_style()
+    fig, ax = plt.subplots(figsize=(10.5, 5.5))
+    colors = [PALETTE["max_sharpe"], PALETTE["min_vol"], PALETTE["benchmark"], "#6a4c93"]
+    for i, (name, rets) in enumerate(series.items()):
+        vol = rets.dropna().rolling(window).std() * np.sqrt(252)
+        ax.plot(vol.index, vol.values, lw=1.6, color=colors[i % len(colors)], label=name)
+    percent_axis(ax, "y")
+    ax.set_ylabel(f"Rolling {window}-day vol (annualized)")
+    ax.legend()
+    return finish(fig, ax, "Rolling Volatility", out_path)
+
+
