@@ -89,3 +89,8 @@ def test_compare_strategies(prices):
     assert all(isinstance(v, BacktestResult) for v in out.values())
 
 
+def test_backtest_bad_freq(prices):
+    with pytest.raises(ValueError, match="freq"):
+        backtest(prices, [0.25] * 4, rebalance="decade")
+
+
