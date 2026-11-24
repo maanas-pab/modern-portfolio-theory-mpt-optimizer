@@ -20,3 +20,11 @@ def weights_table(weights, tickers, name: str = "portfolio") -> pd.DataFrame:
     return df
 
 
+def export_weights(weights, tickers, out_dir: str, name: str) -> str:
+    """Write a weights table to outputs/<name>.csv and return the path."""
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, f"{name}.csv")
+    weights_table(weights, tickers, name).to_csv(path, index=False)
+    return path
+
+
