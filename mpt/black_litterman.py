@@ -46,3 +46,15 @@ def equilibrium_returns(cov: pd.DataFrame,
     return pd.Series(pi, index=cov.index, name="equilibrium")
 
 
+def _as_pick_matrix(P, n_assets: int) -> np.ndarray:
+    """Accept a 1-D view (single asset) or a 2-D pick matrix."""
+    P = np.asarray(P, dtype=float)
+    if P.ndim == 1:
+        if P.shape[0] != n_assets:
+            raise ValueError("pick vector length must match the universe")
+        return P.reshape(1, -1)
+    if P.ndim != 2 or P.shape[1] != n_assets:
+        raise ValueError("P must have shape (n_views, n_assets)")
+    return P
+
+
