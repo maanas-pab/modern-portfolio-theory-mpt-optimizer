@@ -46,3 +46,10 @@ def test_single_asset_backtest():
     np.testing.assert_allclose(bt.returns.values, direct.values[1:], atol=1e-12)
 
 
+def test_cost_monotonicity(prices):
+    w = [0.4, 0.3, 0.2, 0.1]
+    eq = [backtest(prices, w, rebalance="quarterly", transaction_cost=c).equity.iloc[-1]
+          for c in (0.0, 0.005, 0.02)]
+    assert eq[0] >= eq[1] >= eq[2]
+
+
