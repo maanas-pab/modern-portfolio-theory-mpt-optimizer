@@ -32,3 +32,21 @@ def plot_cumulative_returns(series: dict,
     return finish(fig, ax, "Cumulative Growth by Strategy", out_path)
 
 
+def plot_drawdown(series: dict,
+                  out_path: str = "figures/drawdown.png") -> str:
+    """Filled underwater plot for each strategy."""
+    setup_style()
+    fig, ax = plt.subplots(figsize=(10.5, 5.5))
+    colors = [PALETTE["max_sharpe"], PALETTE["min_vol"], PALETTE["benchmark"], "#6a4c93"]
+    for i, (name, rets) in enumerate(series.items()):
+        equity = (1.0 + rets.dropna()).cumprod()
+        dd = equity / equity.cummax() - 1.0
+        ax.fill_between(dd.index, dd.values, 0, alpha=0.25,
+                        color=colors[i % len(colors)])
+        ax.plot(dd.index, dd.values, lw=1.3, color=colors[i % len(colors)], label=name)
+    percent_axis(ax, "y")
+    ax.set_ylabel("Drawdown from peak")
+    ax.legend()
+    return finish(fig, ax, "Underwater Curves", out_path)
+
+
