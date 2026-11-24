@@ -100,3 +100,22 @@ def build_portfolios(exp_returns: pd.Series, cov: pd.DataFrame, cfg: OptimizerCo
     return weights
 
 
+def summarize_all(named_weights: dict, daily: pd.DataFrame,
+                  exp_returns: pd.Series, cov: pd.DataFrame,
+                  cfg: OptimizerConfig,
+                  benchmark: Optional[pd.Series] = None) -> dict:
+    """performance_summary for each strategy (and its weight table)."""
+    out = {}
+    tickers = list(exp_returns.index)
+    for name, w in named_weights.items():
+        rets = pd.Series(
+            (daily.values @ np.asarray(w, dtype=float)), index=daily.index, name=name)
+        out[name] = {
+            "weights": weights_table(w, tickers, name),
+            "summary": performance_summary(rets, cfg.risk_free, benchmark),
+            "hhi": concentration_hhi(w),
+            "returns": rets,
+        }
+    return out
+
+
