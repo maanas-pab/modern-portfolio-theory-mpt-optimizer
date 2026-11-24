@@ -35,3 +35,8 @@ def test_none_schedule(prices):
     assert len(rebalance_schedule(prices.index, "none")) == 0
 
 
+def test_bad_schedule_freq(prices):
+    with pytest.raises(ValueError, match="freq"):
+        rebalance_schedule(prices.index, "yearly-ish")
+
+
