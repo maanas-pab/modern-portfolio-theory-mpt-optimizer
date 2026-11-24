@@ -64,3 +64,6 @@ def percent_axis(ax, axis: str = "y") -> None:
         ax.xaxis.set_major_formatter(fmt)
 
 
+def asset_color(i: int) -> str:
+    """Stable color for the i-th asset."""
+    return ASSET_COLORS[i % len(ASSET_COLORS)]
