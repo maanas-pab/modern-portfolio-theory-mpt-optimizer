@@ -76,3 +76,9 @@ def test_none_rebalance_no_turnover(prices):
     assert bt.total_cost == 0.0
 
 
+def test_buy_and_hold_matches(prices):
+    bh = buy_and_hold(prices)
+    direct = backtest(prices, [0.25] * 4, rebalance="none")
+    np.testing.assert_allclose(bh.equity.values, direct.equity.values)
+
+
