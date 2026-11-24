@@ -52,3 +52,16 @@ def plot_covariance_heatmap(cov: pd.DataFrame,
     return finish(fig, ax, "Annualized Covariance Matrix", out_path)
 
 
+def plot_correlation_vs_vol(corr: pd.DataFrame, vol: pd.Series,
+                            out_path: str = "figures/correlation_vs_vol.png") -> str:
+    """Average pairwise correlation of each asset against its own volatility."""
+    setup_style()
+    avg_corr = (corr.sum(axis=1) - 1.0) / (len(corr) - 1)
+    fig, ax = plt.subplots(figsize=(8.5, 5.5))
+    ax.scatter(vol, avg_corr, s=90, c="#1982c4", edgecolors="black", zorder=4)
+    for t in avg_corr.index:
+        ax.annotate(t, (vol[t], avg_corr[t]), textcoords="offset points",
+                    xytext=(6, 4), fontsize=9)
+    ax.set_xlabel("Annualized volatility")
+    ax.set_ylabel("Avg. correlation with peers")
+    return finish(fig, ax, "Diversification vs Risk", out_path)
