@@ -15,3 +15,10 @@ def test_equilibrium_matches_formula(two_asset):
     np.testing.assert_allclose(pi.values, expected)
 
 
+def test_equilibrium_equal_weight_default(two_asset):
+    _, cov = two_asset
+    pi = equilibrium_returns(cov, risk_aversion=2.0)
+    expected = 2.0 * cov.values @ np.array([0.5, 0.5])
+    np.testing.assert_allclose(pi.values, expected)
+
+
