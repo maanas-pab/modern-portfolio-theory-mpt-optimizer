@@ -46,3 +46,16 @@ def benchmark(prices) -> pd.Series:
     return pd.Series(rets.values, index=prices.index, name="BENCH")
 
 
+@pytest.fixture
+def two_asset():
+    """
+    Two assets with known answers: A has mu=10%, vol=20%;
+    B has mu=20%, vol=30%; correlation 0.5.
+    """
+    import pandas as pd
+
+    exp = pd.Series({"A": 0.10, "B": 0.20})
+    cov = pd.DataFrame([[0.20 ** 2, 0.5 * 0.20 * 0.30],
+                        [0.5 * 0.20 * 0.30, 0.30 ** 2]],
+                       index=["A", "B"], columns=["A", "B"])
+    return exp, cov
