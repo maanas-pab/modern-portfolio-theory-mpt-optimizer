@@ -98,3 +98,27 @@ def plot_weights_over_time(result,
     return finish(fig, ax, "Weights Drifting Between Rebalances", out_path)
 
 
+def plot_concentration_over_time(result,
+                                 out_path: str = "figures/concentration_over_time.png") -> str:
+    """
+    Herfindahl-Hirschman index of the weight vector through the backtest.
+    Rises when the optimizer piles into a few names, falls at rebalances.
+    """
+    setup_style()
+    w = result.weights_over_time
+    hhi = (w ** 2).sum(axis=1)
+    n = w.shape[1]
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(hhi.index, hhi.values, lw=1.8, color=PALETTE["max_sharpe"],
+            label="HHI (portfolio)")
+    ax.axhline(1.0 / n, ls="--", c=PALETTE["benchmark"], lw=1.4,
+               label=f"equal weight (1/{n} = {1 / n:.3f})")
+    if len(result.rebalance_dates):
+        for d in result.rebalance_dates:
+            ax.axvline(d, color="grey", lw=0.7, alpha=0.5)
+    ax.set_ylabel("Concentration (HHI)")
+    ax.set_ylim(0, max(float(hhi.max()) * 1.25, 2.0 / n))
+    ax.legend()
+    return finish(fig, ax, "Portfolio Concentration Over Time", out_path)
+
+
