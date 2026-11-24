@@ -54,3 +54,11 @@ def test_backtest_returns_consistent(prices):
         atol=1e-12)
 
 
+def test_rebalance_restores_target(prices):
+    w = [0.4, 0.3, 0.2, 0.1]
+    bt = backtest(prices, w, rebalance="monthly")
+    last_reb = bt.rebalance_dates[-1]
+    after = bt.weights_over_time.loc[last_reb]
+    np.testing.assert_allclose(after.values, w, atol=1e-9)
+
+
