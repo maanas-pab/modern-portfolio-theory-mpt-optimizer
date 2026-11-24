@@ -70,3 +70,21 @@ def plot_asset_monthly_heatmap(daily: pd.DataFrame,
     return finish(fig, ax, "Asset Returns by Month (annualized)", out_path)
 
 
+def plot_quarterly_returns(returns: pd.Series,
+                           out_path: str = "figures/quarterly_returns.png") -> str:
+    """Compounded return per calendar quarter, colored by sign."""
+    setup_style()
+    r = returns.dropna()
+    grouped = (1.0 + r).groupby([r.index.year, r.index.quarter]).prod() - 1.0
+    labels = [f"{y} Q{q}" for y, q in grouped.index]
+    vals = grouped.values
+    fig, ax = plt.subplots(figsize=(10, 5))
+    colors = [PALETTE["positive"] if v >= 0 else PALETTE["negative"] for v in vals]
+    ax.bar(labels, vals, color=colors, edgecolor="black", linewidth=0.5)
+    ax.axhline(0, color="black", lw=0.9)
+    percent_axis(ax, "y")
+    ax.set_ylabel("Quarterly return")
+    ax.tick_params(axis="x", rotation=45)
+    return finish(fig, ax, "Returns by Calendar Quarter", out_path)
+
+
