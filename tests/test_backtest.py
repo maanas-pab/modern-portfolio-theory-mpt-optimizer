@@ -40,3 +40,9 @@ def test_bad_schedule_freq(prices):
         rebalance_schedule(prices.index, "yearly-ish")
 
 
+def test_backtest_equity_starts_at_one(prices):
+    eq = backtest(prices, [0.5, 0.5, 0, 0], rebalance="none").equity
+    assert np.isclose(eq.iloc[0], 1.0 + prices.pct_change().dropna().iloc[0] @
+                      np.array([0.5, 0.5, 0, 0]), atol=1e-9)
+
+
