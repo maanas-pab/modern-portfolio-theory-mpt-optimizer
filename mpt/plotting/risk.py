@@ -112,3 +112,32 @@ def plot_rolling_beta(returns, benchmark, window: int = 63,
     return finish(fig, ax, "Rolling Beta vs Benchmark", out_path)
 
 
+def plot_benchmark_scatter(returns, benchmark, freq: str = "M",
+                           out_path: str = "figures/benchmark_scatter.png") -> str:
+    """
+    Compounded returns per period for the portfolio vs the benchmark,
+    with the identity line and an OLS fit - a compact "tracking" view.
+    """
+    setup_style()
+    r, b = returns.dropna(), benchmark.dropna()
+    joined = pd.concat([r, b], axis=1, keys=["p", "b"]).dropna()
+    grouped = (1.0 + joined).groupby(joined.index.to_period(freq)).prod() - 1.0
+    x, y = grouped["b"].values, grouped["p"].values
+    fig, ax = plt.subplots(figsize=(8, 7))
+    ax.scatter(x, y, s=70, c=PALETTE["benchmark"], alpha=0.85,
+               edgecolors="black", linewidths=0.5, zorder=4)
+    lo = float(min(x.min(), y.min())) * 1.1 - 0.01
+    hi = float(max(x.max(), y.max())) * 1.1 + 0.01
+    ax.plot([lo, hi], [lo, hi], ls="--", c="grey", lw=1.3, label="identity")
+    slope, intercept = np.polyfit(x, y, 1)
+    grid = np.linspace(lo, hi, 50)
+    ax.plot(grid, slope * grid + intercept, c=PALETTE["max_sharpe"], lw=1.8,
+            label=f"fit: {slope:.2f}x {intercept:+.2%}")
+    percent_axis(ax, "x")
+    percent_axis(ax, "y")
+    ax.set_xlabel("Benchmark return")
+    ax.set_ylabel("Portfolio return")
+    ax.legend()
+    period = {"W": "weekly", "M": "monthly", "Q": "quarterly"}.get(freq, freq)
+    title = f"Portfolio vs Benchmark ({period}) Returns"
+    return finish(fig, ax, title, out_path)
