@@ -28,3 +28,12 @@ def test_equilibrium_weight_length(two_asset):
         equilibrium_returns(cov, market_weights=[1.0, 0.5, 0.2])
 
 
+def test_top_pick_views_shape():
+    exp = pd.Series({"A": 0.05, "B": 0.20, "C": 0.10, "D": 0.15})
+    P, Q = top_pick_views(exp, k=2, uplift=0.07)
+    assert P.shape == (2, 4)
+    assert Q.shape == (2,)
+    np.testing.assert_allclose(P.sum(axis=1), 0.0, atol=1e-12)
+    assert (Q == 0.07).all()
+
+
