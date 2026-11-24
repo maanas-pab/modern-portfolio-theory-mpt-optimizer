@@ -77,3 +77,15 @@ def summary_table(named_summaries: Dict[str, Dict[str, float]]) -> pd.DataFrame:
     return df
 
 
+def print_report(title: str, summary: Dict[str, float],
+                 weights_df: Optional[pd.DataFrame] = None) -> None:
+    """Pretty-print one strategy block to stdout."""
+    print(f"\n=== {title} ===")
+    if weights_df is not None:
+        print(weights_df[["ticker", "weight_pct"]].to_string(index=False))
+    print(f"Return {summary['annual_return']:.2%} | Vol {summary['annual_vol']:.2%} "
+          f"| Sharpe {summary['sharpe']:.3f} | Sortino {summary['sortino']:.3f}")
+    print(f"MaxDD {summary['max_drawdown']:.2%} | Calmar {summary['calmar']:.3f} "
+          f"| VaR95 {summary['var_95']:.2%} | CVaR95 {summary['cvar_95']:.2%}")
+    if "beta" in summary:
+        print(f"Beta {summary['beta']:.3f} | Alpha {summary['alpha']:.2%}")
