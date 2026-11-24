@@ -87,3 +87,10 @@ def rolling_windows(index: pd.DatetimeIndex, train_days: int,
     return out
 
 
+_OBJECTIVES = {
+    "sharpe": lambda exp, cov, rf: max_sharpe_weights(exp, cov, rf),
+    "vol": lambda exp, cov, rf: min_vol_weights(exp, cov),
+    "risk_parity": lambda exp, cov, rf: risk_parity_weights(cov),
+}
+
+
