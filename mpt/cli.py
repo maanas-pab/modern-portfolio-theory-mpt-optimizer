@@ -184,3 +184,24 @@ def run(cfg: OptimizerConfig) -> dict:
     }
 
 
+def emit_report(result: dict) -> None:
+    """Print the console report and write weights CSVs."""
+    cfg: OptimizerConfig = result["cfg"]
+    tickers = list(result["exp_returns"].index)
+    print("\n--- Annualized Expected Returns ---")
+    print((result["exp_returns"] * 100).round(2).astype(str) + " %")
+    print("\n--- Covariance (first 5x5) ---")
+    print(result["cov"].iloc[:5, :5].round(4))
+
+    for name, block in result["summaries"].items():
+        print_report(name, block["summary"], block["weights"])
+        path = export_weights(block["weights"]["weight"].values, tickers,
+                              cfg.out_dir, name.lower().replace(" ", "_"))
+        print(f"Wrote {path}")
+
+    eq = result["summaries"]["Equal Weight"]["summary"]
+    print(f"\nHHI concentration - Max Sharpe "
+          f"{result['summaries']['Max Sharpe']['hhi']:.3f} vs "
+          f"Equal {result['summaries']['Equal Weight']['hhi']:.3f}")
+
+
