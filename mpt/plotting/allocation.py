@@ -122,3 +122,23 @@ def plot_concentration_over_time(result,
     return finish(fig, ax, "Portfolio Concentration Over Time", out_path)
 
 
+def plot_weight_trajectories(result, top: int = 6,
+                             out_path: str = "figures/weight_trajectories.png") -> str:
+    """
+    Line chart of the ``top`` largest (by peak weight) holdings over the
+    backtest - shows individual drift paths that a stacked area hides.
+    """
+    setup_style()
+    w = result.weights_over_time
+    keep = w.max().nlargest(top).index
+    fig, ax = plt.subplots(figsize=(10.5, 5.5))
+    for i, t in enumerate(keep):
+        ax.plot(w.index, w[t].values, lw=1.6, color=asset_color(i), label=t)
+    if len(result.rebalance_dates):
+        for d in result.rebalance_dates:
+            ax.axvline(d, color="grey", lw=0.7, alpha=0.45)
+    ax.set_ylabel("Weight")
+    percent_axis(ax, "y")
+    ax.legend(ncol=3, fontsize=9)
+    title = f"Top {top} Holdings - Weight Trajectories"
+    return finish(fig, ax, title, out_path)
