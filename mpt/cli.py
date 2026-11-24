@@ -224,3 +224,20 @@ def emit_backtests(result: dict) -> None:
                   if m in df.index]].to_string())
 
 
+def emit_walkforward(result: dict) -> None:
+    """Print the honest out-of-sample summary when --walk-forward is on."""
+    cfg: OptimizerConfig = result["cfg"]
+    wf = result.get("walkforward")
+    if wf is None:
+        return
+    s = wf.summary(cfg.risk_free)
+    print(f"\n--- Walk-forward (train={cfg.train_days}d, "
+          f"test={cfg.test_days}d, {wf.n_windows} windows) ---")
+    print(f"OOS annual return {s['annual_return']:.2%} | "
+          f"vol {s['annual_vol']:.2%} | Sharpe {s['sharpe']:.3f} | "
+          f"MaxDD {s['max_drawdown']:.2%}")
+    in_sample = result["summaries"]["Max Sharpe"]["summary"]
+    print(f"In-sample (look-ahead) Sharpe {in_sample['sharpe']:.3f} "
+          f"- the gap is the cost of overfitting")
+
+
