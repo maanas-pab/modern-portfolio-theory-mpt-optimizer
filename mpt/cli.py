@@ -61,3 +61,30 @@ def build_parser() -> argparse.ArgumentParser:
     return ap
 
 
+def config_from_args(args: argparse.Namespace) -> OptimizerConfig:
+    """Translate parsed flags into a validated OptimizerConfig."""
+    cfg = OptimizerConfig(
+        tickers=list(args.tickers) or list(DEFAULT_TICKERS),
+        period=args.period,
+        interval=args.interval,
+        risk_free=args.risk_free,
+        shrinkage=args.shrinkage,
+        benchmark=args.benchmark,
+        black_litterman=args.black_litterman,
+        frontier_points=args.points,
+        random_portfolios=args.random,
+        rebalance=args.rebalance,
+        transaction_cost=args.cost,
+        walk_forward=args.walk_forward,
+        train_days=args.train_days,
+        test_days=args.test_days,
+        out_dir=args.out_dir,
+        figure_dir=args.figure_dir,
+        no_plot=args.no_plot,
+        no_backtest=args.no_backtest,
+        cache_path=args.cache_path,
+        refresh=args.refresh,
+    )
+    return cfg.validate()
+
+
