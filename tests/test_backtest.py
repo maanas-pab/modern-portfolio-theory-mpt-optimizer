@@ -46,3 +46,11 @@ def test_backtest_equity_starts_at_one(prices):
                       np.array([0.5, 0.5, 0, 0]), atol=1e-9)
 
 
+def test_backtest_returns_consistent(prices):
+    bt = backtest(prices, [0.25] * 4, rebalance="monthly")
+    np.testing.assert_allclose(
+        bt.returns.values,
+        bt.equity.pct_change().dropna().values,
+        atol=1e-12)
+
+
