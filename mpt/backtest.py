@@ -26,3 +26,17 @@ class BacktestResult:
         return float(self.equity.iloc[-1] / self.equity.iloc[0] - 1.0)
 
 
+def rebalance_schedule(index: pd.DatetimeIndex, freq: str) -> pd.DatetimeIndex:
+    """First trading day of each week/month/quarter in `index`."""
+    if freq == "none":
+        return pd.DatetimeIndex([])
+    rule = {"weekly": "W-MON", "monthly": "MS", "quarterly": "QS"}.get(freq)
+    if rule is None:
+        raise ValueError("freq must be none/weekly/monthly/quarterly")
+    anchors = pd.date_range(index[0], index[-1] + pd.Timedelta(days=7), freq=rule)
+    # first index entry on/after each anchor
+    pos = index.searchsorted(anchors)
+    pos = pos[pos < len(index)]
+    return index[np.unique(pos)]
+
+
