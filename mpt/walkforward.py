@@ -156,3 +156,12 @@ def walk_forward(prices: pd.DataFrame,
                              windows=spans, weights_by_window=weight_sets)
 
 
+def window_weight_frame(result: WalkForwardResult) -> pd.DataFrame:
+    """
+    (n_windows x n_assets) table of the weights fitted in each window —
+    a compact view of how unstable the optimizer's answer is over time.
+    """
+    if not result.weights_by_window:
+        return pd.DataFrame()
+    return pd.DataFrame(result.weights_by_window,
+                        index=[end for _, end in result.windows])
