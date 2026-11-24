@@ -72,3 +72,21 @@ def plot_metric_comparison(summary_table: pd.DataFrame,
     return finish(fig, ax, "Risk / Return Scoreboard", out_path)
 
 
+def plot_asset_risk_return(exp_returns, vol,
+                           out_path: str = "figures/asset_risk_return.png") -> str:
+    """Every asset in risk-return space, labeled with its ticker."""
+    setup_style()
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    ax.scatter(vol, exp_returns, s=110, c=PALETTE["benchmark"],
+               edgecolors="black", zorder=4)
+    for i, t in enumerate(vol.index):
+        ax.annotate(t, (vol[t], exp_returns[t]), textcoords="offset points",
+                    xytext=(6, 4), fontsize=9.5, fontweight="bold")
+    ax.set_xlabel("Annualized volatility")
+    ax.set_ylabel("Annualized expected return")
+    percent_axis(ax, "x")
+    percent_axis(ax, "y")
+    title = "Individual Assets: Risk vs Expected Return"
+    return finish(fig, ax, title, out_path)
+
+
