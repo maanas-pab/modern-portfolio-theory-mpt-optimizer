@@ -102,3 +102,57 @@ def _fit_weights(train: pd.DataFrame, objective: str, risk_free: float) -> np.nd
     return _OBJECTIVES[objective](exp, cov, risk_free)
 
 
+def walk_forward(prices: pd.DataFrame,
+                 train_days: int = 252,
+                 test_days: int = 63,
+                 objective: str = "sharpe",
+                 risk_free: float = 0.02,
+                 start: Optional[pd.Timestamp] = None) -> WalkForwardResult:
+    """
+    Optimize on each train window, hold through the following test window.
+
+    Parameters
+    ----------
+    prices : full price history (the test slices come from it)
+    train_days : observations used to estimate mu/Sigma per window
+    test_days  : observations each fitted weight set is held for
+    objective  : 'sharpe' | 'vol' | 'risk_parity'
+    risk_free  : passed to the Sharpe objective
+    start      : optional first date (slice the history beforehand)
+
+    Returns
+    -------
+    WalkForwardResult whose equity compounds from 1.0 before the first
+    out-of-sample day.
+    """
+    if start is not None:
+        prices = prices.loc[start:]
+    if len(prices) < train_days + test_days:
+        raise ValueError(
+            f"need at least {train_days + test_days} observations, got {len(prices)}")
+
+    windows = rolling_windows(prices.index, train_days, test_days)
+    chunks, weight_sets, spans = [], [], []
+    for train_start, train_end, test_end in windows:
+        train = prices.loc[train_start:train_end]
+        test = prices.loc[train_end:test_end]
+        if len(test) < 2:
+            continue
+        w = _fit_weights(train, objective, risk_free)
+        bt = backtest(test, w, rebalance="none")
+        chunks.append(bt.returns)
+        weight_sets.append(dict(zip(prices.columns, np.round(w, 6))))
+        spans.append((train_end, test_end))
+
+    if not chunks:
+        raise ValueError("no test window produced returns")
+
+    rets = pd.concat(chunks)
+    rets = rets[~rets.index.duplicated(keep="first")]
+    rets = rets.sort_index()
+    # cumprod compounds from 1.0 placed before the first test day
+    equity = (1.0 + rets).cumprod()
+    return WalkForwardResult(equity=equity, returns=rets,
+                             windows=spans, weights_by_window=weight_sets)
+
+
