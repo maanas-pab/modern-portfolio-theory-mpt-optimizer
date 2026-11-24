@@ -36,3 +36,13 @@ def test_flat_prices_flat_equity():
     np.testing.assert_allclose(bt.equity.values, 1.0, atol=1e-12)
 
 
+def test_single_asset_backtest():
+    rng = np.random.default_rng(0)
+    px = pd.DataFrame({"A": 100 * np.cumprod(1 + rng.normal(0, 0.01, 40))},
+                      index=pd.bdate_range("2024-01-01", periods=40))
+    bt = backtest(px, [1.0], rebalance="none")
+    direct = px["A"].pct_change().dropna()
+    # equity compounds from day 2, so reported returns start one day later
+    np.testing.assert_allclose(bt.returns.values, direct.values[1:], atol=1e-12)
+
+
