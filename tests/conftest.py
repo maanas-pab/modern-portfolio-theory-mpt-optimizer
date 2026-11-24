@@ -30,3 +30,11 @@ def prices() -> pd.DataFrame:
     return prices
 
 
+@pytest.fixture
+def stats(prices):
+    """(daily, exp_returns, cov) computed from the synthetic prices."""
+    from mpt.stats import calculate_statistics
+
+    return calculate_statistics(prices)
+
+
