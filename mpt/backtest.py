@@ -100,3 +100,11 @@ def buy_and_hold(prices: pd.DataFrame, weights=None) -> BacktestResult:
     return backtest(prices, w, rebalance="none")
 
 
+def compare_strategies(prices: pd.DataFrame,
+                       named_weights: Dict[str, np.ndarray],
+                       rebalance: str = "monthly",
+                       transaction_cost: float = 0.0) -> Dict[str, BacktestResult]:
+    """Run the same schedule for several named weight vectors."""
+    return {name: backtest(prices, w, rebalance=rebalance,
+                           transaction_cost=transaction_cost)
+            for name, w in named_weights.items()}
