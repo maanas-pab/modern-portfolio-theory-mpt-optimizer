@@ -93,3 +93,10 @@ def backtest(prices: pd.DataFrame,
                           turnover=turnover, total_cost=total_cost)
 
 
+def buy_and_hold(prices: pd.DataFrame, weights=None) -> BacktestResult:
+    """Backtest with rebalance='none' - the passive baseline."""
+    n = prices.shape[1]
+    w = np.repeat(1.0 / n, n) if weights is None else np.asarray(weights, dtype=float)
+    return backtest(prices, w, rebalance="none")
+
+
