@@ -82,3 +82,10 @@ def test_buy_and_hold_matches(prices):
     np.testing.assert_allclose(bh.equity.values, direct.equity.values)
 
 
+def test_compare_strategies(prices):
+    named = {"A": [0.5, 0.5, 0, 0], "B": [0.25] * 4}
+    out = compare_strategies(prices, named, rebalance="quarterly")
+    assert set(out) == {"A", "B"}
+    assert all(isinstance(v, BacktestResult) for v in out.values())
+
+
