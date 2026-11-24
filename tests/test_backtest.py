@@ -22,3 +22,12 @@ def test_monthly_schedule(prices):
     assert sched.isin(idx).all()
 
 
+def test_quarterly_schedule(prices):
+    idx = prices.index
+    sched = rebalance_schedule(idx, "quarterly")
+    span_quarters = ((idx[-1].year - idx[0].year) * 12 +
+                     (idx[-1].month - idx[0].month)) // 3
+    assert abs(len(sched) - span_quarters) <= 1
+    assert sched.isin(idx).all()
+
+
