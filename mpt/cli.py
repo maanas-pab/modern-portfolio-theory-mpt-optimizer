@@ -241,3 +241,111 @@ def emit_walkforward(result: dict) -> None:
           f"- the gap is the cost of overfitting")
 
 
+def emit_figures(result: dict) -> list:
+    """Draw every chart in the gallery; returns the list of paths."""
+    from . import plotting as P
+
+    cfg: OptimizerConfig = result["cfg"]
+    if cfg.no_plot:
+        return []
+    os.makedirs(cfg.figure_dir, exist_ok=True)
+    f = lambda name: os.path.join(cfg.figure_dir, name)  # noqa: E731
+
+    f_rets, f_vols = result["frontier"]
+    rand_r, rand_v, rand_s = result["random"]
+    pts = result["points"]
+    exp_ret, cov, daily = result["exp_returns"], result["cov"], result["daily"]
+    asset_vol = np.sqrt(np.diag(cov.values))
+    bench = result["bench"]
+    bench_rets = bench.pct_change().dropna() if bench is not None else None
+
+    # frontier family
+    P.plot_frontier(
+        f_rets, f_vols, rand_r, rand_v, rand_s,
+        max_sharpe_pt=(pts["max_sharpe"]["return"], pts["max_sharpe"]["vol"]),
+        min_vol_pt=(pts["min_vol"]["return"], pts["min_vol"]["vol"]),
+        asset_rets=exp_ret.values, asset_vols=asset_vol,
+        asset_labels=list(exp_ret.index), risk_free=cfg.risk_free,
+        out_path=f("efficient_frontier.png"))
+    P.plot_frontier_clean(f_rets, f_vols, pts, out_path=f("frontier_clean.png"))
+    P.plot_sharpe_histogram(rand_s, pts["max_sharpe"]["sharpe"],
+                            out_path=f("sharpe_distribution.png"))
+
+    # risk structure
+    P.plot_correlation_heatmap(daily.corr(), out_path=f("correlation_heatmap.png"))
+    P.plot_covariance_heatmap(cov, out_path=f("covariance_heatmap.png"))
+    P.plot_correlation_vs_vol(daily.corr(), pd.Series(asset_vol, index=exp_ret.index),
+                              out_path=f("correlation_vs_vol.png"))
+    P.plot_asset_risk_return(exp_ret, pd.Series(asset_vol, index=exp_ret.index),
+                             out_path=f("asset_risk_return.png"))
+    P.plot_return_distributions(daily, out_path=f("return_distributions.png"))
+    P.plot_monthly_heatmap(result["summaries"]["Max Sharpe"]["returns"],
+                           title="Max Sharpe", out_path=f("monthly_returns.png"))
+    P.plot_asset_monthly_heatmap(daily, out_path=f("asset_monthly_heatmap.png"))
+
+    # allocations
+    tables = {name: result["summaries"][name]["weights"]
+              for name in ("Max Sharpe", "Min Volatility", "Equal Weight")}
+    P.plot_weights_comparison(tables, out_path=f("weights_comparison.png"))
+    P.plot_weights_pies(tables, out_path=f("weights_pies.png"))
+    w_sharpe = result["weights"]["Max Sharpe"]
+    P.plot_risk_contribution(w_sharpe, cov, list(exp_ret.index),
+                             name="Max Sharpe", out_path=f("risk_contribution.png"))
+    P.plot_sector_exposure(w_sharpe, list(exp_ret.index), SECTORS,
+                           out_path=f("sector_exposure.png"))
+
+    # performance over time
+    series = {name: block["returns"] for name, block in result["summaries"].items()}
+    P.plot_cumulative_returns(series, benchmark=bench_rets,
+                              out_path=f("cumulative_returns.png"))
+    P.plot_drawdown(series, out_path=f("drawdown.png"))
+    P.plot_rolling_volatility(series, out_path=f("rolling_volatility.png"))
+    P.plot_rolling_sharpe(series, risk_free=cfg.risk_free,
+                          out_path=f("rolling_sharpe.png"))
+    P.plot_var_cvar(result["summaries"]["Max Sharpe"]["returns"],
+                    out_path=f("var_cvar.png"))
+
+    # scoreboard + backtest weights
+    raw = pd.DataFrame({name: block["summary"]
+                        for name, block in result["summaries"].items()})
+    P.plot_metric_comparison(raw, out_path=f("metric_comparison.png"))
+    if result["backtests"]:
+        bt = result["backtests"].get("Max Sharpe")
+        if bt is not None and len(bt.rebalance_dates):
+            P.plot_weights_over_time(bt, out_path=f("weights_over_time.png"))
+            P.plot_concentration_over_time(bt,
+                                           out_path=f("concentration_over_time.png"))
+            P.plot_weight_trajectories(bt,
+                                       out_path=f("weight_trajectories.png"))
+            P.plot_turnover(bt, out_path=f("turnover.png"))
+
+    # benchmark relationship
+    if bench_rets is not None:
+        ms = result["summaries"]["Max Sharpe"]["returns"]
+        P.plot_rolling_beta(ms, bench_rets, out_path=f("rolling_beta.png"))
+        P.plot_benchmark_scatter(ms, bench_rets,
+                                 out_path=f("benchmark_scatter.png"))
+
+    # calendar views
+    P.plot_quarterly_returns(result["summaries"]["Max Sharpe"]["returns"],
+                             out_path=f("quarterly_returns.png"))
+    P.plot_annual_returns(series, out_path=f("annual_returns.png"))
+
+    # covariance-shrinkage sensitivity (always both, whatever --shrinkage says)
+    cov_shrunk = covariance_matrix(daily, shrinkage=True)
+    samp_rets, samp_vols, _ = efficient_frontier(exp_ret, result["cov_sample"],
+                                                 cfg.frontier_points)
+    shr_rets, shr_vols, _ = efficient_frontier(exp_ret, cov_shrunk,
+                                               cfg.frontier_points)
+    P.plot_frontier_shrinkage(samp_rets, samp_vols, shr_rets, shr_vols,
+                              out_path=f("frontier_shrinkage.png"))
+
+    # out-of-sample equity
+    if result.get("walkforward") is not None:
+        P.plot_walk_forward(result["walkforward"],
+                            out_path=f("walk_forward.png"))
+
+    return sorted(os.path.join(cfg.figure_dir, n)
+                  for n in os.listdir(cfg.figure_dir) if n.endswith(".png"))
+
+
