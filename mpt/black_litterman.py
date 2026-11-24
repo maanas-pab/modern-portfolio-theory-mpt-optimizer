@@ -58,3 +58,37 @@ def _as_pick_matrix(P, n_assets: int) -> np.ndarray:
     return P
 
 
+def _view_uncertainty(P: np.ndarray, tau: float, cov: np.ndarray,
+                      confidences: Optional[Sequence[float]] = None,
+                      omega_scalar: Optional[float] = None) -> np.ndarray:
+    """
+    Build the diagonal Omega variances (one per view).
+
+    Three ways to specify it, in order of preference:
+
+    1. ``omega_scalar`` — a fixed standard deviation for every view,
+    2. ``confidences`` — per-view confidence in [0, 1], mapped through
+       Idzorek's ``omega_ii = (1/c - 1) * tau * p_i Sigma p_i'``,
+    3. default — the He-Litterman proportional scheme
+       ``omega_ii = p_i (tau Sigma) p_i'``.
+    """
+    base = np.einsum("ij,jk,ik->i", P, cov, P)  # p_i Sigma p_i'
+    if omega_scalar is not None:
+        if omega_scalar <= 0:
+            raise ValueError("omega_scalar must be positive")
+        return np.full(len(base), omega_scalar ** 2)
+    if confidences is not None:
+        conf = np.asarray(confidences, dtype=float)
+        if conf.shape != (len(base),):
+            raise ValueError("confidences must have one entry per view")
+        if (conf < 0).any() or (conf > 1).any():
+            raise ValueError("confidences must lie in [0, 1]")
+        # c = 1 / (1 + omega/(tau*base))  =>  omega = (1/c - 1) * tau * base
+        with np.errstate(divide="ignore"):
+            scale = np.where(conf > 0, 1.0 / conf - 1.0, np.inf)
+        omega = scale * tau * base
+        # zero-confidence views fall back to a very diffuse (but finite) variance
+        return np.where(np.isfinite(omega), omega, max(tau * base.max(), 1.0) * 1e6)
+    return tau * base
+
+
