@@ -65,3 +65,7 @@ def test_buy_and_hold_drifts(prices):
     assert not np.allclose(first.values, last.values)
 
 
+def test_compare_empty(prices):
+    assert compare_strategies(prices, {}, rebalance="none") == {}
+
+
