@@ -46,3 +46,29 @@ def plot_sharpe_histogram(rand_s, max_sharpe: float,
     return finish(fig, ax, "Sharpe Ratio of 5,000 Random Portfolios", out_path)
 
 
+def plot_metric_comparison(summary_table: pd.DataFrame,
+                           out_path: str = "figures/metric_comparison.png") -> str:
+    """Grouped bars of return / vol / drawdown across strategies.
+
+    summary_table: rows = metrics (annual_return, annual_vol, max_drawdown),
+    columns = strategy names (already decimal-scaled).
+    """
+    setup_style()
+    wanted = [m for m in ("annual_return", "annual_vol", "max_drawdown")
+              if m in summary_table.index]
+    labels = {"annual_return": "Return", "annual_vol": "Volatility",
+              "max_drawdown": "Max drawdown"}
+    x = np.arange(len(wanted))
+    width = 0.8 / max(len(summary_table.columns), 1)
+    fig, ax = plt.subplots(figsize=(8.5, 5))
+    colors = [PALETTE["max_sharpe"], PALETTE["min_vol"], PALETTE["benchmark"], "#6a4c93"]
+    for k, name in enumerate(summary_table.columns):
+        vals = [float(summary_table.loc[m, name]) for m in wanted]
+        ax.bar(x + k * width, vals, width, label=name, color=colors[k % len(colors)])
+    ax.set_xticks(x + width * (len(summary_table.columns) - 1) / 2)
+    ax.set_xticklabels([labels[m] for m in wanted])
+    percent_axis(ax, "y")
+    ax.legend()
+    return finish(fig, ax, "Risk / Return Scoreboard", out_path)
+
+
