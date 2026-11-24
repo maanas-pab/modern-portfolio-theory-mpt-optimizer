@@ -119,3 +119,68 @@ def summarize_all(named_weights: dict, daily: pd.DataFrame,
     return out
 
 
+def run(cfg: OptimizerConfig) -> dict:
+    """
+    Execute the whole pipeline and return every artifact:
+
+    prices, daily, exp_returns, cov, weights, points, frontier,
+    random cloud, summaries, backtests.
+    """
+    wanted = list(dict.fromkeys(list(cfg.tickers) + [cfg.benchmark]))
+    prices = get_prices(wanted, period=cfg.period, interval=cfg.interval,
+                        cache_path=cfg.cache_path, refresh=cfg.refresh)
+    tickers = [t for t in prices.columns if t != cfg.benchmark]
+    bench = prices[cfg.benchmark] if cfg.benchmark in prices.columns else None
+    assets = prices[tickers]
+
+    daily, exp_returns, cov_sample = calculate_statistics(assets)
+    cov = covariance_matrix(daily, shrinkage=cfg.shrinkage)
+    if cfg.shrinkage:
+        lam = cov.attrs.get("shrinkage_intensity", float("nan"))
+        print(f"Ledoit-Wolf shrinkage intensity: {lam:.3f}")
+
+    named_weights = build_portfolios(exp_returns, cov, cfg)
+    if cfg.black_litterman:
+        from .black_litterman import (black_litterman as bl_posterior,
+                                      equilibrium_returns, top_pick_views)
+
+        pi = equilibrium_returns(cov)
+        P, Q = top_pick_views(exp_returns, k=3, uplift=0.05)
+        mu_bl = bl_posterior(pi, cov, P, Q, tau=0.05)
+        named_weights["BL Max Sharpe"] = max_sharpe_weights(mu_bl, cov, cfg.risk_free)
+        result_bl = mu_bl
+    else:
+        result_bl = None
+    points = frontier_key_points(exp_returns, cov, cfg.risk_free)
+    f_rets, f_vols, _ = efficient_frontier(exp_returns, cov, cfg.frontier_points)
+    rand_r, rand_v, rand_s = random_portfolios(
+        exp_returns, cov, cfg.risk_free, n=cfg.random_portfolios)
+
+    bench_rets = bench.pct_change().dropna() if bench is not None else None
+    summaries = summarize_all(named_weights, daily, exp_returns, cov, cfg, bench_rets)
+
+    backtests = {}
+    if not cfg.no_backtest:
+        for name, w in named_weights.items():
+            backtests[name] = backtest(assets, w, rebalance=cfg.rebalance,
+                                       transaction_cost=cfg.transaction_cost)
+        backtests["Buy & Hold (equal)"] = buy_and_hold(assets)
+
+    wf = None
+    if cfg.walk_forward:
+        from .walkforward import walk_forward as _walk_forward
+
+        wf = _walk_forward(assets, train_days=cfg.train_days,
+                           test_days=cfg.test_days, objective="sharpe",
+                           risk_free=cfg.risk_free)
+
+    return {
+        "prices": prices, "assets": assets, "daily": daily, "bench": bench,
+        "exp_returns": exp_returns, "cov": cov, "cov_sample": cov_sample,
+        "weights": named_weights, "points": points,
+        "frontier": (f_rets, f_vols), "random": (rand_r, rand_v, rand_s),
+        "summaries": summaries, "backtests": backtests, "cfg": cfg,
+        "bl_returns": result_bl, "walkforward": wf,
+    }
+
+
