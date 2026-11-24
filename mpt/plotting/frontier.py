@@ -53,3 +53,27 @@ def plot_frontier(frontier_rets, frontier_vols,
     return finish(fig, ax, "Efficient Frontier - 12 Niche Stocks (MPT)", out_path)
 
 
+def plot_frontier_clean(frontier_rets, frontier_vols,
+                        points: dict,
+                        out_path: str = "figures/frontier_clean.png") -> str:
+    """Minimal frontier with only the three anchor portfolios - for docs."""
+    setup_style()
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.plot(frontier_vols, frontier_rets, color=PALETTE["frontier"], lw=2.5,
+            label="Efficient Frontier")
+    styles = {
+        "max_sharpe": (PALETTE["max_sharpe"], "*", 170, "Max Sharpe"),
+        "min_vol": (PALETTE["min_vol"], "D", 110, "Min Volatility"),
+        "equal": (PALETTE["benchmark"], "o", 70, "Equal Weight"),
+    }
+    for key, (c, m, s, label) in styles.items():
+        p = points[key]
+        ax.scatter(p["vol"], p["return"], c=c, marker=m, s=s,
+                   edgecolors="black", label=label, zorder=5)
+    ax.set_xlabel("Annualized Volatility")
+    ax.set_ylabel("Annualized Expected Return")
+    percent_axis(ax, "x")
+    percent_axis(ax, "y")
+    return finish(fig, ax, "Anchor Portfolios on the Frontier", out_path)
+
+
