@@ -61,3 +61,22 @@ def plot_weights_pies(tables: dict,
     return finish(fig, axes[0], "Weight Breakdown by Strategy", out_path)
 
 
+def plot_risk_contribution(weights, cov_matrix, tickers,
+                           name: str = "Max Sharpe",
+                           out_path: str = "figures/risk_contribution.png") -> str:
+    """Per-asset percent contribution to total portfolio risk."""
+    setup_style()
+    _, pct = risk_contributions(weights, cov_matrix)
+    order = np.argsort(pct)[::-1]
+    fig, ax = plt.subplots(figsize=(9, 5))
+    colors = [asset_color(i) for i in range(len(order))]
+    ax.bar([tickers[i] for i in order], pct[order], color=colors,
+           edgecolor="black", linewidth=0.5)
+    ax.set_ylabel("% of total risk")
+    percent_axis(ax, "y")
+    ax.axhline(1.0 / len(pct), ls="--", c=PALETTE["negative"], lw=1.2,
+               label=f"equal risk ({1.0 / len(pct):.1%})")
+    ax.legend()
+    return finish(fig, ax, f"Risk Contributions - {name}", out_path)
+
+
