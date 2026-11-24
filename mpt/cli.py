@@ -205,3 +205,22 @@ def emit_report(result: dict) -> None:
           f"Equal {result['summaries']['Equal Weight']['hhi']:.3f}")
 
 
+def emit_backtests(result: dict) -> None:
+    """Print one-line stats for each backtest."""
+    cfg: OptimizerConfig = result["cfg"]
+    if not result["backtests"]:
+        return
+    print(f"\n--- Backtest (rebalance={cfg.rebalance}, cost={cfg.transaction_cost:.3%}) ---")
+    rows = {}
+    for name, bt in result["backtests"].items():
+        s = performance_summary(bt.returns, cfg.risk_free)
+        s["total_return"] = bt.total_return
+        s["n_rebalances"] = len(bt.rebalance_dates)
+        s["total_cost"] = bt.total_cost
+        rows[name] = s
+    df = summary_table(pd.DataFrame(rows))
+    print(df.loc[[m for m in ("total_return", "annual_return", "sharpe",
+                              "max_drawdown", "calmar", "n_rebalances", "total_cost")
+                  if m in df.index]].to_string())
+
+
