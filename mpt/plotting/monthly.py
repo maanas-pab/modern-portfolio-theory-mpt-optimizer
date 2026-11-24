@@ -88,3 +88,25 @@ def plot_quarterly_returns(returns: pd.Series,
     return finish(fig, ax, "Returns by Calendar Quarter", out_path)
 
 
+def plot_annual_returns(series: dict,
+                        out_path: str = "figures/annual_returns.png") -> str:
+    """Grouped bars: each strategy's compounded return per calendar year."""
+    setup_style()
+    years = sorted({y for rets in series.values() for y in rets.dropna().index.year})
+    x = np.arange(len(years))
+    width = 0.8 / max(len(series), 1)
+    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    colors = [PALETTE["max_sharpe"], PALETTE["min_vol"], PALETTE["benchmark"],
+              "#6a4c93", "#8ac926"]
+    for k, (name, rets) in enumerate(series.items()):
+        r = rets.dropna()
+        vals = [float((1.0 + r[r.index.year == y]).prod() - 1.0) for y in years]
+        ax.bar(x + k * width, vals, width, label=name,
+               color=colors[k % len(colors)], alpha=0.9)
+    ax.set_xticks(x + width * (len(series) - 1) / 2)
+    ax.set_xticklabels(years)
+    ax.axhline(0, color="black", lw=0.9)
+    percent_axis(ax, "y")
+    ax.set_ylabel("Calendar-year return")
+    ax.legend()
+    return finish(fig, ax, "Calendar-Year Returns by Strategy", out_path)
