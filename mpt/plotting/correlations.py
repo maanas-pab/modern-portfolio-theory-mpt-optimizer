@@ -31,3 +31,24 @@ def plot_correlation_heatmap(corr: pd.DataFrame,
     return finish(fig, ax, "Daily-Return Correlation Matrix", out_path)
 
 
+def plot_covariance_heatmap(cov: pd.DataFrame,
+                            out_path: str = "figures/covariance_heatmap.png") -> str:
+    """Annualized covariance heatmap (diagonal = variances)."""
+    setup_style()
+    n = len(cov)
+    fig, ax = plt.subplots(figsize=(9, 7.5))
+    im = ax.imshow(cov.values, cmap="magma")
+    fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Annualized covariance")
+    ax.set_xticks(np.arange(n))
+    ax.set_yticks(np.arange(n))
+    ax.set_xticklabels(cov.columns, rotation=45, ha="right")
+    ax.set_yticklabels(cov.index)
+    ax.grid(False)
+    if n <= 16:
+        for i in range(n):
+            for j in range(n):
+                ax.text(j, i, f"{cov.values[i, j]:.2f}", ha="center", va="center",
+                        fontsize=7, color="white" if cov.values[i, j] > cov.values.max() * 0.5 else "black")
+    return finish(fig, ax, "Annualized Covariance Matrix", out_path)
+
+
