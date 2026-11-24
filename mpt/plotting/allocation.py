@@ -80,3 +80,21 @@ def plot_risk_contribution(weights, cov_matrix, tickers,
     return finish(fig, ax, f"Risk Contributions - {name}", out_path)
 
 
+def plot_weights_over_time(result,
+                           out_path: str = "figures/weights_over_time.png") -> str:
+    """Stacked area of weights drifting between rebalances."""
+    setup_style()
+    w = result.weights_over_time
+    fig, ax = plt.subplots(figsize=(10.5, 5.5))
+    ax.stackplot(w.index, w.T.values, labels=w.columns,
+                 colors=[asset_color(i) for i in range(w.shape[1])], alpha=0.9)
+    if len(result.rebalance_dates):
+        for d in result.rebalance_dates:
+            ax.axvline(d, color="white", lw=0.8, alpha=0.7)
+    ax.set_xlim(w.index[0], w.index[-1])
+    ax.set_ylabel("Weight")
+    percent_axis(ax, "y")
+    ax.legend(ncol=3, fontsize=8, loc="upper left")
+    return finish(fig, ax, "Weights Drifting Between Rebalances", out_path)
+
+
