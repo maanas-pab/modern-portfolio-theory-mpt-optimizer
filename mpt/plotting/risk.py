@@ -90,3 +90,25 @@ def plot_asset_risk_return(exp_returns, vol,
     return finish(fig, ax, title, out_path)
 
 
+def plot_rolling_beta(returns, benchmark, window: int = 63,
+                      out_path: str = "figures/rolling_beta.png") -> str:
+    """
+    Rolling beta of a portfolio (or asset) against the benchmark.
+    Above 1 means the series amplifies benchmark moves over the window.
+    """
+    setup_style()
+    r, b = returns.dropna(), benchmark.dropna()
+    joined = pd.concat([r, b], axis=1, keys=["r", "b"]).dropna()
+    cov = joined["r"].rolling(window).cov(joined["b"])
+    var = joined["b"].rolling(window).var()
+    beta = cov / var
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(beta.index, beta.values, lw=1.7, color=PALETTE["max_sharpe"],
+            label=f"Rolling {window}-day beta")
+    ax.axhline(1.0, ls="--", c=PALETTE["benchmark"], lw=1.4, label="beta = 1")
+    ax.axhline(0, color="black", lw=0.8)
+    ax.set_ylabel("Beta vs benchmark")
+    ax.legend()
+    return finish(fig, ax, "Rolling Beta vs Benchmark", out_path)
+
+
