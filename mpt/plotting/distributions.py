@@ -36,3 +36,20 @@ def plot_return_distributions(daily: pd.DataFrame, cols: int = 4,
     return out_path
 
 
+def plot_sector_exposure(weights, tickers, sector_map: dict,
+                         out_path: str = "figures/sector_exposure.png") -> str:
+    """Aggregate weights into sector buckets and show one pie."""
+    setup_style()
+    buckets: dict = {}
+    for t, w in zip(tickers, np.asarray(weights, dtype=float)):
+        key = sector_map.get(t, "Other")
+        buckets[key] = buckets.get(key, 0.0) + w
+    labels = sorted(buckets, key=buckets.get, reverse=True)
+    values = [buckets[k] for k in labels]
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90,
+           colors=[ASSET_COLORS[i % len(ASSET_COLORS)] for i in range(len(labels))],
+           wedgeprops={"linewidth": 1, "edgecolor": "white"},
+           pctdistance=0.78)
+    ax.axis("equal")
+    return finish(fig, ax, "Sector Exposure", out_path)
