@@ -38,3 +38,11 @@ def stats(prices):
     return calculate_statistics(prices)
 
 
+@pytest.fixture
+def benchmark(prices) -> pd.Series:
+    """A synthetic benchmark that correlates with the assets."""
+    rng = np.random.default_rng(11)
+    rets = prices.pct_change().mean(axis=1) + rng.normal(0, 0.004, len(prices))
+    return pd.Series(rets.values, index=prices.index, name="BENCH")
+
+
