@@ -18,3 +18,9 @@ def test_rebalance_dates_are_trading_days(prices):
         assert d in prices.index
 
 
+def test_turnover_bounds(prices):
+    bt = backtest(prices, [0.5, 0.3, 0.1, 0.1], rebalance="monthly")
+    assert (bt.turnover >= 0).all()
+    assert (bt.turnover <= 2.0).all()
+
+
