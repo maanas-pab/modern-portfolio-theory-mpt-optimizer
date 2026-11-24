@@ -75,3 +75,7 @@ def test_quarterly_boundaries(prices):
     assert months <= {1, 4, 7, 10}
 
 
+def test_weekly_spans_history(prices):
+    sched = rebalance_schedule(prices.index, "weekly")
+    assert sched[0] <= prices.index[7]
+    assert sched[-1] >= prices.index[-8]
