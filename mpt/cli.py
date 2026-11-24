@@ -349,3 +349,17 @@ def emit_figures(result: dict) -> list:
                   for n in os.listdir(cfg.figure_dir) if n.endswith(".png"))
 
 
+def main(argv=None) -> int:
+    """Parse args, run the pipeline, emit everything. Returns exit code."""
+    args = build_parser().parse_args(argv)
+    cfg = config_from_args(args)
+    result = run(cfg)
+    emit_report(result)
+    emit_backtests(result)
+    emit_walkforward(result)
+    paths = emit_figures(result)
+    if paths:
+        print(f"\n{len(paths)} charts in {cfg.figure_dir}/")
+    return 0
+
+
