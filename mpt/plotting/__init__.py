@@ -14,3 +14,8 @@ from .performance import (plot_cumulative_returns, plot_drawdown,
                           plot_rolling_sharpe, plot_rolling_volatility,
                           plot_turnover, plot_walk_forward)
 
+from .risk import (plot_asset_risk_return, plot_benchmark_scatter,
+                   plot_metric_comparison, plot_rolling_beta,
+                   plot_sharpe_histogram, plot_var_cvar)
+from .style import PALETTE, setup_style
+
