@@ -24,3 +24,8 @@ def test_turnover_bounds(prices):
     assert (bt.turnover <= 2.0).all()
 
 
+def test_equity_longer_than_returns(prices):
+    bt = backtest(prices, [0.25] * 4, rebalance="none")
+    assert len(bt.equity) == len(bt.returns) + 1
+
+
