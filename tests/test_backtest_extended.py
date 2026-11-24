@@ -58,3 +58,10 @@ def test_start_before_history(prices):
     assert len(bt.returns) == len(prices) - 2
 
 
+def test_buy_and_hold_drifts(prices):
+    bt = buy_and_hold(prices, weights=[0.7, 0.1, 0.1, 0.1])
+    first = bt.weights_over_time.iloc[0]
+    last = bt.weights_over_time.iloc[-1]
+    assert not np.allclose(first.values, last.values)
+
+
