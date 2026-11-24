@@ -68,3 +68,17 @@ def frontier_key_points(exp_returns: pd.Series,
     return points
 
 
+def capital_market_line(risk_free: float,
+                        max_sharpe_ret: float,
+                        max_sharpe_vol: float,
+                        vol_max: Optional[float] = None) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Straight line from (0, rf) through the tangency portfolio.
+
+    Returns (vols, rets) arrays for plotting; vol_max caps the x-range.
+    """
+    end = vol_max if vol_max is not None else max_sharpe_vol * 1.6
+    vols = np.array([0.0, end])
+    slope = (max_sharpe_ret - risk_free) / max_sharpe_vol if max_sharpe_vol > 0 else 0.0
+    rets = risk_free + slope * vols
+    return vols, rets
