@@ -133,3 +133,23 @@ def black_litterman(pi: pd.Series,
     return pd.Series(mu, index=pi.index, name="bl_returns")
 
 
+def black_litterman_covariance(cov: pd.DataFrame, P, tau: float = 0.05,
+                               confidences: Optional[Sequence[float]] = None,
+                               omega_scalar: Optional[float] = None) -> pd.DataFrame:
+    """
+    Posterior covariance ``M = [ (tau*Sigma)^-1 + P' Omega^-1 P ]^-1 / tau``.
+
+    Dividing by ``tau`` puts it back on the same annualized scale as the
+    input ``cov``, so it can be fed straight into the optimizer.
+    """
+    if not 0 < tau <= 1:
+        raise ValueError("tau must be in (0, 1]")
+    n = len(cov)
+    P = _as_pick_matrix(P, n)
+    omega = _view_uncertainty(P, tau, cov.values, confidences, omega_scalar)
+    tau_sigma_inv = np.linalg.inv(tau * cov.values)
+    M = np.linalg.inv(tau_sigma_inv + P.T @ np.diag(1.0 / omega) @ P)
+    post = M / tau
+    return pd.DataFrame(post, index=cov.index, columns=cov.columns)
+
+
