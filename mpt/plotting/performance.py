@@ -110,3 +110,22 @@ def plot_turnover(result, out_path: str = "figures/turnover.png") -> str:
     return finish(fig, ax, "Turnover at Each Rebalance", out_path)
 
 
+def plot_walk_forward(wf, out_path: str = "figures/walk_forward.png") -> str:
+    """
+    Out-of-sample equity from :func:`mpt.walkforward.walk_forward`, with
+    vertical separators at each re-fit date and the summary Sharpe.
+    """
+    setup_style()
+    equity = wf.equity
+    fig, ax = plt.subplots(figsize=(10.5, 5.5))
+    ax.plot(equity.index, equity.values, lw=2, color=PALETTE["max_sharpe"],
+            label="Out-of-sample equity")
+    for train_end, _ in wf.windows[1:]:
+        ax.axvline(train_end, color="grey", lw=0.7, alpha=0.5)
+    s = wf.summary()
+    ax.axhline(1.0, color="black", lw=0.8, ls=":")
+    ax.set_ylabel("Growth of $1 (out-of-sample)")
+    ax.legend(loc="upper left")
+    title = (f"Walk-Forward Equity - {wf.n_windows} windows, "
+             f"Sharpe {s['sharpe']:.2f}, MaxDD {s['max_drawdown']:.1%}")
+    return finish(fig, ax, title, out_path)
