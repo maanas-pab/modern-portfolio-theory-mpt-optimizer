@@ -62,3 +62,11 @@ def test_rebalance_restores_target(prices):
     np.testing.assert_allclose(after.values, w, atol=1e-9)
 
 
+def test_costs_reduce_returns(prices):
+    w = [0.4, 0.3, 0.2, 0.1]
+    free = backtest(prices, w, rebalance="monthly", transaction_cost=0.0)
+    costly = backtest(prices, w, rebalance="monthly", transaction_cost=0.01)
+    assert costly.total_cost > 0
+    assert costly.equity.iloc[-1] < free.equity.iloc[-1]
+
+
