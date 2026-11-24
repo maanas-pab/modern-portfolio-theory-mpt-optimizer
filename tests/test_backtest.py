@@ -70,3 +70,9 @@ def test_costs_reduce_returns(prices):
     assert costly.equity.iloc[-1] < free.equity.iloc[-1]
 
 
+def test_none_rebalance_no_turnover(prices):
+    bt = backtest(prices, [0.25] * 4, rebalance="none")
+    assert bt.turnover.empty
+    assert bt.total_cost == 0.0
+
+
