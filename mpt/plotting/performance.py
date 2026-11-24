@@ -65,3 +65,22 @@ def plot_rolling_volatility(series: dict, window: int = 63,
     return finish(fig, ax, "Rolling Volatility", out_path)
 
 
+def plot_rolling_sharpe(series: dict, window: int = 126, risk_free: float = 0.02,
+                        out_path: str = "figures/rolling_sharpe.png") -> str:
+    """Annualized rolling Sharpe ratio (default: six months)."""
+    setup_style()
+    fig, ax = plt.subplots(figsize=(10.5, 5.5))
+    colors = [PALETTE["max_sharpe"], PALETTE["min_vol"], PALETTE["benchmark"], "#6a4c93"]
+    daily_rf = (1.0 + risk_free) ** (1 / 252) - 1.0
+    for i, (name, rets) in enumerate(series.items()):
+        r = rets.dropna()
+        excess = r - daily_rf
+        roll = (excess.rolling(window).mean() * 252) / (
+            excess.rolling(window).std() * np.sqrt(252))
+        ax.plot(roll.index, roll.values, lw=1.6, color=colors[i % len(colors)], label=name)
+    ax.axhline(0, color="black", lw=0.8)
+    ax.set_ylabel(f"Rolling {window}-day Sharpe")
+    ax.legend()
+    return finish(fig, ax, "Rolling Sharpe Ratio", out_path)
+
+
