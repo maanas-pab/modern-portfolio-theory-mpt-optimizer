@@ -58,3 +58,32 @@ class WalkForwardResult:
         }
 
 
+def rolling_windows(index: pd.DatetimeIndex, train_days: int,
+                    test_days: int) -> List[Tuple[pd.Timestamp, pd.Timestamp, pd.Timestamp]]:
+    """
+    Rolling ``(train_start, train_end, test_end)`` triples.
+
+    The first window starts at ``index[0]``; each subsequent window slides
+    forward by ``test_days``.  The final window is dropped if fewer than
+    ``test_days`` observations remain.
+    """
+    if train_days < 2:
+        raise ValueError("train_days must be at least 2")
+    if test_days < 1:
+        raise ValueError("test_days must be at least 1")
+    if train_days + test_days > len(index):
+        raise ValueError(
+            f"window ({train_days}+{test_days}) exceeds the {len(index)} observations")
+
+    out, start = [], 0
+    while start + train_days + test_days <= len(index):
+        train_start = index[start]
+        train_end = index[start + train_days - 1]
+        test_end = index[start + train_days + test_days - 1]
+        out.append((train_start, train_end, test_end))
+        start += test_days
+    if not out:
+        raise ValueError("no complete train/test window fits this history")
+    return out
+
+
