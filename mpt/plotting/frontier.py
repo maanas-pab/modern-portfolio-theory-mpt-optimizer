@@ -77,3 +77,28 @@ def plot_frontier_clean(frontier_rets, frontier_vols,
     return finish(fig, ax, "Anchor Portfolios on the Frontier", out_path)
 
 
+def plot_frontier_shrinkage(sample_rets, sample_vols,
+                            shrunk_rets, shrunk_vols,
+                            out_path: str = "figures/frontier_shrinkage.png") -> str:
+    """
+    Overlay two frontiers built from the same expected returns but
+    different covariance estimates - shows how much the optimizer's
+    answer moves when the covariance matrix is regularized.
+    """
+    setup_style()
+    fig, ax = plt.subplots(figsize=(9.5, 6))
+    ax.plot(sample_vols, sample_rets, color=PALETTE["frontier"], lw=2.4,
+            label="Sample covariance")
+    ax.plot(shrunk_vols, shrunk_rets, color=PALETTE["benchmark"], lw=2.4,
+            ls="--", label="Ledoit-Wolf shrunk")
+    ax.scatter(min(sample_vols), sample_rets[int(np.argmin(sample_vols))],
+               marker="D", s=110, c=PALETTE["frontier"], edgecolors="black",
+               zorder=5, label="Min vol (sample)")
+    ax.scatter(min(shrunk_vols), shrunk_rets[int(np.argmin(shrunk_vols))],
+               marker="D", s=110, c=PALETTE["benchmark"], edgecolors="black",
+               zorder=5, label="Min vol (shrunk)")
+    ax.set_xlabel("Annualized Volatility")
+    ax.set_ylabel("Annualized Expected Return")
+    percent_axis(ax, "x")
+    percent_axis(ax, "y")
+    return finish(fig, ax, "Frontier Sensitivity to Covariance Shrinkage", out_path)
