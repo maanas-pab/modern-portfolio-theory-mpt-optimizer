@@ -28,3 +28,39 @@ def export_weights(weights, tickers, out_dir: str, name: str) -> str:
     return path
 
 
+def performance_summary(returns: pd.Series,
+                        risk_free: float = 0.0,
+                        benchmark: Optional[pd.Series] = None,
+                        periods: int = 252) -> Dict[str, float]:
+    """One flat dict of every headline metric for a return series."""
+    r = returns.dropna()
+    annual_ret = float(r.mean() * periods)
+    annual_vol = float(r.std(ddof=1) * np.sqrt(periods))
+    dd = max_drawdown(r)
+    summary = {
+        "annual_return": annual_ret,
+        "annual_vol": annual_vol,
+        # guard both true zero and floating-point dust (constant series)
+        "sharpe": (annual_ret - risk_free) / annual_vol if annual_vol > 1e-12 else 0.0,
+        "sortino": sortino_ratio(r, risk_free, periods),
+        "max_drawdown": dd,
+        "calmar": calmar_ratio(annual_ret, dd, risk_free),
+        "var_95": value_at_risk(r, 0.95),
+        "cvar_95": conditional_var(r, 0.95),
+        "skew": float(r.skew()),
+        "kurtosis": float(r.kurtosis()),
+        "best_day": float(r.max()),
+        "worst_day": float(r.min()),
+        "positive_days": float((r > 0).mean()),
+    }
+    if benchmark is not None:
+        from .metrics import alpha as alpha_fn
+        from .metrics import beta as beta_fn
+
+        joined = pd.concat([r, benchmark], axis=1).dropna()
+        if len(joined) > 2:
+            summary["beta"] = beta_fn(joined.iloc[:, 0], joined.iloc[:, 1])
+            summary["alpha"] = alpha_fn(joined.iloc[:, 0], joined.iloc[:, 1], risk_free, periods)
+    return summary
+
+
