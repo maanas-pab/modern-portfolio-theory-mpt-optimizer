@@ -54,3 +54,17 @@ def random_portfolios(exp_returns: pd.Series,
     return out_r, out_v, out_s
 
 
+def frontier_key_points(exp_returns: pd.Series,
+                        cov_matrix: pd.DataFrame,
+                        risk_free_rate: float = 0.0) -> dict:
+    """Max-Sharpe, min-vol and equal-weight anchors used by every chart."""
+    w_sharpe = max_sharpe_weights(exp_returns, cov_matrix, risk_free_rate)
+    w_minvol = optimize_portfolio(exp_returns, cov_matrix, objective="vol")
+    w_eq = np.repeat(1.0 / len(exp_returns), len(exp_returns))
+    points = {}
+    for name, w in (("max_sharpe", w_sharpe), ("min_vol", w_minvol), ("equal", w_eq)):
+        r, v, s = portfolio_performance(w, exp_returns, cov_matrix, risk_free_rate)
+        points[name] = {"weights": w, "return": r, "vol": v, "sharpe": s}
+    return points
+
+
