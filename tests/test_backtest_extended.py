@@ -53,3 +53,8 @@ def test_cost_monotonicity(prices):
     assert eq[0] >= eq[1] >= eq[2]
 
 
+def test_start_before_history(prices):
+    bt = backtest(prices, [0.25] * 4, rebalance="none", start="2000-01-01")
+    assert len(bt.returns) == len(prices) - 2
+
+
