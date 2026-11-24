@@ -40,3 +40,56 @@ def rebalance_schedule(index: pd.DatetimeIndex, freq: str) -> pd.DatetimeIndex:
     return index[np.unique(pos)]
 
 
+def backtest(prices: pd.DataFrame,
+             weights,
+             rebalance: str = "monthly",
+             transaction_cost: float = 0.0,
+             start: Optional[str] = None) -> BacktestResult:
+    """
+    Run a daily backtest of a static target weight vector.
+
+    Between rebalances weights drift with the market; at each rebalance
+    they snap back to target and pay `transaction_cost` per unit turnover
+    (one-way, e.g. 0.001 = 10 bps).
+    """
+    prices = prices.loc[start:] if start else prices
+    rets = prices.pct_change().dropna(how="all").fillna(0.0)
+    target = np.asarray(weights, dtype=float)
+    target = target / target.sum()
+    n = rets.shape[1]
+
+    sched = rebalance_schedule(rets.index, rebalance)
+    w = target.copy()
+    w_rows = []
+    daily = []
+    turnover_rows = []
+    total_cost = 0.0
+    rebalance_seen = []
+
+    for dt in rets.index:
+        row = rets.loc[dt].values
+        # apply previous weights to today's returns
+        port_ret = float(w @ row)
+        w = w * (1.0 + row)
+        w = w / max(w.sum(), 1e-12)          # drift (no cash drag)
+        if dt in sched:
+            turn = float(np.abs(target - w).sum())
+            cost = transaction_cost * turn
+            w = target.copy()
+            port_ret -= cost
+            total_cost += cost
+            turnover_rows.append((dt, turn))
+            rebalance_seen.append(dt)
+        w_rows.append((dt, w.copy()))
+        daily.append((dt, port_ret))
+
+    equity = (1.0 + pd.Series(dict(daily))).cumprod()
+    wdf = pd.DataFrame([r[1] for r in w_rows], index=[r[0] for r in w_rows],
+                       columns=prices.columns)
+    turnover = pd.Series(dict(turnover_rows)) if turnover_rows else pd.Series(dtype=float)
+    return BacktestResult(equity=equity, returns=equity.pct_change().dropna(),
+                          weights_over_time=wdf,
+                          rebalance_dates=pd.DatetimeIndex(rebalance_seen),
+                          turnover=turnover, total_cost=total_cost)
+
+
