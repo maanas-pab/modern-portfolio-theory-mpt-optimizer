@@ -69,3 +69,9 @@ def test_compare_empty(prices):
     assert compare_strategies(prices, {}, rebalance="none") == {}
 
 
+def test_quarterly_boundaries(prices):
+    sched = rebalance_schedule(prices.index, "quarterly")
+    months = {d.month for d in sched}
+    assert months <= {1, 4, 7, 10}
+
+
