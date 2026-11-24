@@ -94,3 +94,6 @@ def test_backtest_bad_freq(prices):
         backtest(prices, [0.25] * 4, rebalance="decade")
 
 
+def test_backtest_start_slice(prices):
+    bt = backtest(prices, [0.25] * 4, rebalance="none", start="2024-06-01")
+    assert bt.equity.index[0] >= pd.Timestamp("2024-06-01")
