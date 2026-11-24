@@ -22,3 +22,9 @@ def test_equilibrium_equal_weight_default(two_asset):
     np.testing.assert_allclose(pi.values, expected)
 
 
+def test_equilibrium_weight_length(two_asset):
+    _, cov = two_asset
+    with pytest.raises(ValueError, match="market_weights"):
+        equilibrium_returns(cov, market_weights=[1.0, 0.5, 0.2])
+
+
