@@ -64,3 +64,16 @@ def performance_summary(returns: pd.Series,
     return summary
 
 
+def summary_table(named_summaries: Dict[str, Dict[str, float]]) -> pd.DataFrame:
+    """Pivot {strategy: {metric: value}} into a metric-by-strategy table."""
+    df = pd.DataFrame(named_summaries)
+    pct_rows = {"annual_return", "annual_vol", "max_drawdown", "var_95", "cvar_95",
+                "positive_days", "best_day", "worst_day", "total_return", "total_cost"}
+    for row in df.index:
+        if row in pct_rows:
+            df.loc[row] = (df.loc[row] * 100).round(2)
+        else:
+            df.loc[row] = df.loc[row].round(3)
+    return df
+
+
