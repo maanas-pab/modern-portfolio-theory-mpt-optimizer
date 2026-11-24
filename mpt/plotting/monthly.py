@@ -47,3 +47,26 @@ def plot_monthly_heatmap(returns: pd.Series, title: str = "Portfolio",
     return finish(fig, ax, f"Monthly Returns - {title}", out_path)
 
 
+def plot_asset_monthly_heatmap(daily: pd.DataFrame,
+                               out_path: str = "figures/asset_monthly_heatmap.png") -> str:
+    """Latest-12-months average daily return per asset x month."""
+    setup_style()
+    last_year = daily.loc[daily.index.max() - pd.DateOffset(years=1):]
+    table = last_year.groupby([last_year.index.year, last_year.index.month]).mean() * 252
+    # average across the two calendar years present, keep months as columns
+    avg = table.groupby(level=1).mean()
+    avg = avg.reindex(columns=last_year.columns)
+    labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    fig, ax = plt.subplots(figsize=(9, 6))
+    vmax = float(np.nanmax(np.abs(avg.values))) or 0.1
+    im = ax.imshow(avg.values, cmap="RdYlGn", vmin=-vmax, vmax=vmax, aspect="auto")
+    fig.colorbar(im, ax=ax, fraction=0.03, pad=0.03, label="Annualized daily mean")
+    ax.set_xticks(np.arange(len(avg.columns)))
+    ax.set_yticks(np.arange(12))
+    ax.set_xticklabels(avg.columns, rotation=45, ha="right", fontsize=9)
+    ax.set_yticklabels(labels[:len(avg)], fontsize=9)
+    ax.grid(False)
+    return finish(fig, ax, "Asset Returns by Month (annualized)", out_path)
+
+
