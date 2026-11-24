@@ -45,3 +45,13 @@ def setup_style() -> None:
     })
 
 
+def finish(fig, ax, title: str, out_path: str) -> str:
+    """Title, tidy layout, save, close; returns the path written."""
+    ax.set_title(title)
+    fig.tight_layout()
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.close(fig)
+    print(f"Saved chart -> {out_path}")
+    return out_path
+
+
