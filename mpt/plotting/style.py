@@ -27,3 +27,21 @@ ASSET_COLORS = [
 ]
 
 
+def setup_style() -> None:
+    """Apply the project's matplotlib defaults (grid, fonts, DPI)."""
+    mpl.rcParams.update({
+        "figure.dpi": 110,
+        "savefig.dpi": 150,
+        "font.size": 11,
+        "axes.titlesize": 13,
+        "axes.titleweight": "bold",
+        "axes.labelsize": 11,
+        "axes.grid": True,
+        "grid.alpha": 0.3,
+        "axes.spines.top": False,
+        "axes.spines.right": False,
+        "legend.frameon": False,
+        "figure.autolayout": False,
+    })
+
+
