@@ -88,3 +88,15 @@ def config_from_args(args: argparse.Namespace) -> OptimizerConfig:
     return cfg.validate()
 
 
+def build_portfolios(exp_returns: pd.Series, cov: pd.DataFrame, cfg: OptimizerConfig) -> dict:
+    """Optimize every named strategy used downstream."""
+    rf = cfg.risk_free
+    weights = {
+        "Max Sharpe": max_sharpe_weights(exp_returns, cov, rf),
+        "Min Volatility": min_vol_weights(exp_returns, cov),
+        "Risk Parity": risk_parity_weights(cov),
+        "Equal Weight": np.repeat(1.0 / len(exp_returns), len(exp_returns)),
+    }
+    return weights
+
+
