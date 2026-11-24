@@ -31,3 +31,18 @@ def plot_var_cvar(returns: pd.Series, level: float = 0.95,
     return finish(fig, ax, "Loss Tail: VaR & Expected Shortfall", out_path)
 
 
+def plot_sharpe_histogram(rand_s, max_sharpe: float,
+                          out_path: str = "figures/sharpe_distribution.png") -> str:
+    """Distribution of Sharpe ratios from random portfolios vs the optimum."""
+    setup_style()
+    fig, ax = plt.subplots(figsize=(9, 5))
+    ax.hist(rand_s, bins=50, color=PALETTE["random"], alpha=0.8,
+            edgecolor="white", label="Random portfolios")
+    ax.axvline(max_sharpe, color=PALETTE["max_sharpe"], lw=2.4,
+               label=f"Max Sharpe = {max_sharpe:.2f}")
+    ax.set_xlabel("Sharpe ratio")
+    ax.set_ylabel("Count")
+    ax.legend()
+    return finish(fig, ax, "Sharpe Ratio of 5,000 Random Portfolios", out_path)
+
+
