@@ -29,3 +29,10 @@ def test_equity_longer_than_returns(prices):
     assert len(bt.equity) == len(bt.returns) + 1
 
 
+def test_flat_prices_flat_equity():
+    flat = pd.DataFrame({"A": [100.0] * 30, "B": [50.0] * 30},
+                        index=pd.bdate_range("2024-01-01", periods=30))
+    bt = backtest(flat, [0.5, 0.5], rebalance="monthly")
+    np.testing.assert_allclose(bt.equity.values, 1.0, atol=1e-12)
+
+
