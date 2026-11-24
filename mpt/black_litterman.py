@@ -153,3 +153,22 @@ def black_litterman_covariance(cov: pd.DataFrame, P, tau: float = 0.05,
     return pd.DataFrame(post, index=cov.index, columns=cov.columns)
 
 
+def top_pick_views(expected: pd.Series, k: int = 3,
+                   uplift: float = 0.05) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Build simple "top-k outperformers" views from any return estimate.
+
+    Each view longs one asset against an equally-weighted basket of the
+    rest: ``P_i = e_i - (1/(n-1)) * sum_{j != i} e_j`` with ``Q_i =
+    uplift``.  Returns ``(P, Q)`` ready for :func:`black_litterman`.
+    """
+    if k < 1 or k > len(expected):
+        raise ValueError("k must be between 1 and the universe size")
+    idx = list(expected.nlargest(k).index)
+    n = len(expected)
+    P = np.zeros((k, n))
+    for row, ticker in enumerate(idx):
+        for j, t in enumerate(expected.index):
+            P[row, j] = 1.0 if t == ticker else -1.0 / (n - 1)
+    Q = np.full(k, float(uplift))
+    return P, Q
