@@ -83,3 +83,11 @@ def test_historical_var_positive_loss():
     assert np.isclose(var, -np.quantile(r, 0.05), atol=1e-6)
 
 
+def test_parametric_var_close_to_historical():
+    rng = np.random.default_rng(6)
+    r = pd.Series(rng.normal(0, 0.01, 20000))
+    hist = value_at_risk(r, 0.95, "historical")
+    para = value_at_risk(r, 0.95, "parametric")
+    assert abs(hist - para) < 0.002
+
+
