@@ -61,3 +61,12 @@ def test_posterior_near_prior_with_diffuse_views(two_asset):
     np.testing.assert_allclose(mu.values, pi.values, atol=0.02)
 
 
+def test_confident_view_pulls_posterior(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    P = np.array([[1.0, -1.0]])   # A outperforms B
+    Q = np.array([0.20])          # by 20 points - confident
+    mu = black_litterman(pi, cov, P, Q, tau=0.05, omega_scalar=0.001)
+    assert mu["A"] - mu["B"] > (pi["A"] - pi["B"]) + 0.05
+
+
