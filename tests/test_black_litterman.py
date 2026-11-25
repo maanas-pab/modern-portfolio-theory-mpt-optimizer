@@ -88,3 +88,11 @@ def test_q_length_mismatch(two_asset):
         black_litterman(pi, cov, P, np.array([0.05]), tau=0.05)
 
 
+def test_confidence_bounds(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    P, Q = np.array([[1.0, -1.0]]), np.array([0.05])
+    with pytest.raises(ValueError, match="confidences"):
+        black_litterman(pi, cov, P, Q, tau=0.05, confidences=[1.5])
+
+
