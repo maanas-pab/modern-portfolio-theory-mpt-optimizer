@@ -35,3 +35,9 @@ def test_frontier_points_bounds(stats):
         efficient_frontier(exp, cov, n_points=1)
 
 
+def test_random_zero_risk_free(stats):
+    _, exp, cov = stats
+    r, v, s = random_portfolios(exp, cov, 0.0, n=50, seed=3)
+    assert np.isfinite(s).all()
+
+
