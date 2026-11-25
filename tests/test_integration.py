@@ -25,3 +25,11 @@ def test_run_defaults_have_no_extras():
     assert result["walkforward"] is None
 
 
+def test_run_includes_benchmark():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True).validate()
+    result = run(cfg)
+    assert result["bench"] is not None
+    assert "beta" in result["summaries"]["Max Sharpe"]["summary"]
+
+
