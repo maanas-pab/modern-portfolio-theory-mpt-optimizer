@@ -127,3 +127,9 @@ def test_posterior_covariance_scale(two_asset):
     assert ((ratio > 0.1) & (ratio < 10)).all()
 
 
+def test_zero_confidence_finite(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    P, Q = np.array([[1.0, -1.0]]), np.array([0.05])
+    mu = black_litterman(pi, cov, P, Q, tau=0.05, confidences=[0.0])
+    assert np.isfinite(mu).all()
