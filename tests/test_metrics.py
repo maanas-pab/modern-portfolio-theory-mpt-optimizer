@@ -1,0 +1,15 @@
+"""Tests for mpt.metrics: ratios, drawdown, VaR, beta, contributions."""
+import numpy as np
+import pandas as pd
+import pytest
+
+from mpt.metrics import (alpha, beta, calmar_ratio, concentration_hhi,
+                         conditional_var, downside_deviation, max_drawdown,
+                         portfolio_performance, risk_budget_loss,
+                         risk_contributions, sharpe_ratio, sortino_ratio,
+                         value_at_risk)
+
+def test_sharpe_ratio_arithmetic():
+    assert np.isclose(sharpe_ratio(0.10, 0.20, 0.02), 0.4)
+
+
