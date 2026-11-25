@@ -51,3 +51,8 @@ def test_sortino_asymmetric_series():
     assert np.isfinite(s)
 
 
+def test_sortino_zero_downside_guard():
+    r = pd.Series([0.01] * 50)
+    assert sortino_ratio(r, 0.0) == 0.0
+
+
