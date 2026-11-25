@@ -29,3 +29,9 @@ def test_frontier_single_asset():
     np.testing.assert_allclose(rets, 0.10, atol=1e-8)
 
 
+def test_frontier_points_bounds(stats):
+    _, exp, cov = stats
+    with pytest.raises(ValueError, match="n_points"):
+        efficient_frontier(exp, cov, n_points=1)
+
+
