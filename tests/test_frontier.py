@@ -26,3 +26,10 @@ def test_frontier_monotone_above_min_vol(stats):
     assert (np.diff(vols[i_min:]) >= -1e-6).all()
 
 
+def test_random_portfolios_shape(stats):
+    _, exp, cov = stats
+    r, v, s = random_portfolios(exp, cov, n=300, seed=1)
+    assert r.shape == v.shape == s.shape == (300,)
+    assert np.isfinite(r).all() and np.isfinite(v).all()
+
+
