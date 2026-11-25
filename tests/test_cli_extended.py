@@ -48,3 +48,10 @@ def test_output_flags():
     assert cfg.no_plot and cfg.no_backtest
 
 
+def test_emit_backtests_noop(capsys):
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=50,
+                          no_plot=True, no_backtest=True).validate()
+    emit_backtests(run(cfg))
+    assert "Backtest" not in capsys.readouterr().out
+
+
