@@ -40,3 +40,8 @@ def test_sortino_empty():
     assert sortino_ratio(pd.Series(dtype=float)) == 0.0
 
 
+def test_sortino_negative_for_losses():
+    r = pd.Series([-0.01] * 100)
+    assert sortino_ratio(r, 0.02) < 0
+
+
