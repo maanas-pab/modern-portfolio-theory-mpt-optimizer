@@ -17,3 +17,11 @@ def test_run_result_keys():
         assert key in result
 
 
+def test_run_defaults_have_no_extras():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True).validate()
+    result = run(cfg)
+    assert result["bl_returns"] is None
+    assert result["walkforward"] is None
+
+
