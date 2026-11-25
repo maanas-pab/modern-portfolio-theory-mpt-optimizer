@@ -61,3 +61,15 @@ def test_run_with_shrinkage():
     assert "shrinkage_intensity" in result["cov"].attrs
 
 
+def test_main_no_plot(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)  # outputs land in tmp
+    import shutil
+    from pathlib import Path
+
+    cache = Path(__file__).resolve().parent.parent / "data" / "prices_3y.csv"
+    shutil.copy(cache, tmp_path / "prices.csv")
+    rc = main(["--cache", "prices.csv", "--no-plot", "--no-backtest",
+               "--points", "8", "--random", "100",
+               "--out-dir", "out"])
+    assert rc == 0
+    assert (tmp_path / "out" / "max_sharpe.csv").exists()
