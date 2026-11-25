@@ -112,3 +112,10 @@ def test_single_pick_vector(two_asset):
     assert set(mu.index) == set(pi.index)
 
 
+def test_posterior_covariance_psd(two_asset):
+    _, cov = two_asset
+    post = black_litterman_covariance(cov, np.array([[1.0, -1.0]]), tau=0.05)
+    np.testing.assert_allclose(post.values, post.values.T)
+    assert np.linalg.eigvalsh(post.values).min() > 0
+
+
