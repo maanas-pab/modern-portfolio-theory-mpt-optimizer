@@ -24,3 +24,9 @@ def test_universe_uses_duol_not_roku():
     assert "ROKU" not in DEFAULT_TICKERS
 
 
+def test_default_config_validates():
+    cfg = OptimizerConfig().validate()
+    assert cfg.risk_free == 0.02
+    assert cfg.rebalance == "none"
+
+
