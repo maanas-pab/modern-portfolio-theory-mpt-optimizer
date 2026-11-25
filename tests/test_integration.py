@@ -53,3 +53,12 @@ def test_run_walk_forward_flag():
     assert wf is not None and wf.n_windows >= 1
 
 
+def test_all_weights_normalized():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True,
+                          black_litterman=True).validate()
+    result = run(cfg)
+    for name, w in result["weights"].items():
+        assert np.isclose(w.sum(), 1.0, atol=1e-5), name
+
+
