@@ -42,3 +42,9 @@ def test_ticker_flag_empty_fallback():
     assert len(cfg.tickers) == 12
 
 
+def test_output_flags():
+    args = build_parser().parse_args(["--no-plot", "--no-backtest"])
+    cfg = config_from_args(args)
+    assert cfg.no_plot and cfg.no_backtest
+
+
