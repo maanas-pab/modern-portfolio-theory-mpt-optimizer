@@ -33,3 +33,10 @@ def test_random_portfolios_shape(stats):
     assert np.isfinite(r).all() and np.isfinite(v).all()
 
 
+def test_random_seed_reproducible(stats):
+    _, exp, cov = stats
+    a = random_portfolios(exp, cov, n=50, seed=42)
+    b = random_portfolios(exp, cov, n=50, seed=42)
+    np.testing.assert_allclose(a[0], b[0])
+
+
