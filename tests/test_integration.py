@@ -108,3 +108,7 @@ def test_new_flags_roundtrip():
     assert cfg.black_litterman is True
 
 
+def test_invalid_walk_forward_windows():
+    args = build_parser().parse_args(["--train", "1"])
+    with pytest.raises(ValueError, match="train_days"):
+        config_from_args(args)
