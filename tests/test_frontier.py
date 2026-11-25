@@ -11,3 +11,9 @@ def test_frontier_alignment(stats):
     assert len(rets) >= 20
 
 
+def test_frontier_positive_vol(stats):
+    _, exp, cov = stats
+    _, vols, _ = efficient_frontier(exp, cov, n_points=15)
+    assert (vols > 0).all()
+
+
