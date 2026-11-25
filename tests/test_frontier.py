@@ -63,3 +63,9 @@ def test_key_points_max_sharpe_wins(stats):
     assert pts["max_sharpe"]["sharpe"] >= pts["min_vol"]["sharpe"] - 1e-6
 
 
+def test_cml_origin():
+    vols, rets = capital_market_line(0.02, 0.12, 0.20)
+    assert rets[0] == 0.02
+    assert vols[0] == 0.0
+
+
