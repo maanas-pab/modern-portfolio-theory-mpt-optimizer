@@ -19,3 +19,8 @@ def test_sectors_cover_universe():
     assert set(SECTORS) >= set(DEFAULT_TICKERS)
 
 
+def test_universe_uses_duol_not_roku():
+    assert "DUOL" in DEFAULT_TICKERS
+    assert "ROKU" not in DEFAULT_TICKERS
+
+
