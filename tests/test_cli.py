@@ -30,3 +30,9 @@ def test_parser_rejects_bad_rebalance():
         build_parser().parse_args(["--rebalance", "yearly"])
 
 
+def test_config_from_args_validates():
+    args = build_parser().parse_args(["--points", "1"])
+    with pytest.raises(ValueError):
+        config_from_args(args)
+
+
