@@ -61,3 +61,8 @@ def test_max_drawdown_known_series():
     assert np.isclose(max_drawdown(r), -0.50)
 
 
+def test_max_drawdown_no_losses():
+    r = pd.Series([0.01, 0.02, 0.03, 0.04])
+    assert max_drawdown(r) == 0.0
+
+
