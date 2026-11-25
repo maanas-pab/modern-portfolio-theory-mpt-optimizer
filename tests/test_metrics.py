@@ -103,3 +103,9 @@ def test_var_rejects_unknown_method():
         value_at_risk(r, 0.95, "cornish-fisher")
 
 
+def test_cvar_at_least_var():
+    rng = np.random.default_rng(8)
+    r = pd.Series(rng.normal(0, 0.01, 5000))
+    assert conditional_var(r, 0.95) >= value_at_risk(r, 0.95) - 1e-12
+
+
