@@ -36,3 +36,13 @@ def test_config_from_args_validates():
         config_from_args(args)
 
 
+def test_run_from_cache():
+    cfg = OptimizerConfig(frontier_points=10, random_portfolios=200,
+                          no_plot=True, no_backtest=False).validate()
+    result = run(cfg)
+    assert set(result["weights"]) == {"Max Sharpe", "Min Volatility",
+                                      "Risk Parity", "Equal Weight"}
+    assert len(result["frontier"][0]) >= 8
+    assert "Max Sharpe" in result["backtests"]
+
+
