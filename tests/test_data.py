@@ -18,3 +18,10 @@ def test_cache_roundtrip(tmp_path, prices):
     pd.testing.assert_frame_equal(loaded, prices, check_freq=False)
 
 
+def test_load_empty_cache_raises(tmp_path):
+    path = tmp_path / "empty.csv"
+    path.write_text("")
+    with pytest.raises(Exception):
+        load_cache(str(path))
+
+
