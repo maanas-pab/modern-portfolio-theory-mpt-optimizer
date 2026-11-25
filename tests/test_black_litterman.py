@@ -52,3 +52,12 @@ def test_top_pick_views_bounds():
         top_pick_views(exp, k=5)
 
 
+def test_posterior_near_prior_with_diffuse_views(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    P = np.array([[1.0, -1.0]])
+    Q = np.array([0.05])
+    mu = black_litterman(pi, cov, P, Q, tau=0.05, omega_scalar=10.0)
+    np.testing.assert_allclose(mu.values, pi.values, atol=0.02)
+
+
