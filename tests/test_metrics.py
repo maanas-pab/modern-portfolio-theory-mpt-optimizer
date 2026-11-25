@@ -132,3 +132,7 @@ def test_hhi_equal_weights():
     assert np.isclose(concentration_hhi([0.25] * 4), 0.25)
 
 
+def test_hhi_concentrated():
+    assert np.isclose(concentration_hhi([1.0, 0.0, 0.0]), 1.0)
+
+
