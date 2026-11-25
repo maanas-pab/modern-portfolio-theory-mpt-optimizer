@@ -53,3 +53,11 @@ def test_run_skips_backtest():
     assert result["backtests"] == {}
 
 
+def test_run_with_shrinkage():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True,
+                          shrinkage=True).validate()
+    result = run(cfg)
+    assert "shrinkage_intensity" in result["cov"].attrs
+
+
