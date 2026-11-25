@@ -45,3 +45,10 @@ def test_too_few_frontier_points_rejected():
         OptimizerConfig(frontier_points=1).validate()
 
 
+def test_risk_free_bounds():
+    with pytest.raises(ValueError, match="risk_free"):
+        OptimizerConfig(risk_free=1.5).validate()
+    with pytest.raises(ValueError, match="risk_free"):
+        OptimizerConfig(risk_free=-0.1).validate()
+
+
