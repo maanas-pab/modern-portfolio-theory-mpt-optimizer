@@ -56,3 +56,7 @@ def test_min_vol_beats_equal(stats):
     assert pts["min_vol"]["vol"] <= pts["equal"]["vol"] + 1e-8
 
 
+def test_cml_extends_past_tangency():
+    vols, rets = capital_market_line(0.02, 0.12, 0.20, vol_max=0.4)
+    assert vols[-1] == 0.4
+    assert rets[-1] > 0.12
