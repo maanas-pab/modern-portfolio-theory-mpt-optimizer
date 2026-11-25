@@ -14,3 +14,10 @@ def test_frontier_weights_normalized(stats):
         assert w.min() >= -1e-8
 
 
+def test_frontier_return_range(stats):
+    _, exp, cov = stats
+    rets, _, _ = efficient_frontier(exp, cov, n_points=30)
+    assert rets.min() >= exp.min() - 1e-6
+    assert rets.max() <= exp.max() + 1e-6
+
+
