@@ -55,3 +55,13 @@ def test_emit_backtests_noop(capsys):
     assert "Backtest" not in capsys.readouterr().out
 
 
+def test_emit_backtests_prints(capsys):
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=50,
+                          no_plot=True, rebalance="monthly").validate()
+    emit_backtests(run(cfg))
+    out = capsys.readouterr().out
+    assert "Backtest" in out
+    assert "n_rebalances" in out
+    assert "total_cost" in out
+
+
