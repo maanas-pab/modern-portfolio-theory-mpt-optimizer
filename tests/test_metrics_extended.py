@@ -13,3 +13,7 @@ def test_sharpe_negative():
     assert np.isclose(sharpe_ratio(-0.05, 0.20, 0.02), -0.35)
 
 
+def test_sharpe_zero_return():
+    assert np.isclose(sharpe_ratio(0.0, 0.10, 0.02), -0.2)
+
+
