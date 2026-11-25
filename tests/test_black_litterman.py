@@ -119,3 +119,11 @@ def test_posterior_covariance_psd(two_asset):
     assert np.linalg.eigvalsh(post.values).min() > 0
 
 
+def test_posterior_covariance_scale(two_asset):
+    _, cov = two_asset
+    post = black_litterman_covariance(cov, np.array([[1.0, -1.0]]), tau=0.05)
+    # variances stay within an order of magnitude of the prior
+    ratio = np.diag(post.values) / np.diag(cov.values)
+    assert ((ratio > 0.1) & (ratio < 10)).all()
+
+
