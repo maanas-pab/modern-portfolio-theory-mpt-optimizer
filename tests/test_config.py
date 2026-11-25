@@ -15,3 +15,7 @@ def test_themes_cover_universe():
     assert set(THEMES) >= set(DEFAULT_TICKERS)
 
 
+def test_sectors_cover_universe():
+    assert set(SECTORS) >= set(DEFAULT_TICKERS)
+
+
