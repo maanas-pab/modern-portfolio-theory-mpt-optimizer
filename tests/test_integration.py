@@ -69,3 +69,15 @@ def test_emit_walkforward_noop(capsys):
     assert "Walk-forward" not in capsys.readouterr().out
 
 
+def test_emit_walkforward_prints(capsys):
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True,
+                          walk_forward=True, train_days=200,
+                          test_days=50).validate()
+    emit_walkforward(run(cfg))
+    out = capsys.readouterr().out
+    assert "Walk-forward" in out
+    assert "OOS annual return" in out
+    assert "look-ahead" in out
+
+
