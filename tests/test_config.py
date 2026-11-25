@@ -7,3 +7,7 @@ def test_default_universe_size():
     assert len(DEFAULT_TICKERS) == 12
 
 
+def test_default_universe_unique():
+    assert len(set(DEFAULT_TICKERS)) == len(DEFAULT_TICKERS)
+
+
