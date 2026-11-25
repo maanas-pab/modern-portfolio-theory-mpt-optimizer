@@ -97,3 +97,9 @@ def test_var_rejects_bad_level():
         value_at_risk(r, 0.3)
 
 
+def test_var_rejects_unknown_method():
+    r = pd.Series(np.random.default_rng(1).normal(0, 0.01, 100))
+    with pytest.raises(ValueError, match="method"):
+        value_at_risk(r, 0.95, "cornish-fisher")
+
+
