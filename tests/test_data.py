@@ -25,3 +25,11 @@ def test_load_empty_cache_raises(tmp_path):
         load_cache(str(path))
 
 
+def test_get_prices_uses_cache(tmp_path, prices):
+    path = str(tmp_path / "cache.csv")
+    save_cache(prices, path)
+    out = get_prices(list(prices.columns), cache_path=path)
+    assert list(out.columns) == list(prices.columns)
+    assert len(out) == len(prices)
+
+
