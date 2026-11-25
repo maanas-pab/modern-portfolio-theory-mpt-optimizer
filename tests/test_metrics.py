@@ -34,3 +34,8 @@ def test_portfolio_return_linear(two_asset):
     assert np.isclose(r3, 0.5 * r1 + 0.5 * r2)
 
 
+def test_downside_deviation_positive_returns():
+    r = pd.Series([0.01] * 100)
+    assert downside_deviation(r, risk_free=0.0) == 0.0
+
+
