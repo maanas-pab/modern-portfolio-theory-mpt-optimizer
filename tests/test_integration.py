@@ -43,3 +43,13 @@ def test_run_black_litterman_strategy():
     assert np.isclose(result["weights"]["BL Max Sharpe"].sum(), 1.0)
 
 
+def test_run_walk_forward_flag():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True,
+                          walk_forward=True, train_days=200,
+                          test_days=50).validate()
+    result = run(cfg)
+    wf = result["walkforward"]
+    assert wf is not None and wf.n_windows >= 1
+
+
