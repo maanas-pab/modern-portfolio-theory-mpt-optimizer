@@ -56,3 +56,10 @@ def test_key_points_present(stats):
         assert {"weights", "return", "vol", "sharpe"} <= set(p)
 
 
+def test_key_points_max_sharpe_wins(stats):
+    _, exp, cov = stats
+    pts = frontier_key_points(exp, cov, 0.02)
+    assert pts["max_sharpe"]["sharpe"] >= pts["equal"]["sharpe"] - 1e-6
+    assert pts["max_sharpe"]["sharpe"] >= pts["min_vol"]["sharpe"] - 1e-6
+
+
