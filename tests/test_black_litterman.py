@@ -96,3 +96,11 @@ def test_confidence_bounds(two_asset):
         black_litterman(pi, cov, P, Q, tau=0.05, confidences=[1.5])
 
 
+def test_omega_scalar_positive(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    P, Q = np.array([[1.0, -1.0]]), np.array([0.05])
+    with pytest.raises(ValueError, match="omega_scalar"):
+        black_litterman(pi, cov, P, Q, tau=0.05, omega_scalar=0.0)
+
+
