@@ -70,3 +70,7 @@ def test_calmar_arithmetic():
     assert np.isclose(calmar_ratio(0.20, -0.10), 2.0)
 
 
+def test_calmar_no_drawdown_guard():
+    assert calmar_ratio(0.20, 0.0) == 0.0
+
+
