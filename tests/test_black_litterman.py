@@ -70,3 +70,13 @@ def test_confident_view_pulls_posterior(two_asset):
     assert mu["A"] - mu["B"] > (pi["A"] - pi["B"]) + 0.05
 
 
+def test_tau_bounds(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    P, Q = np.array([[1.0, -1.0]]), np.array([0.05])
+    with pytest.raises(ValueError, match="tau"):
+        black_litterman(pi, cov, P, Q, tau=0.0)
+    with pytest.raises(ValueError, match="tau"):
+        black_litterman(pi, cov, P, Q, tau=1.5)
+
+
