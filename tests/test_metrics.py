@@ -143,3 +143,10 @@ def test_risk_contributions_sum(two_asset):
     assert np.isclose(pct.sum(), 1.0)
 
 
+def test_risk_contributions_symmetric():
+    cov = pd.DataFrame([[0.04, 0.0], [0.0, 0.04]], index=["A", "B"],
+                       columns=["A", "B"])
+    _, pct = risk_contributions([0.5, 0.5], cov)
+    np.testing.assert_allclose(pct, [0.5, 0.5])
+
+
