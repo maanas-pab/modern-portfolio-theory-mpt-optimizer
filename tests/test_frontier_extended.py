@@ -50,3 +50,9 @@ def test_key_point_equal_weight(stats):
     assert np.isclose(pts["equal"]["vol"], eq_vol)
 
 
+def test_min_vol_beats_equal(stats):
+    _, exp, cov = stats
+    pts = frontier_key_points(exp, cov, 0.02)
+    assert pts["min_vol"]["vol"] <= pts["equal"]["vol"] + 1e-8
+
+
