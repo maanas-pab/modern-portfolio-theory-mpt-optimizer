@@ -21,3 +21,11 @@ def test_frontier_return_range(stats):
     assert rets.max() <= exp.max() + 1e-6
 
 
+def test_frontier_single_asset():
+    exp = pd.Series({"A": 0.10})
+    cov = pd.DataFrame([[0.04]], index=["A"], columns=["A"])
+    rets, vols, _ = efficient_frontier(exp, cov, n_points=5)
+    np.testing.assert_allclose(vols, 0.20, atol=1e-8)
+    np.testing.assert_allclose(rets, 0.10, atol=1e-8)
+
+
