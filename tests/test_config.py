@@ -11,3 +11,7 @@ def test_default_universe_unique():
     assert len(set(DEFAULT_TICKERS)) == len(DEFAULT_TICKERS)
 
 
+def test_themes_cover_universe():
+    assert set(THEMES) >= set(DEFAULT_TICKERS)
+
+
