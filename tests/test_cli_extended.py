@@ -30,3 +30,9 @@ def test_benchmark_flag():
     assert config_from_args(args).benchmark == "QQQ"
 
 
+def test_ticker_flag():
+    args = build_parser().parse_args(["--tickers", "AAPL", "MSFT"])
+    cfg = config_from_args(args)
+    assert cfg.tickers == ["AAPL", "MSFT"]
+
+
