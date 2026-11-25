@@ -33,3 +33,13 @@ def test_run_includes_benchmark():
     assert "beta" in result["summaries"]["Max Sharpe"]["summary"]
 
 
+def test_run_black_litterman_strategy():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True,
+                          black_litterman=True).validate()
+    result = run(cfg)
+    assert "BL Max Sharpe" in result["weights"]
+    assert result["bl_returns"] is not None
+    assert np.isclose(result["weights"]["BL Max Sharpe"].sum(), 1.0)
+
+
