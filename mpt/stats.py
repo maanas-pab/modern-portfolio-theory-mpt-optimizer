@@ -10,8 +10,13 @@ from .config import TRADING_DAYS
 
 
 def daily_returns(prices: pd.DataFrame) -> pd.DataFrame:
-    """Percentage change of prices, first row dropped."""
-    return prices.pct_change().dropna(how="all")
+    """Percentage change of prices, first row dropped.
+
+    Forward-fills explicitly first: pandas < 3 did this inside
+    ``pct_change()`` by default, pandas >= 3 does not, and the two
+    must agree for the tests (and the backtest) to be version-stable.
+    """
+    return prices.ffill().pct_change().dropna(how="all")
 
 
 def annualize_returns(daily: pd.DataFrame, days: int = TRADING_DAYS) -> pd.Series:

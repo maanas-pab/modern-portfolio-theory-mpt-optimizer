@@ -52,10 +52,9 @@ def backtest(prices: pd.DataFrame,
     (one-way, e.g. 0.001 = 10 bps).
     """
     prices = prices.loc[start:] if start else prices
-    rets = prices.pct_change().dropna(how="all").fillna(0.0)
+    rets = prices.ffill().pct_change().dropna(how="all").fillna(0.0)
     target = np.asarray(weights, dtype=float)
     target = target / target.sum()
-    rets.shape[1]
 
     sched = rebalance_schedule(rets.index, rebalance)
     w = target.copy()

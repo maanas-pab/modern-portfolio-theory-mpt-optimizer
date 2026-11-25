@@ -156,7 +156,7 @@ def run(cfg: OptimizerConfig) -> dict:
     rand_r, rand_v, rand_s = random_portfolios(
         exp_returns, cov, cfg.risk_free, n=cfg.random_portfolios)
 
-    bench_rets = bench.pct_change().dropna() if bench is not None else None
+    bench_rets = bench.ffill().pct_change().dropna() if bench is not None else None
     summaries = summarize_all(named_weights, daily, exp_returns, cov, cfg, bench_rets)
 
     backtests = {}
@@ -257,7 +257,7 @@ def emit_figures(result: dict) -> list:
     exp_ret, cov, daily = result["exp_returns"], result["cov"], result["daily"]
     asset_vol = np.sqrt(np.diag(cov.values))
     bench = result["bench"]
-    bench_rets = bench.pct_change().dropna() if bench is not None else None
+    bench_rets = bench.ffill().pct_change().dropna() if bench is not None else None
 
     # frontier family
     P.plot_frontier(
