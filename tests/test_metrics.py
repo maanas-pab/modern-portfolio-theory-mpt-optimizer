@@ -115,3 +115,10 @@ def test_beta_identical_series():
     assert np.isclose(beta(r, r), 1.0)
 
 
+def test_beta_uncorrelated():
+    rng = np.random.default_rng(10)
+    a = pd.Series(rng.normal(0, 0.01, 3000))
+    b = pd.Series(rng.normal(0, 0.01, 3000))
+    assert abs(beta(a, b)) < 0.1
+
+
