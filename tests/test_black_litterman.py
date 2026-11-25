@@ -44,3 +44,11 @@ def test_top_pick_views_selects_top():
     assert P[0, list(exp.index).index("B")] == 1.0
 
 
+def test_top_pick_views_bounds():
+    exp = pd.Series({"A": 0.05, "B": 0.10})
+    with pytest.raises(ValueError, match="k"):
+        top_pick_views(exp, k=0)
+    with pytest.raises(ValueError, match="k"):
+        top_pick_views(exp, k=5)
+
+
