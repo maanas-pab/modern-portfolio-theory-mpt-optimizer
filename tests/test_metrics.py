@@ -91,3 +91,9 @@ def test_parametric_var_close_to_historical():
     assert abs(hist - para) < 0.002
 
 
+def test_var_rejects_bad_level():
+    r = pd.Series(np.random.default_rng(1).normal(0, 0.01, 100))
+    with pytest.raises(ValueError, match="level"):
+        value_at_risk(r, 0.3)
+
+
