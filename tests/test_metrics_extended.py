@@ -25,3 +25,7 @@ def test_single_asset_performance(two_asset):
     assert np.isclose(s, (0.10 - 0.02) / 0.20)
 
 
+def test_downside_deviation_empty():
+    assert downside_deviation(pd.Series(dtype=float)) == 0.0
+
+
