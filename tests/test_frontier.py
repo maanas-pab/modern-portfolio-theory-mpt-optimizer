@@ -69,3 +69,9 @@ def test_cml_origin():
     assert vols[0] == 0.0
 
 
+def test_cml_slope_is_sharpe():
+    vols, rets = capital_market_line(0.02, 0.12, 0.20)
+    slope = (rets[1] - rets[0]) / (vols[1] - vols[0])
+    assert np.isclose(slope, (0.12 - 0.02) / 0.20)
+
+
