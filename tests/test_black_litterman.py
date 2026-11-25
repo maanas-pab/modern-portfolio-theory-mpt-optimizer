@@ -80,3 +80,11 @@ def test_tau_bounds(two_asset):
         black_litterman(pi, cov, P, Q, tau=1.5)
 
 
+def test_q_length_mismatch(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    P = np.array([[1.0, -1.0], [-1.0, 1.0]])
+    with pytest.raises(ValueError, match="Q"):
+        black_litterman(pi, cov, P, np.array([0.05]), tau=0.05)
+
+
