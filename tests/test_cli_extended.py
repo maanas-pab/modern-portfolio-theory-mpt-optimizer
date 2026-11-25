@@ -25,3 +25,8 @@ def test_unknown_flag_exits():
         build_parser().parse_args(["--definitely-not-a-flag"])
 
 
+def test_benchmark_flag():
+    args = build_parser().parse_args(["--benchmark", "QQQ"])
+    assert config_from_args(args).benchmark == "QQQ"
+
+
