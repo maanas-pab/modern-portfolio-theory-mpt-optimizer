@@ -17,3 +17,12 @@ def test_frontier_positive_vol(stats):
     assert (vols > 0).all()
 
 
+def test_frontier_monotone_above_min_vol(stats):
+    _, exp, cov = stats
+    rets, vols, _ = efficient_frontier(exp, cov, n_points=40)
+    i_min = int(np.argmin(vols))
+    upper_rets = rets[i_min:]
+    assert (np.diff(upper_rets) >= -1e-6).all()
+    assert (np.diff(vols[i_min:]) >= -1e-6).all()
+
+
