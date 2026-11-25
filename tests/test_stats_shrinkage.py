@@ -1,8 +1,13 @@
 """Tests for the Ledoit-Wolf estimators in mpt.stats."""
 import numpy as np
 
-from mpt.stats import (calculate_statistics, covariance_matrix,
-                       ledoit_wolf_covariance, ledoit_wolf_intensity)
+from mpt.stats import (
+    calculate_statistics,
+    covariance_matrix,
+    ledoit_wolf_covariance,
+    ledoit_wolf_intensity,
+)
+
 
 def test_intensity_bounds(prices):
     daily, _, _ = calculate_statistics(prices)

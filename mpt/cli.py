@@ -13,11 +13,11 @@ from .backtest import backtest, buy_and_hold
 from .config import BENCHMARK, DEFAULT_TICKERS, SECTORS, OptimizerConfig
 from .data import get_prices
 from .frontier import efficient_frontier, frontier_key_points, random_portfolios
-from .metrics import concentration_hhi, portfolio_performance
+from .metrics import concentration_hhi
 from .optimizer import max_sharpe_weights, min_vol_weights, risk_parity_weights
-from .report import (export_weights, performance_summary, print_report,
-                     summary_table, weights_table)
+from .report import export_weights, performance_summary, print_report, summary_table, weights_table
 from .stats import calculate_statistics, covariance_matrix
+
 
 def build_parser() -> argparse.ArgumentParser:
     """All CLI flags in one place (used by tests and docs)."""
@@ -141,8 +141,8 @@ def run(cfg: OptimizerConfig) -> dict:
 
     named_weights = build_portfolios(exp_returns, cov, cfg)
     if cfg.black_litterman:
-        from .black_litterman import (black_litterman as bl_posterior,
-                                      equilibrium_returns, top_pick_views)
+        from .black_litterman import black_litterman as bl_posterior
+        from .black_litterman import equilibrium_returns, top_pick_views
 
         pi = equilibrium_returns(cov)
         P, Q = top_pick_views(exp_returns, k=3, uplift=0.05)
@@ -199,7 +199,7 @@ def emit_report(result: dict) -> None:
                               cfg.out_dir, name.lower().replace(" ", "_"))
         print(f"Wrote {path}")
 
-    eq = result["summaries"]["Equal Weight"]["summary"]
+    result["summaries"]["Equal Weight"]["summary"]
     print(f"\nHHI concentration - Max Sharpe "
           f"{result['summaries']['Max Sharpe']['hhi']:.3f} vs "
           f"Equal {result['summaries']['Equal Weight']['hhi']:.3f}")

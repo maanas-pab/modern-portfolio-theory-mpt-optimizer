@@ -5,12 +5,12 @@ concentration and risk contributions.
 Functions come in two flavours: scalars that combine already-annualized
 figures, and series-based helpers that work on daily return histories.
 """
-from typing import Tuple
 
 import numpy as np
 import pandas as pd
 
 from .config import TRADING_DAYS
+
 
 def sharpe_ratio(annual_return: float, annual_vol: float, risk_free: float = 0.0) -> float:
     """(mu - rf) / sigma with a zero-vol guard."""
@@ -20,7 +20,7 @@ def sharpe_ratio(annual_return: float, annual_vol: float, risk_free: float = 0.0
 
 
 def portfolio_performance(weights, exp_returns, cov_matrix, risk_free_rate: float = 0.0
-                          ) -> Tuple[float, float, float]:
+                          ) -> tuple[float, float, float]:
     """Annualized (return, volatility, sharpe) for a weight vector."""
     w = np.asarray(weights, dtype=float)
     ret = float(w @ exp_returns.values)
@@ -142,7 +142,7 @@ def concentration_hhi(weights) -> float:
     return float(np.sum(w ** 2))
 
 
-def risk_contributions(weights, cov_matrix) -> Tuple[np.ndarray, np.ndarray]:
+def risk_contributions(weights, cov_matrix) -> tuple[np.ndarray, np.ndarray]:
     """
     Per-asset (marginal risk, percent-of-total risk) contributions.
 

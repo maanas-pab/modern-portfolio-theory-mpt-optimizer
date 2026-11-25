@@ -3,8 +3,13 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from mpt.frontier import (capital_market_line, efficient_frontier,
-                          frontier_key_points, random_portfolios)
+from mpt.frontier import (
+    capital_market_line,
+    efficient_frontier,
+    frontier_key_points,
+    random_portfolios,
+)
+
 
 def test_frontier_weights_normalized(stats):
     _, exp, cov = stats

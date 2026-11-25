@@ -15,7 +15,7 @@ the optimizer had never seen.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -32,8 +32,8 @@ class WalkForwardResult:
 
     equity: pd.Series
     returns: pd.Series
-    windows: List[Tuple[pd.Timestamp, pd.Timestamp]] = field(default_factory=list)
-    weights_by_window: List[dict] = field(default_factory=list)
+    windows: list[tuple[pd.Timestamp, pd.Timestamp]] = field(default_factory=list)
+    weights_by_window: list[dict] = field(default_factory=list)
 
     @property
     def n_windows(self) -> int:
@@ -59,7 +59,7 @@ class WalkForwardResult:
 
 
 def rolling_windows(index: pd.DatetimeIndex, train_days: int,
-                    test_days: int) -> List[Tuple[pd.Timestamp, pd.Timestamp, pd.Timestamp]]:
+                    test_days: int) -> list[tuple[pd.Timestamp, pd.Timestamp, pd.Timestamp]]:
     """
     Rolling ``(train_start, train_end, test_end)`` triples.
 

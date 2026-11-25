@@ -2,12 +2,12 @@
 Return statistics: daily returns, annualized means, covariance
 matrices, correlations, and shrinkage estimators.
 """
-from typing import Tuple
 
 import numpy as np
 import pandas as pd
 
 from .config import TRADING_DAYS
+
 
 def daily_returns(prices: pd.DataFrame) -> pd.DataFrame:
     """Percentage change of prices, first row dropped."""
@@ -25,7 +25,7 @@ def annualize_covariance(daily: pd.DataFrame, days: int = TRADING_DAYS) -> pd.Da
 
 
 def calculate_statistics(prices: pd.DataFrame,
-                         days: int = TRADING_DAYS) -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame]:
+                         days: int = TRADING_DAYS) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame]:
     """
     Return (daily_returns, annualized_expected_returns, annualized_covariance).
     """

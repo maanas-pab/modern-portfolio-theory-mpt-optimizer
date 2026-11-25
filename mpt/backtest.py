@@ -3,12 +3,11 @@ Historical backtests: buy-and-hold vs periodically rebalanced
 portfolios, with transaction costs and weight tracking.
 """
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
 import pandas as pd
 
-from .metrics import portfolio_performance
 
 @dataclass
 class BacktestResult:
@@ -56,7 +55,7 @@ def backtest(prices: pd.DataFrame,
     rets = prices.pct_change().dropna(how="all").fillna(0.0)
     target = np.asarray(weights, dtype=float)
     target = target / target.sum()
-    n = rets.shape[1]
+    rets.shape[1]
 
     sched = rebalance_schedule(rets.index, rebalance)
     w = target.copy()
@@ -101,9 +100,9 @@ def buy_and_hold(prices: pd.DataFrame, weights=None) -> BacktestResult:
 
 
 def compare_strategies(prices: pd.DataFrame,
-                       named_weights: Dict[str, np.ndarray],
+                       named_weights: dict[str, np.ndarray],
                        rebalance: str = "monthly",
-                       transaction_cost: float = 0.0) -> Dict[str, BacktestResult]:
+                       transaction_cost: float = 0.0) -> dict[str, BacktestResult]:
     """Run the same schedule for several named weight vectors."""
     return {name: backtest(prices, w, rebalance=rebalance,
                            transaction_cost=transaction_cost)

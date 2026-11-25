@@ -7,7 +7,8 @@ import numpy as np
 import pandas as pd
 
 from ..metrics import conditional_var, value_at_risk
-from .style import PALETTE, asset_color, finish, percent_axis, setup_style
+from .style import PALETTE, finish, percent_axis, setup_style
+
 
 def plot_var_cvar(returns: pd.Series, level: float = 0.95,
                   out_path: str = "figures/var_cvar.png") -> str:
@@ -79,7 +80,7 @@ def plot_asset_risk_return(exp_returns, vol,
     fig, ax = plt.subplots(figsize=(9, 5.5))
     ax.scatter(vol, exp_returns, s=110, c=PALETTE["benchmark"],
                edgecolors="black", zorder=4)
-    for i, t in enumerate(vol.index):
+    for _i, t in enumerate(vol.index):
         ax.annotate(t, (vol[t], exp_returns[t]), textcoords="offset points",
                     xytext=(6, 4), fontsize=9.5, fontweight="bold")
     ax.set_xlabel("Annualized volatility")

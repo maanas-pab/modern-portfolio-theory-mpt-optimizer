@@ -4,8 +4,13 @@ import pandas as pd
 import pytest
 
 from mpt.metrics import portfolio_performance
-from mpt.optimizer import (max_sharpe_weights, min_vol_weights,
-                           optimize_portfolio, risk_parity_weights)
+from mpt.optimizer import (
+    max_sharpe_weights,
+    min_vol_weights,
+    optimize_portfolio,
+    risk_parity_weights,
+)
+
 
 def test_weights_sum_to_one(stats):
     _, exp, cov = stats

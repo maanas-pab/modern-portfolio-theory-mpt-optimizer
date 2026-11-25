@@ -4,6 +4,7 @@ import pytest
 from mpt.cli import build_parser, config_from_args, emit_backtests, run
 from mpt.config import OptimizerConfig
 
+
 @pytest.mark.parametrize("flag,extra", [
     ("--period", ["3y"]), ("--interval", ["1d"]), ("--tickers", ["AAPL"]),
     ("--refresh", []), ("--cache", ["/tmp/x.csv"]),

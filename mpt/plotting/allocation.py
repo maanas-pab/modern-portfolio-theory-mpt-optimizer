@@ -7,7 +7,8 @@ import numpy as np
 import pandas as pd
 
 from ..metrics import risk_contributions
-from .style import ASSET_COLORS, PALETTE, asset_color, finish, percent_axis, setup_style
+from .style import PALETTE, asset_color, finish, percent_axis, setup_style
+
 
 def plot_weights_comparison(tables: dict,
                             out_path: str = "figures/weights_comparison.png") -> str:

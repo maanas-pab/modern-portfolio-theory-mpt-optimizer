@@ -2,12 +2,10 @@
 Shared matplotlib style: rcParams, palette, and figure helpers so
 every chart in the gallery looks like one family.
 """
-from typing import Sequence
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-import numpy as np
 
 PALETTE = {
     "frontier": "#e63946",      # red - the frontier line

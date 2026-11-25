@@ -5,12 +5,14 @@ The cache makes runs reproducible and keeps tests/CI off the network.
 """
 import os
 import time
-from typing import Iterable, List, Optional
+from collections.abc import Iterable
+from typing import Optional
 
 import pandas as pd
 import yfinance as yf
 
 from .config import BENCHMARK, DEFAULT_TICKERS
+
 
 def _download_one(ticker: str, period: str, interval: str, retries: int = 3) -> Optional[pd.Series]:
     """Download a single ticker's adjusted close; None when Yahoo fails."""

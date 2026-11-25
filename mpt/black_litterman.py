@@ -16,7 +16,8 @@ returns, ``tau`` the prior scaling, and ``Omega`` the view uncertainty.
 
 """
 
-from typing import Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -154,7 +155,7 @@ def black_litterman_covariance(cov: pd.DataFrame, P, tau: float = 0.05,
 
 
 def top_pick_views(expected: pd.Series, k: int = 3,
-                   uplift: float = 0.05) -> Tuple[np.ndarray, np.ndarray]:
+                   uplift: float = 0.05) -> tuple[np.ndarray, np.ndarray]:
     """
     Build simple "top-k outperformers" views from any return estimate.
 

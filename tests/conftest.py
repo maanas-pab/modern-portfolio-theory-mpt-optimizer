@@ -6,11 +6,12 @@ import numpy as np
 import pandas as pd
 import pytest
 
+
 @pytest.fixture
 def prices() -> pd.DataFrame:
     """4 assets x 500 days of geometric-Brownian-motion prices (seeded)."""
     rng = np.random.default_rng(7)
-    n_days, n_assets = 500, 4
+    n_days, _n_assets = 500, 4
     mu = np.array([0.08, 0.12, 0.05, 0.10]) / 252
     sigma = np.array([0.20, 0.35, 0.15, 0.25]) / np.sqrt(252)
     corr = np.array([

@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from mpt.walkforward import (WalkForwardResult, rolling_windows,
-                             walk_forward, window_weight_frame)
+from mpt.walkforward import WalkForwardResult, rolling_windows, walk_forward, window_weight_frame
+
 
 def test_window_count(prices):
     idx = prices.index

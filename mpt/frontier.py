@@ -2,7 +2,7 @@
 Efficient frontier construction, Monte-Carlo portfolio clouds,
 and the capital market line.
 """
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -10,9 +10,10 @@ import pandas as pd
 from .metrics import portfolio_performance
 from .optimizer import max_sharpe_weights, optimize_portfolio
 
+
 def efficient_frontier(exp_returns: pd.Series,
                        cov_matrix: pd.DataFrame,
-                       n_points: int = 60) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+                       n_points: int = 60) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Trace the frontier by minimizing volatility over a grid of
     target returns spanning min..max single-asset expected return.
@@ -39,7 +40,7 @@ def random_portfolios(exp_returns: pd.Series,
                       cov_matrix: pd.DataFrame,
                       risk_free_rate: float = 0.0,
                       n: int = 5000,
-                      seed: int = 42) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+                      seed: int = 42) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Uniformly random long-only weights -> (returns, vols, sharpes)."""
     rng = np.random.default_rng(seed)
     n_assets = len(exp_returns)
@@ -71,7 +72,7 @@ def frontier_key_points(exp_returns: pd.Series,
 def capital_market_line(risk_free: float,
                         max_sharpe_ret: float,
                         max_sharpe_vol: float,
-                        vol_max: Optional[float] = None) -> Tuple[np.ndarray, np.ndarray]:
+                        vol_max: Optional[float] = None) -> tuple[np.ndarray, np.ndarray]:
     """
     Straight line from (0, rf) through the tangency portfolio.
 

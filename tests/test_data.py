@@ -4,6 +4,7 @@ import pytest
 
 from mpt.data import get_prices, load_cache, save_cache
 
+
 def test_save_cache_creates_dirs(tmp_path, prices):
     path = tmp_path / "nested" / "cache.csv"
     out = save_cache(prices, str(path))
@@ -21,7 +22,7 @@ def test_cache_roundtrip(tmp_path, prices):
 def test_load_empty_cache_raises(tmp_path):
     path = tmp_path / "empty.csv"
     path.write_text("")
-    with pytest.raises(Exception):
+    with pytest.raises(pd.errors.EmptyDataError):
         load_cache(str(path))
 
 

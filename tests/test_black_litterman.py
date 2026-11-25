@@ -3,9 +3,14 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from mpt.black_litterman import (DEFAULT_DELTA, black_litterman,
-                                 black_litterman_covariance,
-                                 equilibrium_returns, top_pick_views)
+from mpt.black_litterman import (
+    DEFAULT_DELTA,
+    black_litterman,
+    black_litterman_covariance,
+    equilibrium_returns,
+    top_pick_views,
+)
+
 
 def test_equilibrium_matches_formula(two_asset):
     _, cov = two_asset

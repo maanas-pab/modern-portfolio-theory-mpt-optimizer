@@ -4,8 +4,13 @@ import pandas as pd
 import pytest
 
 from mpt.metrics import portfolio_performance, risk_contributions
-from mpt.optimizer import (max_sharpe_weights, min_vol_weights,
-                           optimize_portfolio, risk_parity_weights)
+from mpt.optimizer import (
+    max_sharpe_weights,
+    min_vol_weights,
+    optimize_portfolio,
+    risk_parity_weights,
+)
+
 
 def test_two_asset_max_sharpe_closed_form():
     """w* for two assets is proportional to Sigma^-1 (mu - rf)."""
@@ -75,9 +80,10 @@ def test_custom_bounds(stats):
 
 
 def test_no_nan_outputs():
+    import pandas as pd
+
     from mpt.config import DEFAULT_TICKERS
     from mpt.stats import calculate_statistics
-    import pandas as pd
 
     prices = pd.read_csv("data/prices_3y.csv", index_col=0, parse_dates=True)
     _, exp, cov = calculate_statistics(prices[[t for t in DEFAULT_TICKERS

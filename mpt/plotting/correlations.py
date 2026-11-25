@@ -8,6 +8,7 @@ import pandas as pd
 
 from .style import finish, setup_style
 
+
 def plot_correlation_heatmap(corr: pd.DataFrame,
                              out_path: str = "figures/correlation_heatmap.png") -> str:
     """Triangular-ish full correlation matrix with annotated cells."""

@@ -3,8 +3,14 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from mpt.backtest import (BacktestResult, backtest, buy_and_hold,
-                          compare_strategies, rebalance_schedule)
+from mpt.backtest import (
+    BacktestResult,
+    backtest,
+    buy_and_hold,
+    compare_strategies,
+    rebalance_schedule,
+)
+
 
 def test_weekly_schedule(prices):
     idx = prices.index

@@ -5,13 +5,11 @@ matplotlib.use("Agg")
 
 import numpy as np
 import pandas as pd
-import pytest
 
 from mpt import plotting as P
 from mpt.backtest import backtest
-from mpt.frontier import (efficient_frontier, frontier_key_points,
-                          random_portfolios)
-from mpt.report import performance_summary, weights_table, summary_table
+from mpt.frontier import efficient_frontier, frontier_key_points, random_portfolios
+from mpt.report import weights_table
 from mpt.stats import calculate_statistics
 
 

@@ -8,6 +8,7 @@ import pandas as pd
 
 from .style import PALETTE, finish, percent_axis, setup_style
 
+
 def monthly_returns(returns: pd.Series) -> pd.DataFrame:
     """Compound daily returns into a year x month table of decimals."""
     r = returns.dropna()

@@ -8,6 +8,7 @@ import numpy as np
 from ..frontier import capital_market_line
 from .style import PALETTE, finish, percent_axis, setup_style
 
+
 def plot_frontier(frontier_rets, frontier_vols,
                   rand_r, rand_v, rand_s,
                   max_sharpe_pt, min_vol_pt,

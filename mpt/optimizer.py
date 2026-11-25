@@ -2,13 +2,15 @@
 SLSQP-based portfolio optimization: max Sharpe, min volatility,
 target-return minimum vol, and equal risk budgeting.
 """
-from typing import Optional, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Optional
 
 import numpy as np
 import pandas as pd
 from scipy.optimize import minimize
 
 from .metrics import portfolio_performance, risk_budget_loss
+
 
 def _neg_sharpe(weights, exp_returns, cov_matrix, risk_free_rate) -> float:
     _, _, s = portfolio_performance(weights, exp_returns, cov_matrix, risk_free_rate)
@@ -42,7 +44,7 @@ def optimize_portfolio(exp_returns: pd.Series,
                        risk_free_rate: float = 0.0,
                        objective: str = "sharpe",
                        target_return: Optional[float] = None,
-                       bounds: Optional[Sequence[Tuple[float, float]]] = None,
+                       bounds: Optional[Sequence[tuple[float, float]]] = None,
                        budget: str = "sum",
                        x0: Optional[np.ndarray] = None) -> np.ndarray:
     """

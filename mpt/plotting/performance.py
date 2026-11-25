@@ -8,6 +8,7 @@ import pandas as pd
 
 from .style import PALETTE, finish, percent_axis, setup_style
 
+
 def plot_cumulative_returns(series: dict,
                             benchmark: pd.Series = None,
                             out_path: str = "figures/cumulative_returns.png") -> str:

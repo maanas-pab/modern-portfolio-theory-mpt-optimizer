@@ -4,15 +4,16 @@ Configuration for the MPT optimizer.
 Central place for the stock universe, sector/theme tags, and
 default parameters so every module and CLI flag agrees.
 """
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import List, Optional, Sequence
+from typing import Optional
 
 TRADING_DAYS = 252
 
 # 12 niche / thematic growth stocks across clean energy, biotech,
 # cloud, fintech and edtech.  DUOL replaced ROKU in Nov 2026 after
 # Yahoo Finance stopped serving usable ROKU history.
-DEFAULT_TICKERS: List[str] = [
+DEFAULT_TICKERS: list[str] = [
     "CELH",  # Celsius Holdings (energy drinks)
     "ENPH",  # Enphase Energy (solar microinverters)
     "FSLR",  # First Solar

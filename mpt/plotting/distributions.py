@@ -8,6 +8,7 @@ import pandas as pd
 
 from .style import ASSET_COLORS, asset_color, finish, percent_axis, setup_style
 
+
 def plot_return_distributions(daily: pd.DataFrame, cols: int = 4,
                               out_path: str = "figures/return_distributions.png") -> str:
     """Small-multiples of daily return histograms for every asset."""

@@ -2,8 +2,14 @@
 import numpy as np
 import pandas as pd
 
-from mpt.report import (export_weights, performance_summary, print_report,
-                        summary_table, weights_table)
+from mpt.report import (
+    export_weights,
+    performance_summary,
+    print_report,
+    summary_table,
+    weights_table,
+)
+
 
 def test_weights_table_single():
     df = weights_table([1.0], ["ONLY"], "P")
