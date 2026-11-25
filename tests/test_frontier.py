@@ -40,3 +40,11 @@ def test_random_seed_reproducible(stats):
     np.testing.assert_allclose(a[0], b[0])
 
 
+def test_random_long_only(stats):
+    _, exp, cov = stats
+    _, vols, _ = random_portfolios(exp, cov, n=200, seed=2)
+    max_asset_vol = np.sqrt(np.diag(cov.values)).max()
+    assert (vols > 0).all()
+    assert vols.max() <= max_asset_vol + 1e-9
+
+
