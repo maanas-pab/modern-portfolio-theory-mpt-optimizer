@@ -46,3 +46,10 @@ def test_run_from_cache():
     assert "Max Sharpe" in result["backtests"]
 
 
+def test_run_skips_backtest():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True).validate()
+    result = run(cfg)
+    assert result["backtests"] == {}
+
+
