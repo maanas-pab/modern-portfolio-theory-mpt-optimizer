@@ -136,3 +136,10 @@ def test_hhi_concentrated():
     assert np.isclose(concentration_hhi([1.0, 0.0, 0.0]), 1.0)
 
 
+def test_risk_contributions_sum(two_asset):
+    _, cov = two_asset
+    w = np.array([0.6, 0.4])
+    _, pct = risk_contributions(w, cov)
+    assert np.isclose(pct.sum(), 1.0)
+
+
