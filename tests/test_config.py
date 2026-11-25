@@ -30,3 +30,8 @@ def test_default_config_validates():
     assert cfg.rebalance == "none"
 
 
+def test_invalid_rebalance_rejected():
+    with pytest.raises(ValueError, match="rebalance"):
+        OptimizerConfig(rebalance="daily").validate()
+
+
