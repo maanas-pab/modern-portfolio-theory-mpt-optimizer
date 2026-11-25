@@ -72,3 +72,8 @@ def test_run_no_shrinkage_attrs():
     assert "shrinkage_intensity" not in result["cov"].attrs
 
 
+def test_help_exits_zero(capsys):
+    with pytest.raises(SystemExit) as exc:
+        build_parser().parse_args(["--help"])
+    assert exc.value.code == 0
+    assert "walk-forward" in capsys.readouterr().out
