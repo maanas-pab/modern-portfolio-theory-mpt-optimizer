@@ -150,3 +150,7 @@ def test_risk_contributions_symmetric():
     np.testing.assert_allclose(pct, [0.5, 0.5])
 
 
+def test_budget_loss_zero_at_equal_risk():
+    cov = pd.DataFrame([[0.04, 0.0], [0.0, 0.04]], index=["A", "B"],
+                       columns=["A", "B"])
+    assert np.isclose(risk_budget_loss([0.5, 0.5], cov), 0.0, atol=1e-12)
