@@ -36,3 +36,7 @@ def test_downside_deviation_periods_scaling():
     assert np.isclose(daily / weekly, np.sqrt(252 / 52))
 
 
+def test_sortino_empty():
+    assert sortino_ratio(pd.Series(dtype=float)) == 0.0
+
+
