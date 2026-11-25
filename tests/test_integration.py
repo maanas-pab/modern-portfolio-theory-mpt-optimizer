@@ -81,3 +81,19 @@ def test_emit_walkforward_prints(capsys):
     assert "look-ahead" in out
 
 
+def test_full_gallery(tmp_path):
+    cfg = OptimizerConfig(
+        frontier_points=10, random_portfolios=200,
+        figure_dir=str(tmp_path / "figs"),
+        rebalance="monthly", transaction_cost=0.001,
+        walk_forward=True, train_days=200, test_days=50,
+        black_litterman=True,
+    ).validate()
+    result = run(cfg)
+    paths = emit_figures(result)
+    pngs = [p for p in paths if p.endswith(".png")]
+    assert len(pngs) == 30
+    for p in pngs:
+        assert (tmp_path / "figs" / p.split("/")[-1]).stat().st_size > 3000
+
+
