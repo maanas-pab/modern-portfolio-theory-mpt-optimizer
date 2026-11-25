@@ -13,3 +13,7 @@ def test_sharpe_ratio_arithmetic():
     assert np.isclose(sharpe_ratio(0.10, 0.20, 0.02), 0.4)
 
 
+def test_sharpe_zero_vol_guard():
+    assert sharpe_ratio(0.10, 0.0, 0.02) == 0.0
+
+
