@@ -97,3 +97,14 @@ def test_full_gallery(tmp_path):
         assert (tmp_path / "figs" / p.split("/")[-1]).stat().st_size > 3000
 
 
+def test_new_flags_roundtrip():
+    args = build_parser().parse_args(
+        ["--walk-forward", "--train", "180", "--test", "30",
+         "--black-litterman"])
+    cfg = config_from_args(args)
+    assert cfg.walk_forward is True
+    assert cfg.train_days == 180
+    assert cfg.test_days == 30
+    assert cfg.black_litterman is True
+
+
