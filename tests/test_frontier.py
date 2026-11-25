@@ -75,3 +75,6 @@ def test_cml_slope_is_sharpe():
     assert np.isclose(slope, (0.12 - 0.02) / 0.20)
 
 
+def test_cml_zero_vol_guard():
+    _, rets = capital_market_line(0.02, 0.12, 0.0)
+    assert (rets == 0.02).all()
