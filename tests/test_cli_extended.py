@@ -20,3 +20,8 @@ def test_flag_exists(flag, extra):
     assert args is not None
 
 
+def test_unknown_flag_exits():
+    with pytest.raises(SystemExit):
+        build_parser().parse_args(["--definitely-not-a-flag"])
+
+
