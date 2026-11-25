@@ -62,3 +62,10 @@ def test_all_weights_normalized():
         assert np.isclose(w.sum(), 1.0, atol=1e-5), name
 
 
+def test_emit_walkforward_noop(capsys):
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=100,
+                          no_plot=True, no_backtest=True).validate()
+    emit_walkforward(run(cfg))
+    assert "Walk-forward" not in capsys.readouterr().out
+
+
