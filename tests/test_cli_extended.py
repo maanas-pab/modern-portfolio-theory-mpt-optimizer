@@ -36,3 +36,9 @@ def test_ticker_flag():
     assert cfg.tickers == ["AAPL", "MSFT"]
 
 
+def test_ticker_flag_empty_fallback():
+    args = build_parser().parse_args(["--tickers"])
+    cfg = config_from_args(args)
+    assert len(cfg.tickers) == 12
+
+
