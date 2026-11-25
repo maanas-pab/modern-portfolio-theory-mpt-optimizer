@@ -17,3 +17,12 @@ def test_sharpe_zero_vol_guard():
     assert sharpe_ratio(0.10, 0.0, 0.02) == 0.0
 
 
+def test_portfolio_performance_equal_weights(two_asset):
+    exp, cov = two_asset
+    r, v, s = portfolio_performance([0.5, 0.5], exp, cov, 0.0)
+    assert np.isclose(r, 0.15)
+    expected_var = 0.25 * 0.04 + 0.25 * 0.09 + 2 * 0.25 * 0.03
+    assert np.isclose(v, np.sqrt(expected_var))
+    assert np.isclose(s, 0.15 / v)
+
+
