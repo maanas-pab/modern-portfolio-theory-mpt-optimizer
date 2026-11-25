@@ -56,3 +56,8 @@ def test_sortino_zero_downside_guard():
     assert sortino_ratio(r, 0.0) == 0.0
 
 
+def test_max_drawdown_known_series():
+    r = pd.Series([0.10, -0.50, 0.10, 0.10])
+    assert np.isclose(max_drawdown(r), -0.50)
+
+
