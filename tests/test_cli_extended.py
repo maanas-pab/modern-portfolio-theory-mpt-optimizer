@@ -65,3 +65,10 @@ def test_emit_backtests_prints(capsys):
     assert "total_cost" in out
 
 
+def test_run_no_shrinkage_attrs():
+    cfg = OptimizerConfig(frontier_points=8, random_portfolios=50,
+                          no_plot=True, no_backtest=True).validate()
+    result = run(cfg)
+    assert "shrinkage_intensity" not in result["cov"].attrs
+
+
