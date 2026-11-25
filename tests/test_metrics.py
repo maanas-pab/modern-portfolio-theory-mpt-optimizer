@@ -122,3 +122,9 @@ def test_beta_uncorrelated():
     assert abs(beta(a, b)) < 0.1
 
 
+def test_alpha_self_zero():
+    rng = np.random.default_rng(12)
+    r = pd.Series(rng.normal(0.0004, 0.01, 500))
+    assert abs(alpha(r, r, risk_free=0.0)) < 1e-9
+
+
