@@ -45,3 +45,7 @@ def test_sortino_negative_for_losses():
     assert sortino_ratio(r, 0.02) < 0
 
 
+def test_max_drawdown_empty():
+    assert max_drawdown(pd.Series(dtype=float)) == 0.0
+
+
