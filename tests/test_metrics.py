@@ -74,3 +74,12 @@ def test_calmar_no_drawdown_guard():
     assert calmar_ratio(0.20, 0.0) == 0.0
 
 
+def test_historical_var_positive_loss():
+    rng = np.random.default_rng(5)
+    r = pd.Series(rng.normal(0.0005, 0.01, 5000))
+    var = value_at_risk(r, 0.95, "historical")
+    assert var > 0
+    # roughly the 5% quantile magnitude
+    assert np.isclose(var, -np.quantile(r, 0.05), atol=1e-6)
+
+
