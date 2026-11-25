@@ -109,3 +109,9 @@ def test_cvar_at_least_var():
     assert conditional_var(r, 0.95) >= value_at_risk(r, 0.95) - 1e-12
 
 
+def test_beta_identical_series():
+    rng = np.random.default_rng(9)
+    r = pd.Series(rng.normal(0, 0.01, 300))
+    assert np.isclose(beta(r, r), 1.0)
+
+
