@@ -25,3 +25,8 @@ def test_config_from_args_roundtrip():
     assert cfg.transaction_cost == 0.002
 
 
+def test_parser_rejects_bad_rebalance():
+    with pytest.raises(SystemExit):
+        build_parser().parse_args(["--rebalance", "yearly"])
+
+
