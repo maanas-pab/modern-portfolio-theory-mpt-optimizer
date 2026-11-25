@@ -50,3 +50,17 @@ def test_get_prices_missing_ticker_refetches(tmp_path, prices, monkeypatch):
     assert "ZZZ" in fetched["tickers"]
     assert "ZZZ" in out.columns
 
+def test_refresh_bypasses_cache(tmp_path, prices, monkeypatch):
+    """refresh=True must not read the cache file at all."""
+    path = str(tmp_path / "cache.csv")
+    save_cache(prices, path)
+    called = {}
+
+    def fake_fetch(tickers, period="3y", interval="1d"):
+        called["yes"] = True
+        return prices
+
+    monkeypatch.setattr("mpt.data.fetch_prices", fake_fetch)
+    out = get_prices(list(prices.columns), cache_path=path, refresh=True)
+    assert called.get("yes")
+    assert len(out) == len(prices)
