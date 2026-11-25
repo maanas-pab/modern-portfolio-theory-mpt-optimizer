@@ -52,3 +52,6 @@ def test_risk_free_bounds():
         OptimizerConfig(risk_free=-0.1).validate()
 
 
+def test_validate_is_chainable():
+    cfg = OptimizerConfig()
+    assert cfg.validate() is cfg
