@@ -11,3 +11,10 @@ def test_save_cache_creates_dirs(tmp_path, prices):
     assert out.endswith("cache.csv")
 
 
+def test_cache_roundtrip(tmp_path, prices):
+    path = str(tmp_path / "p.csv")
+    save_cache(prices, path)
+    loaded = load_cache(path)
+    pd.testing.assert_frame_equal(loaded, prices, check_freq=False)
+
+
