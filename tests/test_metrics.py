@@ -128,3 +128,7 @@ def test_alpha_self_zero():
     assert abs(alpha(r, r, risk_free=0.0)) < 1e-9
 
 
+def test_hhi_equal_weights():
+    assert np.isclose(concentration_hhi([0.25] * 4), 0.25)
+
+
