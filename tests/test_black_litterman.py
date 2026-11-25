@@ -104,3 +104,11 @@ def test_omega_scalar_positive(two_asset):
         black_litterman(pi, cov, P, Q, tau=0.05, omega_scalar=0.0)
 
 
+def test_single_pick_vector(two_asset):
+    exp, cov = two_asset
+    pi = equilibrium_returns(cov)
+    mu = black_litterman(pi, cov, np.array([1.0, -1.0]), np.array([0.10]),
+                         tau=0.05, omega_scalar=0.001)
+    assert set(mu.index) == set(pi.index)
+
+
