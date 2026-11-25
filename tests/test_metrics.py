@@ -39,3 +39,8 @@ def test_downside_deviation_positive_returns():
     assert downside_deviation(r, risk_free=0.0) == 0.0
 
 
+def test_downside_deviation_negative_series():
+    r = pd.Series([-0.01] * 100)
+    assert downside_deviation(r, risk_free=0.0) > 0.0
+
+
