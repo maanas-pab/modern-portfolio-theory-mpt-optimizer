@@ -40,3 +40,8 @@ def test_negative_cost_rejected():
         OptimizerConfig(transaction_cost=-0.01).validate()
 
 
+def test_too_few_frontier_points_rejected():
+    with pytest.raises(ValueError, match="frontier_points"):
+        OptimizerConfig(frontier_points=1).validate()
+
+
