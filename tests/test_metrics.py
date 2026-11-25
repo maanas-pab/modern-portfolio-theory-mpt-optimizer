@@ -44,3 +44,10 @@ def test_downside_deviation_negative_series():
     assert downside_deviation(r, risk_free=0.0) > 0.0
 
 
+def test_sortino_asymmetric_series():
+    rng = np.random.default_rng(3)
+    r = pd.Series(np.where(rng.random(1000) > 0.7, -0.02, 0.01))
+    s = sortino_ratio(r, 0.0)
+    assert np.isfinite(s)
+
+
