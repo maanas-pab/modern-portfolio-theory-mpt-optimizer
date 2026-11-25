@@ -26,3 +26,11 @@ def test_portfolio_performance_equal_weights(two_asset):
     assert np.isclose(s, 0.15 / v)
 
 
+def test_portfolio_return_linear(two_asset):
+    exp, cov = two_asset
+    r1, _, _ = portfolio_performance([1.0, 0.0], exp, cov)
+    r2, _, _ = portfolio_performance([0.0, 1.0], exp, cov)
+    r3, _, _ = portfolio_performance([0.5, 0.5], exp, cov)
+    assert np.isclose(r3, 0.5 * r1 + 0.5 * r2)
+
+
