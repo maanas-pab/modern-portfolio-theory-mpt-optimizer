@@ -37,3 +37,10 @@ def test_top_pick_views_shape():
     assert (Q == 0.07).all()
 
 
+def test_top_pick_views_selects_top():
+    exp = pd.Series({"A": 0.05, "B": 0.20, "C": 0.10, "D": 0.15})
+    P, _ = top_pick_views(exp, k=1)
+    # the single view longs B (the largest) against the rest
+    assert P[0, list(exp.index).index("B")] == 1.0
+
+
