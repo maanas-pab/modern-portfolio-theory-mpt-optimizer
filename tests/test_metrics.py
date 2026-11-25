@@ -66,3 +66,7 @@ def test_max_drawdown_no_losses():
     assert max_drawdown(r) == 0.0
 
 
+def test_calmar_arithmetic():
+    assert np.isclose(calmar_ratio(0.20, -0.10), 2.0)
+
+
