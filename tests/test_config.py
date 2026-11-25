@@ -35,3 +35,8 @@ def test_invalid_rebalance_rejected():
         OptimizerConfig(rebalance="daily").validate()
 
 
+def test_negative_cost_rejected():
+    with pytest.raises(ValueError, match="transaction_cost"):
+        OptimizerConfig(transaction_cost=-0.01).validate()
+
+
