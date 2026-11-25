@@ -12,3 +12,16 @@ def test_parser_defaults():
     assert args.rebalance == "none"
 
 
+def test_config_from_args_roundtrip():
+    args = build_parser().parse_args(
+        ["--period", "1y", "--risk-free", "0.03", "--points", "25",
+         "--shrinkage", "--rebalance", "quarterly", "--cost", "0.002"])
+    cfg = config_from_args(args)
+    assert cfg.period == "1y"
+    assert cfg.risk_free == 0.03
+    assert cfg.frontier_points == 25
+    assert cfg.shrinkage is True
+    assert cfg.rebalance == "quarterly"
+    assert cfg.transaction_cost == 0.002
+
+
