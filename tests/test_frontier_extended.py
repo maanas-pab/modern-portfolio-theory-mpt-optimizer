@@ -41,3 +41,12 @@ def test_random_zero_risk_free(stats):
     assert np.isfinite(s).all()
 
 
+def test_key_point_equal_weight(stats):
+    _, exp, cov = stats
+    pts = frontier_key_points(exp, cov, 0.02)
+    assert np.isclose(pts["equal"]["return"], exp.mean())
+    eq_vol = np.sqrt(np.repeat(1 / len(exp), len(exp)) @ cov.values @
+                     np.repeat(1 / len(exp), len(exp)))
+    assert np.isclose(pts["equal"]["vol"], eq_vol)
+
+
