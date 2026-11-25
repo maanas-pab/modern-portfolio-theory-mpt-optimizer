@@ -29,3 +29,10 @@ def test_downside_deviation_empty():
     assert downside_deviation(pd.Series(dtype=float)) == 0.0
 
 
+def test_downside_deviation_periods_scaling():
+    r = pd.Series([-0.01] * 50)
+    daily = downside_deviation(r, 0.0, periods=252)
+    weekly = downside_deviation(r, 0.0, periods=52)
+    assert np.isclose(daily / weekly, np.sqrt(252 / 52))
+
+
