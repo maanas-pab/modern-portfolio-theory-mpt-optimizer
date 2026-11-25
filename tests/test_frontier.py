@@ -48,3 +48,11 @@ def test_random_long_only(stats):
     assert vols.max() <= max_asset_vol + 1e-9
 
 
+def test_key_points_present(stats):
+    _, exp, cov = stats
+    pts = frontier_key_points(exp, cov, 0.02)
+    assert set(pts) == {"max_sharpe", "min_vol", "equal"}
+    for p in pts.values():
+        assert {"weights", "return", "vol", "sharpe"} <= set(p)
+
+
