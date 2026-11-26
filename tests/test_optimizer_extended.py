@@ -74,3 +74,15 @@ def test_custom_bounds(stats):
     assert w.sum() == pytest.approx(1.0, abs=1e-5)
 
 
+def test_no_nan_outputs():
+    from mpt.config import DEFAULT_TICKERS
+    from mpt.stats import calculate_statistics
+    import pandas as pd
+
+    prices = pd.read_csv("data/prices_3y.csv", index_col=0, parse_dates=True)
+    _, exp, cov = calculate_statistics(prices[[t for t in DEFAULT_TICKERS
+                                               if t in prices.columns]])
+    for w in (max_sharpe_weights(exp, cov, 0.02),
+              min_vol_weights(exp, cov),
+              risk_parity_weights(cov)):
+        assert np.isfinite(w).all()
