@@ -78,3 +78,16 @@ def test_invalid_budget(stats):
         optimize_portfolio(exp, cov, objective="sharpe", budget="net")
 
 
+def test_gross_budget_shorts_allowed():
+    """Min-vol shorting a volatile, highly-correlated name when allowed."""
+    cov = pd.DataFrame([[0.50 ** 2, 0.9 * 0.50 * 0.10],
+                        [0.9 * 0.50 * 0.10, 0.10 ** 2]],
+                       index=["VOL", "CALM"], columns=["VOL", "CALM"])
+    exp = pd.Series({"VOL": 0.10, "CALM": 0.10})
+    w = optimize_portfolio(exp, cov, objective="vol",
+                           bounds=[(-1.0, 1.0), (-1.0, 1.0)], budget="gross",
+                           x0=np.array([-0.2, 0.8]))
+    assert np.isclose(np.abs(w).sum(), 1.0, atol=1e-5)
+    assert w[0] < -0.01  # the volatile laggard is shorted
+
+
