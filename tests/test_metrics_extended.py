@@ -109,3 +109,8 @@ def test_beta_scaled_series():
     assert np.isclose(beta(1.5 * b, b), 1.5)
 
 
+def test_alpha_empty():
+    empty = pd.Series(dtype=float)
+    assert alpha(empty, empty) == 0.0
+
+
