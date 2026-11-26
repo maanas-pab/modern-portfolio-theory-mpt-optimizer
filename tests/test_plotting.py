@@ -131,3 +131,13 @@ def test_plot_sharpe_histogram(tmp_path):
     assert (tmp_path / "sh.png").stat().st_size > 5_000
 
 
+def test_plot_metric_comparison(tmp_path):
+    raw = pd.DataFrame({"A": {"annual_return": 0.1, "annual_vol": 0.2,
+                              "max_drawdown": -0.15},
+                        "B": {"annual_return": 0.2, "annual_vol": 0.3,
+                              "max_drawdown": -0.25}})
+    out = str(tmp_path / "mc.png")
+    P.plot_metric_comparison(raw, out_path=out)
+    assert (tmp_path / "mc.png").stat().st_size > 5_000
+
+
