@@ -51,3 +51,8 @@ def test_covariance_psd(stats):
     assert eigvals.min() > -1e-8
 
 
+def test_correlation_diagonal(prices):
+    corr = correlation_matrix(prices)
+    np.testing.assert_allclose(np.diag(corr.values), 1.0)
+
+
