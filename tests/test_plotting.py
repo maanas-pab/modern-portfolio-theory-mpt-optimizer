@@ -195,3 +195,10 @@ def test_plot_rolling_beta(tmp_path, prices, benchmark):
     assert (tmp_path / "rb.png").stat().st_size > 5_000
 
 
+def test_plot_benchmark_scatter(tmp_path, prices, benchmark):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    out = str(tmp_path / "bs.png")
+    P.plot_benchmark_scatter(rets, benchmark, out_path=out)
+    assert (tmp_path / "bs.png").stat().st_size > 5_000
+
+
