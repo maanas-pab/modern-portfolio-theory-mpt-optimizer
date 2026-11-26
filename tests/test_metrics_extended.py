@@ -64,3 +64,11 @@ def test_calmar_risk_free_subtracted():
     assert np.isclose(calmar_ratio(0.10, -0.20, 0.04), 0.3)
 
 
+def test_var_level_boundaries():
+    r = pd.Series(np.random.default_rng(1).normal(0, 0.01, 200))
+    with pytest.raises(ValueError, match="level"):
+        value_at_risk(r, 0.5)
+    with pytest.raises(ValueError, match="level"):
+        value_at_risk(r, 1.0)
+
+
