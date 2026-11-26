@@ -97,3 +97,11 @@ def test_warm_start_shape_checked(stats):
         optimize_portfolio(exp, cov, x0=np.array([0.5, 0.5]))
 
 
+def test_warm_start_converges(stats):
+    _, exp, cov = stats
+    w = max_sharpe_weights(exp, cov, 0.02)
+    w2 = optimize_portfolio(exp, cov, 0.02, objective="sharpe",
+                            x0=np.repeat(1.0 / len(exp), len(exp)))
+    np.testing.assert_allclose(w, w2, atol=1e-8)
+
+
