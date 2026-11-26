@@ -237,3 +237,11 @@ def test_plot_quarterly_returns(tmp_path, prices):
     assert (tmp_path / "q.png").stat().st_size > 5_000
 
 
+def test_plot_annual_returns(tmp_path, prices):
+    rets = prices.pct_change().dropna()
+    series = {"A": rets.iloc[:, 0], "B": rets.iloc[:, 1]}
+    out = str(tmp_path / "y.png")
+    P.plot_annual_returns(series, out_path=out)
+    assert (tmp_path / "y.png").stat().st_size > 5_000
+
+
