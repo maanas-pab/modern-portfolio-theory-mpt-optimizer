@@ -20,3 +20,16 @@ def test_annualize_cov_custom_days(prices):
     np.testing.assert_allclose(cov.values, rets.cov().values * 100)
 
 
+def test_daily_returns_handles_nan():
+    prices = pd.DataFrame({"A": [100.0, 101.0, np.nan, 103.0, 104.0],
+                           "B": [50.0, 49.0, 48.0, 47.0, 46.0]},
+                          index=pd.bdate_range("2024-01-01", periods=5))
+    r = daily_returns(prices)
+    # first row (all-NaN pct) is dropped
+    assert r.index[0] == prices.index[1]
+    # pandas forward-fills the NaN price gap: the gap day reads as flat
+    assert r["A"].notna().all()
+    assert r["A"].iloc[1] == 0.0
+    assert r["B"].notna().all()
+
+
