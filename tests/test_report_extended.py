@@ -12,3 +12,10 @@ def test_weights_table_single():
     assert df["weight_pct"].iloc[0] == 100.0
 
 
+def test_weights_table_alignment():
+    df = weights_table([0.1, 0.9], ["AAA", "BBB"], "P")
+    lookup = dict(zip(df["ticker"], df["weight"]))
+    assert lookup["AAA"] == 0.1
+    assert lookup["BBB"] == 0.9
+
+
