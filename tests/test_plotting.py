@@ -230,3 +230,10 @@ def test_plot_weight_trajectories(tmp_path, prices):
     assert (tmp_path / "wt.png").stat().st_size > 5_000
 
 
+def test_plot_quarterly_returns(tmp_path, prices):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    out = str(tmp_path / "q.png")
+    P.plot_quarterly_returns(rets, out_path=out)
+    assert (tmp_path / "q.png").stat().st_size > 5_000
+
+
