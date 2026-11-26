@@ -125,3 +125,7 @@ def test_alpha_risk_free_effect():
     assert a2 < a0
 
 
+def test_hhi_single_asset():
+    assert concentration_hhi([1.0]) == 1.0
+
+
