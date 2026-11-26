@@ -52,3 +52,10 @@ def test_risk_parity_diagonal():
     np.testing.assert_allclose(w, inv / inv.sum(), atol=1e-4)
 
 
+def test_risk_parity_zero_cov():
+    cov = pd.DataFrame([[0.0, 0.0], [0.0, 0.0]], index=list("AB"),
+                       columns=list("AB"))
+    with pytest.raises(ValueError, match="positive variance"):
+        risk_parity_weights(cov)
+
+
