@@ -15,3 +15,8 @@ def test_weights_table_pct_sum():
     assert np.isclose(df["weight"].sum(), 1.0)
 
 
+def test_weights_table_name_column():
+    df = weights_table([1.0], ["A"], "Max Sharpe")
+    assert (df["portfolio"] == "Max Sharpe").all()
+
+
