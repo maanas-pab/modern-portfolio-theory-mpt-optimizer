@@ -53,3 +53,12 @@ def test_summary_table_row_order():
     assert list(df.index) == ["a", "b"]
 
 
+def test_print_report_labels(capsys, prices):
+    r = prices.pct_change().mean(axis=1).dropna()
+    s = performance_summary(r, 0.02)
+    print_report("X", s, weights_table([1.0], ["A"], "X"))
+    out = capsys.readouterr().out
+    for label in ("Return", "Vol", "Sharpe", "MaxDD"):
+        assert label in out
+
+
