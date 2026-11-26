@@ -43,3 +43,12 @@ def test_calculate_statistics_nan_tolerant():
     assert np.isfinite(cov.values).all()
 
 
+def test_correlation_constant_series():
+    prices = pd.DataFrame({
+        "A": [100.0] * 10,
+        "B": [float(i) for i in range(10)],
+    })
+    corr = correlation_matrix(prices)
+    assert np.isnan(corr.loc["A", "A"]) or corr.loc["A", "A"] == 1.0
+
+
