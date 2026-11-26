@@ -62,3 +62,7 @@ def test_correlation_bounds(prices):
     assert corr.values.max() <= 1.0
 
 
+def test_annualized_volatility(prices):
+    _, _, cov = calculate_statistics(prices)
+    vol = annualized_volatility(cov)
+    np.testing.assert_allclose(vol.values, np.sqrt(np.diag(cov.values)))
