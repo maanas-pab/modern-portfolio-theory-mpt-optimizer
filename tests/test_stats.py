@@ -13,3 +13,10 @@ def test_daily_returns_drops_first_row(prices):
     assert not rets.isna().any().any()
 
 
+def test_daily_returns_values():
+    s = pd.Series([100.0, 110.0, 99.0])
+    r = daily_returns(s.to_frame("X"))["X"].dropna()
+    assert np.isclose(r.iloc[0], 0.10)
+    assert np.isclose(r.iloc[1], -0.10)
+
+
