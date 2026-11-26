@@ -56,3 +56,7 @@ def test_max_drawdown_bounds():
     assert -1.0 <= dd <= 0.0
 
 
+def test_calmar_negative_return():
+    assert np.isclose(calmar_ratio(-0.10, -0.20, 0.0), -0.5)
+
+
