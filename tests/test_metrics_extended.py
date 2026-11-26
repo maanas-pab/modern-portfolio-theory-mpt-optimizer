@@ -90,3 +90,9 @@ def test_cvar_constant_series():
     assert conditional_var(r, 0.95) == 0.0
 
 
+def test_beta_empty():
+    empty = pd.Series(dtype=float)
+    r = pd.Series([0.01] * 10)
+    assert beta(empty, r) == 0.0
+
+
