@@ -162,3 +162,9 @@ def test_plot_asset_monthly_heatmap(tmp_path, prices):
     assert (tmp_path / "am.png").stat().st_size > 5_000
 
 
+def test_plot_return_distributions(tmp_path, prices):
+    out = str(tmp_path / "rd.png")
+    P.plot_return_distributions(prices.pct_change().dropna(), out_path=out)
+    assert (tmp_path / "rd.png").stat().st_size > 5_000
+
+
