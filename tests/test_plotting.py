@@ -149,3 +149,10 @@ def test_plot_asset_risk_return(tmp_path, stats):
     assert (tmp_path / "ar.png").stat().st_size > 5_000
 
 
+def test_plot_monthly_heatmap(tmp_path, prices):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    out = str(tmp_path / "m.png")
+    P.plot_monthly_heatmap(rets, out_path=out)
+    assert (tmp_path / "m.png").stat().st_size > 5_000
+
+
