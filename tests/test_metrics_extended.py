@@ -81,3 +81,7 @@ def test_var_empty():
     assert value_at_risk(pd.Series(dtype=float)) == 0.0
 
 
+def test_cvar_empty():
+    assert conditional_var(pd.Series(dtype=float)) == 0.0
+
+
