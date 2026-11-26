@@ -33,3 +33,10 @@ def test_annualize_covariance(prices):
     np.testing.assert_allclose(cov.values, rets.cov().values * 252)
 
 
+def test_calculate_statistics_consistency(prices):
+    daily, exp, cov = calculate_statistics(prices)
+    assert daily.shape[1] == prices.shape[1]
+    assert len(exp) == prices.shape[1]
+    assert cov.shape == (prices.shape[1], prices.shape[1])
+
+
