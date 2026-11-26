@@ -26,3 +26,11 @@ def test_export_weights_csv(tmp_path):
     assert list(loaded["ticker"]) == ["A", "B"]
 
 
+def test_summary_keys(prices):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    s = performance_summary(rets, 0.02)
+    for key in ("annual_return", "annual_vol", "sharpe", "sortino",
+                "max_drawdown", "calmar", "var_95", "cvar_95"):
+        assert key in s
+
+
