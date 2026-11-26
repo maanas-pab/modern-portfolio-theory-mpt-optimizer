@@ -52,3 +52,10 @@ def test_summary_table_scaling():
     assert df.loc["sharpe", "P"] == 1.568
 
 
+def test_print_report_runs(capsys, prices):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    s = performance_summary(rets, 0.02)
+    print_report("Test", s, weights_table([0.5, 0.5, 0, 0], ["A", "B", "C", "D"], "T"))
+    out = capsys.readouterr().out
+    assert "=== Test ===" in out
+    assert "Sharpe" in out
