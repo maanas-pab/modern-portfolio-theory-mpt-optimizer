@@ -44,3 +44,10 @@ def test_min_vol_is_minimum(stats):
         assert v_opt <= v + 1e-6
 
 
+def test_min_vol_target_return(stats):
+    _, exp, cov = stats
+    target = float(exp.mean())
+    w = min_vol_weights(exp, cov, target_return=target)
+    assert np.isclose(float(w @ exp.values), target, atol=1e-5)
+
+
