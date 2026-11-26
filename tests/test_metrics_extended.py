@@ -129,3 +129,7 @@ def test_hhi_single_asset():
     assert concentration_hhi([1.0]) == 1.0
 
 
+def test_hhi_absolute_weights():
+    assert np.isclose(concentration_hhi([0.5, -0.5]), 0.5)
+
+
