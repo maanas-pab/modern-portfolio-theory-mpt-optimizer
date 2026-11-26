@@ -73,3 +73,10 @@ def test_plot_weights_comparison(tmp_path):
     assert (tmp_path / "w.png").stat().st_size > 5_000
 
 
+def test_plot_weights_pies(tmp_path):
+    tables = {"P1": weights_table([0.5, 0.5], ["A", "B"], "P1")}
+    out = str(tmp_path / "p.png")
+    P.plot_weights_pies(tables, out_path=out)
+    assert (tmp_path / "p.png").stat().st_size > 5_000
+
+
