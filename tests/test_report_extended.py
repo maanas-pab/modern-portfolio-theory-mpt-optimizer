@@ -62,3 +62,7 @@ def test_print_report_labels(capsys, prices):
         assert label in out
 
 
+def test_summary_positive_days_exact():
+    r = pd.Series([0.01, -0.01, 0.02, -0.03, 0.04])
+    s = performance_summary(r, 0.0)
+    assert np.isclose(s["positive_days"], 3 / 5)
