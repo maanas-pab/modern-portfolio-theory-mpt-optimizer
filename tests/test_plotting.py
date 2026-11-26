@@ -257,3 +257,10 @@ def test_plot_frontier_shrinkage(tmp_path, stats):
     assert (tmp_path / "fs.png").stat().st_size > 5_000
 
 
+def test_plot_walk_forward(tmp_path, prices):
+    from mpt.walkforward import walk_forward
+
+    wf = walk_forward(prices, train_days=150, test_days=40)
+    out = str(tmp_path / "wfe.png")
+    P.plot_walk_forward(wf, out_path=out)
+    assert (tmp_path / "wfe.png").stat().st_size > 5_000
