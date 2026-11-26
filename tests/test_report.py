@@ -40,3 +40,9 @@ def test_summary_with_benchmark(prices, benchmark):
     assert "beta" in s and "alpha" in s
 
 
+def test_summary_positive_days_bounds(prices):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    s = performance_summary(rets, 0.0)
+    assert 0.0 <= s["positive_days"] <= 1.0
+
+
