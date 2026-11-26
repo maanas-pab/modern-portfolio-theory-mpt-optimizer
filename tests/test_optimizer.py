@@ -72,3 +72,9 @@ def test_unknown_objective(stats):
         optimize_portfolio(exp, cov, objective="drawdown")
 
 
+def test_invalid_budget(stats):
+    _, exp, cov = stats
+    with pytest.raises(ValueError, match="budget"):
+        optimize_portfolio(exp, cov, objective="sharpe", budget="net")
+
+
