@@ -48,3 +48,9 @@ def test_plot_correlation_heatmap(tmp_path, prices):
     assert (tmp_path / "corr.png").stat().st_size > 5_000
 
 
+def test_plot_covariance_heatmap(tmp_path, stats):
+    out = str(tmp_path / "cov.png")
+    P.plot_covariance_heatmap(stats[2], out_path=out)
+    assert (tmp_path / "cov.png").stat().st_size > 5_000
+
+
