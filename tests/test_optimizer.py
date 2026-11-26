@@ -15,3 +15,10 @@ def test_weights_sum_to_one(stats):
         assert np.isclose(w.sum(), 1.0, atol=1e-6)
 
 
+def test_long_only_bounds(stats):
+    _, exp, cov = stats
+    w = max_sharpe_weights(exp, cov, 0.02)
+    assert w.min() >= -1e-8
+    assert w.max() <= 1.0 + 1e-8
+
+
