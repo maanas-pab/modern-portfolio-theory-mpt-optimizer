@@ -216,3 +216,10 @@ def test_plot_turnover_empty(tmp_path, prices):
     assert (tmp_path / "to0.png").exists()
 
 
+def test_plot_concentration_over_time(tmp_path, prices):
+    bt = backtest(prices, [0.4, 0.3, 0.2, 0.1], rebalance="monthly")
+    out = str(tmp_path / "co.png")
+    P.plot_concentration_over_time(bt, out_path=out)
+    assert (tmp_path / "co.png").stat().st_size > 5_000
+
+
