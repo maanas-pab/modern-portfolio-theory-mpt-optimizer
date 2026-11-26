@@ -77,3 +77,7 @@ def test_var_constant_series():
     assert value_at_risk(r, 0.95) == 0.0
 
 
+def test_var_empty():
+    assert value_at_risk(pd.Series(dtype=float)) == 0.0
+
+
