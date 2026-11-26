@@ -31,3 +31,12 @@ def test_plot_frontier(tmp_path, prices):
     assert (tmp_path / "f.png").stat().st_size > 10_000
 
 
+def test_plot_frontier_clean(tmp_path, prices):
+    _, exp, cov = calculate_statistics(prices)
+    f_rets, f_vols, _ = efficient_frontier(exp, cov, n_points=15)
+    pts = frontier_key_points(exp, cov, 0.02)
+    out = str(tmp_path / "c.png")
+    P.plot_frontier_clean(f_rets, f_vols, pts, out_path=out)
+    assert (tmp_path / "c.png").stat().st_size > 5_000
+
+
