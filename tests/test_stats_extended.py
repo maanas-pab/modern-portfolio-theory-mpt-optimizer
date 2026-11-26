@@ -57,3 +57,9 @@ def test_volatility_zero_covariance():
     assert annualized_volatility(cov).iloc[0] == 0.0
 
 
+def test_intensity_single_asset():
+    daily = pd.DataFrame({"A": np.random.default_rng(0).normal(0, 0.01, 100)})
+    lam = ledoit_wolf_intensity(daily)
+    assert 0.0 <= lam <= 1.0
+
+
