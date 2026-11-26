@@ -96,3 +96,10 @@ def test_beta_empty():
     assert beta(empty, r) == 0.0
 
 
+def test_beta_flat_benchmark():
+    rng = np.random.default_rng(2)
+    p = pd.Series(rng.normal(0, 0.01, 100))
+    b = pd.Series(np.zeros(100))   # exactly zero variance
+    assert beta(p, b) == 0.0
+
+
