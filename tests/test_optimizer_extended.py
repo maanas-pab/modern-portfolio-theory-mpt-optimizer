@@ -24,3 +24,14 @@ def test_two_asset_max_sharpe_closed_form():
     assert w.sum() == pytest.approx(1.0)
 
 
+def test_min_vol_target_matches_frontier(stats):
+    from mpt.frontier import efficient_frontier
+
+    _, exp, cov = stats
+    rets, vols, _ = efficient_frontier(exp, cov, n_points=25)
+    i = len(rets) // 2
+    w = min_vol_weights(exp, cov, target_return=float(rets[i]))
+    _, v, _ = portfolio_performance(w, exp, cov)
+    assert v <= vols[i] + 1e-5
+
+
