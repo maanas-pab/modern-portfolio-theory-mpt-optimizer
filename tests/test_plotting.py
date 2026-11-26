@@ -176,3 +176,10 @@ def test_plot_sector_exposure(tmp_path, prices):
     assert (tmp_path / "se.png").stat().st_size > 5_000
 
 
+def test_plot_weights_over_time(tmp_path, prices):
+    bt = backtest(prices, [0.4, 0.3, 0.2, 0.1], rebalance="monthly")
+    out = str(tmp_path / "wt.png")
+    P.plot_weights_over_time(bt, out_path=out)
+    assert (tmp_path / "wt.png").stat().st_size > 5_000
+
+
