@@ -54,3 +54,12 @@ def test_plot_covariance_heatmap(tmp_path, stats):
     assert (tmp_path / "cov.png").stat().st_size > 5_000
 
 
+def test_plot_correlation_vs_vol(tmp_path, prices):
+    from mpt.stats import correlation_matrix
+
+    out = str(tmp_path / "cv.png")
+    vol = prices.pct_change().std() * np.sqrt(252)
+    P.plot_correlation_vs_vol(correlation_matrix(prices), vol, out_path=out)
+    assert (tmp_path / "cv.png").stat().st_size > 5_000
+
+
