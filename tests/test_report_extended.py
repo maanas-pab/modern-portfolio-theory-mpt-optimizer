@@ -19,3 +19,9 @@ def test_weights_table_alignment():
     assert lookup["BBB"] == 0.9
 
 
+def test_export_creates_dir(tmp_path):
+    path = export_weights([1.0], ["A"], str(tmp_path / "deep" / "out"), "x")
+    assert (tmp_path / "deep" / "out").exists()
+    assert path.endswith(".csv")
+
+
