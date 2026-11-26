@@ -168,3 +168,11 @@ def test_plot_return_distributions(tmp_path, prices):
     assert (tmp_path / "rd.png").stat().st_size > 5_000
 
 
+def test_plot_sector_exposure(tmp_path, prices):
+    sectors = {"AAA": "Tech", "BBB": "Energy", "CCC": "Tech", "DDD": "Bonds"}
+    out = str(tmp_path / "se.png")
+    P.plot_sector_exposure([0.4, 0.3, 0.2, 0.1], list(prices.columns), sectors,
+                           out_path=out)
+    assert (tmp_path / "se.png").stat().st_size > 5_000
+
+
