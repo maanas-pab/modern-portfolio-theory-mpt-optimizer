@@ -35,3 +35,9 @@ def test_min_vol_target_matches_frontier(stats):
     assert v <= vols[i] + 1e-5
 
 
+def test_infeasible_negative_target(stats):
+    _, exp, cov = stats
+    with pytest.raises(RuntimeError):
+        min_vol_weights(exp, cov, target_return=-5.0)
+
+
