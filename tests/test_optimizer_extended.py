@@ -59,3 +59,9 @@ def test_risk_parity_zero_cov():
         risk_parity_weights(cov)
 
 
+def test_unknown_budget(stats):
+    _, exp, cov = stats
+    with pytest.raises(ValueError, match="budget"):
+        optimize_portfolio(exp, cov, budget="levered")
+
+
