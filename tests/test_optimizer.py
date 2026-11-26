@@ -105,3 +105,8 @@ def test_warm_start_converges(stats):
     np.testing.assert_allclose(w, w2, atol=1e-8)
 
 
+def test_deterministic(stats):
+    _, exp, cov = stats
+    w1 = max_sharpe_weights(exp, cov, 0.02)
+    w2 = max_sharpe_weights(exp, cov, 0.02)
+    np.testing.assert_allclose(w1, w2)
