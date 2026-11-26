@@ -72,3 +72,8 @@ def test_var_level_boundaries():
         value_at_risk(r, 1.0)
 
 
+def test_var_constant_series():
+    r = pd.Series([0.001] * 100)
+    assert value_at_risk(r, 0.95) == 0.0
+
+
