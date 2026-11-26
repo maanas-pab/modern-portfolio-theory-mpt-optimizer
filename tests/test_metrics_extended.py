@@ -85,3 +85,8 @@ def test_cvar_empty():
     assert conditional_var(pd.Series(dtype=float)) == 0.0
 
 
+def test_cvar_constant_series():
+    r = pd.Series([0.002] * 100)
+    assert conditional_var(r, 0.95) == 0.0
+
+
