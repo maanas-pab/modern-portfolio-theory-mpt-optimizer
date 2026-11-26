@@ -245,3 +245,15 @@ def test_plot_annual_returns(tmp_path, prices):
     assert (tmp_path / "y.png").stat().st_size > 5_000
 
 
+def test_plot_frontier_shrinkage(tmp_path, stats):
+    from mpt.frontier import efficient_frontier
+
+    _, exp, cov = stats
+    r1, v1, _ = efficient_frontier(exp, cov, n_points=10)
+    r2, v2, _ = efficient_frontier(exp, cov * 0.9 + 0.1 * np.diag(np.diag(cov)),
+                                   n_points=10)
+    out = str(tmp_path / "fs.png")
+    P.plot_frontier_shrinkage(r1, v1, r2, v2, out_path=out)
+    assert (tmp_path / "fs.png").stat().st_size > 5_000
+
+
