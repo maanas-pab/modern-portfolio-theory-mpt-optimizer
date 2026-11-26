@@ -25,3 +25,12 @@ def test_export_creates_dir(tmp_path):
     assert path.endswith(".csv")
 
 
+def test_summary_positive_constant():
+    r = pd.Series([0.001] * 300)
+    s = performance_summary(r, 0.0)
+    assert s["annual_return"] > 0
+    assert s["max_drawdown"] == 0.0
+    assert s["sharpe"] == 0.0     # zero vol guard
+    assert s["calmar"] == 0.0     # zero drawdown guard
+
+
