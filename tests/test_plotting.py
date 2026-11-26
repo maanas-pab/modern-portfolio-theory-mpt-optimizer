@@ -103,3 +103,10 @@ def test_plot_drawdown(tmp_path, prices):
     assert (tmp_path / "dd.png").stat().st_size > 5_000
 
 
+def test_plot_rolling_volatility(tmp_path, prices):
+    rets = prices.pct_change().dropna()
+    out = str(tmp_path / "rv.png")
+    P.plot_rolling_volatility({"A": rets.iloc[:, 0]}, window=21, out_path=out)
+    assert (tmp_path / "rv.png").stat().st_size > 5_000
+
+
