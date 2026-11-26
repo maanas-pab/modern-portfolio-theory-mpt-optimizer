@@ -65,3 +65,12 @@ def test_unknown_budget(stats):
         optimize_portfolio(exp, cov, budget="levered")
 
 
+def test_custom_bounds(stats):
+    _, exp, cov = stats
+    n = len(exp)
+    bounds = [(0.0, 0.40)] * n          # cap every position at 40%
+    w = optimize_portfolio(exp, cov, objective="vol", bounds=bounds)
+    assert w.max() <= 0.40 + 1e-6
+    assert w.sum() == pytest.approx(1.0, abs=1e-5)
+
+
