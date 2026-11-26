@@ -34,3 +34,11 @@ def test_summary_positive_constant():
     assert s["calmar"] == 0.0     # zero drawdown guard
 
 
+def test_summary_benchmark_keys(prices, benchmark):
+    r = prices.pct_change().mean(axis=1).dropna()
+    s = performance_summary(r, 0.02, benchmark)
+    assert {"beta", "alpha"} <= set(s)
+    plain = performance_summary(r, 0.02)
+    assert "beta" not in plain
+
+
