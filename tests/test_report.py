@@ -10,3 +10,8 @@ def test_weights_table_sorted():
     assert list(df["ticker"]) == ["B", "C", "A"]
 
 
+def test_weights_table_pct_sum():
+    df = weights_table([0.2, 0.5, 0.3], ["A", "B", "C"], "p")
+    assert np.isclose(df["weight"].sum(), 1.0)
+
+
