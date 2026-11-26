@@ -46,3 +46,9 @@ def test_summary_positive_days_bounds(prices):
     assert 0.0 <= s["positive_days"] <= 1.0
 
 
+def test_summary_table_scaling():
+    df = summary_table({"P": {"annual_return": 0.1234, "sharpe": 1.5678}})
+    assert df.loc["annual_return", "P"] == 12.34
+    assert df.loc["sharpe", "P"] == 1.568
+
+
