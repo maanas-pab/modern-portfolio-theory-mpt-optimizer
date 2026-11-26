@@ -40,3 +40,8 @@ def test_calculate_statistics_consistency(prices):
     assert cov.shape == (prices.shape[1], prices.shape[1])
 
 
+def test_covariance_symmetric(stats):
+    _, _, cov = stats
+    np.testing.assert_allclose(cov.values, cov.values.T)
+
+
