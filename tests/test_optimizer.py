@@ -57,3 +57,12 @@ def test_infeasible_target_raises(stats):
         min_vol_weights(exp, cov, target_return=float(exp.max()) * 5)
 
 
+def test_risk_parity_equal_contributions(stats):
+    _, _, cov = stats
+    w = risk_parity_weights(cov)
+    from mpt.metrics import risk_contributions
+
+    _, pct = risk_contributions(w, cov)
+    assert pct.max() - pct.min() < 0.05
+
+
