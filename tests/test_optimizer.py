@@ -22,3 +22,13 @@ def test_long_only_bounds(stats):
     assert w.max() <= 1.0 + 1e-8
 
 
+def test_max_sharpe_beats_equal(stats):
+    _, exp, cov = stats
+    rf = 0.02
+    w = max_sharpe_weights(exp, cov, rf)
+    _, _, s_opt = portfolio_performance(w, exp, cov, rf)
+    eq = np.repeat(1 / len(exp), len(exp))
+    _, _, s_eq = portfolio_performance(eq, exp, cov, rf)
+    assert s_opt >= s_eq - 1e-6
+
+
