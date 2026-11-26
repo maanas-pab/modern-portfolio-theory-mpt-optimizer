@@ -103,3 +103,9 @@ def test_beta_flat_benchmark():
     assert beta(p, b) == 0.0
 
 
+def test_beta_scaled_series():
+    rng = np.random.default_rng(3)
+    b = pd.Series(rng.normal(0, 0.01, 500))
+    assert np.isclose(beta(1.5 * b, b), 1.5)
+
+
