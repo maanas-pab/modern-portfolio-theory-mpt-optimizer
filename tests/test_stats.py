@@ -56,3 +56,9 @@ def test_correlation_diagonal(prices):
     np.testing.assert_allclose(np.diag(corr.values), 1.0)
 
 
+def test_correlation_bounds(prices):
+    corr = correlation_matrix(prices)
+    assert corr.values.min() >= -1.0
+    assert corr.values.max() <= 1.0
+
+
