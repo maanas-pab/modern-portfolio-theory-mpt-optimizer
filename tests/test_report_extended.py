@@ -42,3 +42,9 @@ def test_summary_benchmark_keys(prices, benchmark):
     assert "beta" not in plain
 
 
+def test_summary_table_precision():
+    df = summary_table({"P": {"sharpe": 1.23456, "var_95": 0.0312}})
+    assert df.loc["sharpe", "P"] == 1.235
+    assert df.loc["var_95", "P"] == 3.12
+
+
