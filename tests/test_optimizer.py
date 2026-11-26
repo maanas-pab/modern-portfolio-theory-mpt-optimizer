@@ -51,3 +51,9 @@ def test_min_vol_target_return(stats):
     assert np.isclose(float(w @ exp.values), target, atol=1e-5)
 
 
+def test_infeasible_target_raises(stats):
+    _, exp, cov = stats
+    with pytest.raises(RuntimeError):
+        min_vol_weights(exp, cov, target_return=float(exp.max()) * 5)
+
+
