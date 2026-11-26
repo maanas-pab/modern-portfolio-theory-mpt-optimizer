@@ -188,3 +188,10 @@ def test_plotting_exports_all():
         assert hasattr(P, name), name
 
 
+def test_plot_rolling_beta(tmp_path, prices, benchmark):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    out = str(tmp_path / "rb.png")
+    P.plot_rolling_beta(rets, benchmark, window=30, out_path=out)
+    assert (tmp_path / "rb.png").stat().st_size > 5_000
+
+
