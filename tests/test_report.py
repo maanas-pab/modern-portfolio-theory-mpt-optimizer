@@ -20,3 +20,9 @@ def test_weights_table_name_column():
     assert (df["portfolio"] == "Max Sharpe").all()
 
 
+def test_export_weights_csv(tmp_path):
+    path = export_weights([0.6, 0.4], ["A", "B"], str(tmp_path), "x")
+    loaded = pd.read_csv(path)
+    assert list(loaded["ticker"]) == ["A", "B"]
+
+
