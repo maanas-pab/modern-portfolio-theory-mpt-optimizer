@@ -223,3 +223,10 @@ def test_plot_concentration_over_time(tmp_path, prices):
     assert (tmp_path / "co.png").stat().st_size > 5_000
 
 
+def test_plot_weight_trajectories(tmp_path, prices):
+    bt = backtest(prices, [0.4, 0.3, 0.2, 0.1], rebalance="monthly")
+    out = str(tmp_path / "wt.png")
+    P.plot_weight_trajectories(bt, top=3, out_path=out)
+    assert (tmp_path / "wt.png").stat().st_size > 5_000
+
+
