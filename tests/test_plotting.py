@@ -124,3 +124,10 @@ def test_plot_var_cvar(tmp_path, prices):
     assert (tmp_path / "var.png").stat().st_size > 5_000
 
 
+def test_plot_sharpe_histogram(tmp_path):
+    out = str(tmp_path / "sh.png")
+    P.plot_sharpe_histogram(np.random.default_rng(0).normal(0.5, 0.2, 500), 1.2,
+                            out_path=out)
+    assert (tmp_path / "sh.png").stat().st_size > 5_000
+
+
