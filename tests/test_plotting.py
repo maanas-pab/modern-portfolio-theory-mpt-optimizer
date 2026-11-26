@@ -117,3 +117,10 @@ def test_plot_rolling_sharpe(tmp_path, prices):
     assert (tmp_path / "rs.png").stat().st_size > 5_000
 
 
+def test_plot_var_cvar(tmp_path, prices):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    out = str(tmp_path / "var.png")
+    P.plot_var_cvar(rets, out_path=out)
+    assert (tmp_path / "var.png").stat().st_size > 5_000
+
+
