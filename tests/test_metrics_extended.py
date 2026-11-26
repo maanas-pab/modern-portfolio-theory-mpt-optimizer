@@ -143,3 +143,6 @@ def test_risk_contribution_single_asset(two_asset):
     np.testing.assert_allclose(pct, [1.0, 0.0], atol=1e-12)
 
 
+def test_budget_loss_positive_when_skewed(two_asset):
+    _, cov = two_asset
+    assert risk_budget_loss([0.9, 0.1], cov) > 0.0
