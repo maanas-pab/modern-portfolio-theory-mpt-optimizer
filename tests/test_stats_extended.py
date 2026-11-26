@@ -52,3 +52,8 @@ def test_correlation_constant_series():
     assert np.isnan(corr.loc["A", "A"]) or corr.loc["A", "A"] == 1.0
 
 
+def test_volatility_zero_covariance():
+    cov = pd.DataFrame([[0.0]], index=["CASH"], columns=["CASH"])
+    assert annualized_volatility(cov).iloc[0] == 0.0
+
+
