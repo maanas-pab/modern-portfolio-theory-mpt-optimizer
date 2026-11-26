@@ -33,3 +33,13 @@ def test_daily_returns_handles_nan():
     assert r["B"].notna().all()
 
 
+def test_calculate_statistics_nan_tolerant():
+    prices = pd.DataFrame({
+        "A": [100.0, 101.0, np.nan, 103.0, 104.0],
+        "B": [50.0, 49.0, 48.0, 47.0, 46.0],
+    }, index=pd.bdate_range("2024-01-01", periods=5))
+    daily, exp, cov = calculate_statistics(prices)
+    assert np.isfinite(exp).all()
+    assert np.isfinite(cov.values).all()
+
+
