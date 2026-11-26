@@ -141,3 +141,11 @@ def test_plot_metric_comparison(tmp_path):
     assert (tmp_path / "mc.png").stat().st_size > 5_000
 
 
+def test_plot_asset_risk_return(tmp_path, stats):
+    _, exp, cov = stats
+    vol = pd.Series(np.sqrt(np.diag(cov.values)), index=exp.index)
+    out = str(tmp_path / "ar.png")
+    P.plot_asset_risk_return(exp, vol, out_path=out)
+    assert (tmp_path / "ar.png").stat().st_size > 5_000
+
+
