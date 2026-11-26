@@ -63,3 +63,13 @@ def test_plot_correlation_vs_vol(tmp_path, prices):
     assert (tmp_path / "cv.png").stat().st_size > 5_000
 
 
+def test_plot_weights_comparison(tmp_path):
+    tables = {
+        "Max Sharpe": weights_table([0.7, 0.3], ["A", "B"], "Max Sharpe"),
+        "Min Vol": weights_table([0.4, 0.6], ["A", "B"], "Min Vol"),
+    }
+    out = str(tmp_path / "w.png")
+    P.plot_weights_comparison(tables, out_path=out)
+    assert (tmp_path / "w.png").stat().st_size > 5_000
+
+
