@@ -114,3 +114,14 @@ def test_alpha_empty():
     assert alpha(empty, empty) == 0.0
 
 
+def test_alpha_risk_free_effect():
+    rng = np.random.default_rng(7)
+    idx = pd.bdate_range("2024-01-01", periods=400)
+    p = pd.Series(rng.normal(0.0006, 0.01, 400), index=idx)
+    b = pd.Series(rng.normal(0.0004, 0.01, 400), index=idx)
+    a0 = alpha(p, b, risk_free=0.0)
+    a2 = alpha(p, b, risk_free=0.02)
+    # a higher hurdle rate reduces reported alpha
+    assert a2 < a0
+
+
