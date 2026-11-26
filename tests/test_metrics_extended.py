@@ -137,3 +137,9 @@ def test_hhi_normalizes():
     assert np.isclose(concentration_hhi([2.0, 2.0]), 0.5)
 
 
+def test_risk_contribution_single_asset(two_asset):
+    _, cov = two_asset
+    _, pct = risk_contributions([1.0, 0.0], cov)
+    np.testing.assert_allclose(pct, [1.0, 0.0], atol=1e-12)
+
+
