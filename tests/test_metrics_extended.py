@@ -133,3 +133,7 @@ def test_hhi_absolute_weights():
     assert np.isclose(concentration_hhi([0.5, -0.5]), 0.5)
 
 
+def test_hhi_normalizes():
+    assert np.isclose(concentration_hhi([2.0, 2.0]), 0.5)
+
+
