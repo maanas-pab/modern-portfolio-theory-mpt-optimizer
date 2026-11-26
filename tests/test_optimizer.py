@@ -91,3 +91,9 @@ def test_gross_budget_shorts_allowed():
     assert w[0] < -0.01  # the volatile laggard is shorted
 
 
+def test_warm_start_shape_checked(stats):
+    _, exp, cov = stats
+    with pytest.raises(ValueError, match="x0"):
+        optimize_portfolio(exp, cov, x0=np.array([0.5, 0.5]))
+
+
