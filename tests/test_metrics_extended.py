@@ -60,3 +60,7 @@ def test_calmar_negative_return():
     assert np.isclose(calmar_ratio(-0.10, -0.20, 0.0), -0.5)
 
 
+def test_calmar_risk_free_subtracted():
+    assert np.isclose(calmar_ratio(0.10, -0.20, 0.04), 0.3)
+
+
