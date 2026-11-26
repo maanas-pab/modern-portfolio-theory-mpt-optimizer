@@ -32,3 +32,15 @@ def test_max_sharpe_beats_equal(stats):
     assert s_opt >= s_eq - 1e-6
 
 
+def test_min_vol_is_minimum(stats):
+    _, exp, cov = stats
+    w = min_vol_weights(exp, cov)
+    _, v_opt, _ = portfolio_performance(w, exp, cov)
+    rng = np.random.default_rng(0)
+    for _ in range(200):
+        x = rng.random(len(exp))
+        x /= x.sum()
+        _, v, _ = portfolio_performance(x, exp, cov)
+        assert v_opt <= v + 1e-6
+
+
