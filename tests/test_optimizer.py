@@ -66,3 +66,9 @@ def test_risk_parity_equal_contributions(stats):
     assert pct.max() - pct.min() < 0.05
 
 
+def test_unknown_objective(stats):
+    _, exp, cov = stats
+    with pytest.raises(ValueError, match="objective"):
+        optimize_portfolio(exp, cov, objective="drawdown")
+
+
