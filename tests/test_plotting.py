@@ -88,3 +88,11 @@ def test_plot_risk_contribution(tmp_path, stats):
     assert (tmp_path / "rc.png").stat().st_size > 5_000
 
 
+def test_plot_cumulative_returns(tmp_path, prices):
+    rets = prices.pct_change().dropna()
+    series = {"A": rets.iloc[:, 0], "B": rets.iloc[:, 1]}
+    out = str(tmp_path / "cum.png")
+    P.plot_cumulative_returns(series, out_path=out)
+    assert (tmp_path / "cum.png").stat().st_size > 5_000
+
+
