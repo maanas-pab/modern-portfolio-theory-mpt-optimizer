@@ -27,3 +27,9 @@ def test_annualize_returns(prices):
     np.testing.assert_allclose(ann.values, expected.values)
 
 
+def test_annualize_covariance(prices):
+    rets = daily_returns(prices).dropna()
+    cov = annualize_covariance(rets)
+    np.testing.assert_allclose(cov.values, rets.cov().values * 252)
+
+
