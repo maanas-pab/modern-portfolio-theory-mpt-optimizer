@@ -183,3 +183,8 @@ def test_plot_weights_over_time(tmp_path, prices):
     assert (tmp_path / "wt.png").stat().st_size > 5_000
 
 
+def test_plotting_exports_all():
+    for name in P.__all__:
+        assert hasattr(P, name), name
+
+
