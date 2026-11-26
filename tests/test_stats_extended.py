@@ -87,3 +87,8 @@ def test_dispatcher_default_is_sample(prices):
     np.testing.assert_allclose(default.values, explicit.values)
 
 
+def test_dispatcher_attrs(prices):
+    daily = daily_returns(prices).dropna()
+    cov = covariance_matrix(daily, shrinkage=True)
+    assert "shrinkage_intensity" in cov.attrs
+    assert 0.0 <= cov.attrs["shrinkage_intensity"] <= 1.0
