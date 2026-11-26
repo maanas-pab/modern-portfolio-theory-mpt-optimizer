@@ -40,3 +40,11 @@ def test_plot_frontier_clean(tmp_path, prices):
     assert (tmp_path / "c.png").stat().st_size > 5_000
 
 
+def test_plot_correlation_heatmap(tmp_path, prices):
+    from mpt.stats import correlation_matrix
+
+    out = str(tmp_path / "corr.png")
+    P.plot_correlation_heatmap(correlation_matrix(prices), out_path=out)
+    assert (tmp_path / "corr.png").stat().st_size > 5_000
+
+
