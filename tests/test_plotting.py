@@ -156,3 +156,9 @@ def test_plot_monthly_heatmap(tmp_path, prices):
     assert (tmp_path / "m.png").stat().st_size > 5_000
 
 
+def test_plot_asset_monthly_heatmap(tmp_path, prices):
+    out = str(tmp_path / "am.png")
+    P.plot_asset_monthly_heatmap(prices.pct_change().dropna(), out_path=out)
+    assert (tmp_path / "am.png").stat().st_size > 5_000
+
+
