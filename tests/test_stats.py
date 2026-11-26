@@ -45,3 +45,9 @@ def test_covariance_symmetric(stats):
     np.testing.assert_allclose(cov.values, cov.values.T)
 
 
+def test_covariance_psd(stats):
+    _, _, cov = stats
+    eigvals = np.linalg.eigvalsh(cov.values)
+    assert eigvals.min() > -1e-8
+
+
