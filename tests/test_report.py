@@ -34,3 +34,9 @@ def test_summary_keys(prices):
         assert key in s
 
 
+def test_summary_with_benchmark(prices, benchmark):
+    rets = prices.pct_change().mean(axis=1).dropna()
+    s = performance_summary(rets, 0.02, benchmark)
+    assert "beta" in s and "alpha" in s
+
+
