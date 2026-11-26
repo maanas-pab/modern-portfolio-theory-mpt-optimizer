@@ -41,3 +41,14 @@ def test_infeasible_negative_target(stats):
         min_vol_weights(exp, cov, target_return=-5.0)
 
 
+def test_risk_parity_diagonal():
+    cov = pd.DataFrame(np.diag([0.04, 0.09, 0.16]),
+                       index=list("ABC"), columns=list("ABC"))
+    w = risk_parity_weights(cov)
+    _, pct = risk_contributions(w, cov)
+    np.testing.assert_allclose(pct, [1 / 3] * 3, atol=1e-4)
+    # inverse-vol weights are the analytic answer here
+    inv = 1.0 / np.sqrt(np.diag(cov.values))
+    np.testing.assert_allclose(w, inv / inv.sum(), atol=1e-4)
+
+
