@@ -209,3 +209,10 @@ def test_plot_turnover(tmp_path, prices):
     assert (tmp_path / "to.png").stat().st_size > 5_000
 
 
+def test_plot_turnover_empty(tmp_path, prices):
+    bt = backtest(prices, [0.25] * 4, rebalance="none")
+    out = str(tmp_path / "to0.png")
+    P.plot_turnover(bt, out_path=out)
+    assert (tmp_path / "to0.png").exists()
+
+
