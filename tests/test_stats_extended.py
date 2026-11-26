@@ -73,3 +73,10 @@ def test_shrinkage_conditions_collinear_assets():
     assert cond_shrunk < cond_plain
 
 
+def test_shrunk_preserves_order(prices):
+    daily = daily_returns(prices).dropna()
+    shrunk = ledoit_wolf_covariance(daily)
+    assert list(shrunk.index) == list(daily.columns)
+    assert list(shrunk.columns) == list(daily.columns)
+
+
