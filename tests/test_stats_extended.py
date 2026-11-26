@@ -80,3 +80,10 @@ def test_shrunk_preserves_order(prices):
     assert list(shrunk.columns) == list(daily.columns)
 
 
+def test_dispatcher_default_is_sample(prices):
+    daily = daily_returns(prices).dropna()
+    default = covariance_matrix(daily)
+    explicit = covariance_matrix(daily, shrinkage=False)
+    np.testing.assert_allclose(default.values, explicit.values)
+
+
