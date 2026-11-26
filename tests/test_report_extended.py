@@ -48,3 +48,8 @@ def test_summary_table_precision():
     assert df.loc["var_95", "P"] == 3.12
 
 
+def test_summary_table_row_order():
+    df = summary_table({"P": {"a": 1.0, "b": 2.0}})
+    assert list(df.index) == ["a", "b"]
+
+
