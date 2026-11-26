@@ -49,3 +49,10 @@ def test_max_drawdown_empty():
     assert max_drawdown(pd.Series(dtype=float)) == 0.0
 
 
+def test_max_drawdown_bounds():
+    rng = np.random.default_rng(4)
+    r = pd.Series(rng.normal(0, 0.05, 1000))
+    dd = max_drawdown(r)
+    assert -1.0 <= dd <= 0.0
+
+
