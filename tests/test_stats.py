@@ -20,3 +20,10 @@ def test_daily_returns_values():
     assert np.isclose(r.iloc[1], -0.10)
 
 
+def test_annualize_returns(prices):
+    rets = daily_returns(prices).dropna()
+    ann = annualize_returns(rets)
+    expected = rets.mean() * 252
+    np.testing.assert_allclose(ann.values, expected.values)
+
+
