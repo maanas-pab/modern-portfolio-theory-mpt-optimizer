@@ -80,3 +80,11 @@ def test_plot_weights_pies(tmp_path):
     assert (tmp_path / "p.png").stat().st_size > 5_000
 
 
+def test_plot_risk_contribution(tmp_path, stats):
+    _, exp, cov = stats
+    w = np.array([0.5, 0.3, 0.1, 0.1])
+    out = str(tmp_path / "rc.png")
+    P.plot_risk_contribution(w, cov, list(exp.index), out_path=out)
+    assert (tmp_path / "rc.png").stat().st_size > 5_000
+
+
