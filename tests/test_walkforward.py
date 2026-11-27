@@ -89,3 +89,9 @@ def test_walk_forward_deterministic(prices):
     np.testing.assert_allclose(a.returns.values, b.returns.values)
 
 
+def test_walk_forward_start_slice(prices):
+    wf = walk_forward(prices, train_days=150, test_days=40,
+                      start="2025-01-01")
+    assert wf.returns.index.min() >= pd.Timestamp("2025-01-01")
+
+
