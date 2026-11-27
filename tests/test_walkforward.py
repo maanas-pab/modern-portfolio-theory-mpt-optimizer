@@ -101,3 +101,8 @@ def test_window_weight_frame_shape(prices):
     assert frame.shape == (wf.n_windows, prices.shape[1])
 
 
+def test_window_weights_normalized(prices):
+    wf = walk_forward(prices, train_days=150, test_days=40)
+    frame = window_weight_frame(wf)
+    np.testing.assert_allclose(frame.sum(axis=1).values, 1.0, atol=1e-5)
+    assert (frame.values >= -1e-8).all()
