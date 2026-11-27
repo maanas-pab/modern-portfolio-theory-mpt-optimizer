@@ -52,3 +52,8 @@ def test_walk_forward_alignment(prices):
     assert not wf.returns.index.has_duplicates
 
 
+def test_walk_forward_equity_positive(prices):
+    wf = walk_forward(prices, train_days=150, test_days=40)
+    assert (wf.equity > 0).all()
+
+
