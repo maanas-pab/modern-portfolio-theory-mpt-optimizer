@@ -57,3 +57,8 @@ def test_walk_forward_equity_positive(prices):
     assert (wf.equity > 0).all()
 
 
+def test_walk_forward_total_return(prices):
+    wf = walk_forward(prices, train_days=150, test_days=40)
+    assert np.isclose(wf.total_return, wf.equity.iloc[-1] - 1.0)
+
+
