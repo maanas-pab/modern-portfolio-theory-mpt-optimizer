@@ -26,3 +26,10 @@ signatures, what they return, and a one-liner example.
 - Every function validates its inputs and raises `ValueError` with a
   message naming the offending parameter.
 
+## Error handling
+
+- `mpt.data` raises `RuntimeError` when Yahoo returns nothing usable.
+- `mpt.optimizer` raises `RuntimeError` when SLSQP cannot meet a
+  target return, `ValueError` for unknown objectives/budgets.
+- `mpt.config.OptimizerConfig.validate()` raises `ValueError` before
+  any network or optimizer work happens.
