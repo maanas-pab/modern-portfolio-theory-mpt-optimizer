@@ -173,3 +173,14 @@ rebalance event. This is the direct driver of the `total_cost` column.
 train/test windows (`--walk-forward`). Grey lines mark where the
 optimizer re-fit; everything between them is data it never saw.
 
+## Reproducing
+
+```bash
+python3 -m mpt.cli                          # default: no rebalance
+python3 -m mpt.cli --rebalance monthly --cost 0.001
+python3 -m mpt.cli --shrinkage --points 100
+python3 -m mpt.cli --walk-forward --train 252 --test 63
+python3 -m mpt.cli --black-litterman
+```
+
+All 30 figures land in `figures/`, weight tables in `outputs/`.
