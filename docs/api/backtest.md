@@ -18,3 +18,9 @@ The result carries:
 | `rebalance_dates` | dates the schedule fired |
 | `total_return`, `total_cost` | headline figures |
 
+`rebalance_schedule(index, freq)` accepts `none|weekly|monthly|quarterly`
+and anchors to the first trading day of each period.
+
+`buy_and_hold(prices, weights=None)` is the `rebalance="none"`
+baseline; `compare_strategies(prices, {"name": weights, ...})` runs
+several named weight sets at once.
