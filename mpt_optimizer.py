@@ -62,3 +62,5 @@ def main(argv=None) -> int:
     return _cli_main(argv)
 
 
+if __name__ == "__main__":
+    raise SystemExit(main())
