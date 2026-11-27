@@ -55,3 +55,24 @@ to be (high vol, high correlation).
 
 **Asset risk-return** — every ticker labeled, before any optimization.
 
+## Distributions
+
+![Return distributions](../figures/return_distributions.png)
+
+**Return distributions** — per-asset daily histograms with mean lines;
+note the fat tails in CELH, AFRM and BEAM.
+
+![VaR/CVaR](../figures/var_cvar.png)
+
+**VaR & expected shortfall** — the loss tail of the max-Sharpe
+portfolio: 95% VaR and the average loss beyond it.
+
+![Monthly returns](../figures/monthly_returns.png)
+
+**Monthly returns** — year-by-year calendar heat for the max-Sharpe
+portfolio.
+
+![Asset monthly heatmap](../figures/asset_monthly_heatmap.png)
+
+**Asset returns by month** — which assets carry which months.
+
