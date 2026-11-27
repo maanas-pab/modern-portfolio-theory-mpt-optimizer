@@ -47,3 +47,22 @@ pays `--cost` per unit of turnover (one-way, so `0.001` = 10 bps).
 - Treat the backtest as a *comparison between weighting schemes*,
   not a forecast
 
+## Walk-forward: removing the look-ahead
+
+`--walk-forward --train 252 --test 63` fixes the in-sample problem:
+
+```
+for each window:
+    fit weights on train_days of history      # never sees the test period
+    hold those weights for test_days          # pure out-of-sample
+stitch the test slices into one equity curve
+```
+
+Windows slide forward by `test_days`, so every test observation is
+scored with weights fitted only on earlier data. With the default
+universe this gives 7 windows; the reported Sharpe (0.37) is what an
+investor following the algorithm would actually have earned, versus
+the 1.42 the in-sample backtest advertises.
+
+The comparison is the point: **the gap between the two numbers is the
+overfitting premium.**
