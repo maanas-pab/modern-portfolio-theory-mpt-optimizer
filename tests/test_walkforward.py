@@ -28,3 +28,13 @@ def test_window_ordering(prices):
         assert train_start <= train_end < test_end
 
 
+def test_window_validation(prices):
+    idx = prices.index
+    with pytest.raises(ValueError, match="train_days"):
+        rolling_windows(idx, 1, 10)
+    with pytest.raises(ValueError, match="test_days"):
+        rolling_windows(idx, 10, 0)
+    with pytest.raises(ValueError, match="exceeds"):
+        rolling_windows(idx, len(idx), 10)
+
+
