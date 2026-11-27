@@ -48,3 +48,21 @@ long-only bounds `0 ≤ wᵢ ≤ 1` unless stated otherwise.
 
 `RCᵢ` is the percentage risk contribution `(wᵢ · (Σw)ᵢ) / σ_p`.
 
+## Covariance shrinkage
+
+Sample covariance from ~750 observations of 12 correlated assets is
+noisy. The Ledoit–Wolf (2004) estimator shrinks it toward the
+scaled-identity target `F = μ·I`:
+
+```
+λ* = min(1, b² / d²)
+Σ_shrunk = (1 − λ*)·Σ_sample + λ*·μ·I
+```
+
+where `d²` is the squared distance from the sample to the target and
+`b²` estimates the sample covariance's mean-squared estimation error
+under Gaussian fourth moments. The result is better conditioned
+(smaller eigenvalue spread), which stabilizes the optimizer.
+
+Enable it with `--shrinkage`.
+
