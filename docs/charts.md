@@ -76,3 +76,15 @@ portfolio.
 
 **Asset returns by month** — which assets carry which months.
 
+## Calendar views
+
+![Quarterly returns](../figures/quarterly_returns.png)
+
+**Quarterly returns** — compounded return per calendar quarter, green
+for gains and red for losses.
+
+![Annual returns](../figures/annual_returns.png)
+
+**Calendar-year returns** — every strategy's compounded return per
+year, side by side.
+
