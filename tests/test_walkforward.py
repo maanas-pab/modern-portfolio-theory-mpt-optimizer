@@ -38,3 +38,8 @@ def test_window_validation(prices):
         rolling_windows(idx, len(idx), 10)
 
 
+def test_walk_forward_too_short(prices):
+    with pytest.raises(ValueError, match="observations"):
+        walk_forward(prices, train_days=len(prices), test_days=10)
+
+
