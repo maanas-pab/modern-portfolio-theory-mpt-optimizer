@@ -78,3 +78,24 @@ Enable it with `--shrinkage`.
 | Beta | `cov(r_p, r_b) / var(r_b)` |
 | HHI | `Σ wᵢ²` — concentration from `1/n` (equal) to `1` (single asset) |
 
+## Black-Litterman
+
+Sample means are the noisiest input in the whole model. The
+Black-Litterman (1992) approach replaces them with a precision-weighted
+blend of a **prior** (market-implied equilibrium returns) and **views**
+(an investor's relative opinions):
+
+```
+pi   = δ · Σ · w_mkt                            # equilibrium prior
+mu   = [ (τΣ)⁻¹ + Pᵀ Ω⁻¹ P ]⁻¹ · [ (τΣ)⁻¹ pi + Pᵀ Ω⁻¹ Q ]
+```
+
+- `P` is the pick matrix (which assets each view concerns),
+- `Q` the view returns, `τ` the prior scaling (0.05 by default),
+- `Ω` the view uncertainty — from confidence levels or a fixed scalar;
+  diffuse views (large Ω) make the posterior collapse back to the
+  prior, confident views pull it toward `Q`.
+
+The `--black-litterman` flag builds "top-3 outperformer" views from the
+sample means and optimizes the max-Sharpe portfolio on the posterior.
+
