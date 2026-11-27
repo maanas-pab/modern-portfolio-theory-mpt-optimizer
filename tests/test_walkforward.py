@@ -43,3 +43,12 @@ def test_walk_forward_too_short(prices):
         walk_forward(prices, train_days=len(prices), test_days=10)
 
 
+def test_walk_forward_alignment(prices):
+    wf = walk_forward(prices, train_days=150, test_days=40)
+    assert isinstance(wf, WalkForwardResult)
+    assert len(wf.equity) == len(wf.returns)
+    assert wf.n_windows >= 1
+    assert wf.returns.index.is_monotonic_increasing
+    assert not wf.returns.index.has_duplicates
+
+
