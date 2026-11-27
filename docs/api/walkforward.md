@@ -16,3 +16,6 @@ wf = walk_forward(prices, train_days=252, test_days=63,
 - `WalkForwardResult.weights_by_window` — the fitted weight vector for
   each window; `window_weight_frame(wf)` turns it into a DataFrame.
 
+`objective` accepts the same three names as the optimizer
+(`sharpe`, `vol`, `risk_parity`) and is re-fit from scratch inside
+every training window — the test period never leaks into the fit.
