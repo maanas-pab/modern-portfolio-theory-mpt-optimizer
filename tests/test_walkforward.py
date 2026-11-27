@@ -70,3 +70,9 @@ def test_walk_forward_summary_keys(prices):
         assert key in s
 
 
+def test_walk_forward_bad_objective(prices):
+    with pytest.raises(ValueError, match="objective"):
+        walk_forward(prices, train_days=150, test_days=40,
+                     objective="drawdown")
+
+
