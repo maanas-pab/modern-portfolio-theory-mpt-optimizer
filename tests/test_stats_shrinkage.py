@@ -44,3 +44,10 @@ def test_dispatcher_flag(prices):
     assert shrunk.attrs.get("shrinkage_intensity", -1) >= 0.0
 
 
+def test_shrinkage_conditions_number(prices):
+    daily = prices.pct_change().dropna()
+    plain = covariance_matrix(daily, shrinkage=False)
+    shrunk = covariance_matrix(daily, shrinkage=True)
+    cond_plain = np.linalg.cond(plain.values)
+    cond_shrunk = np.linalg.cond(shrunk.values)
+    assert cond_shrunk <= cond_plain
