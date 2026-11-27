@@ -16,3 +16,9 @@ def test_intensity_small_sample(prices):
     assert 0.0 <= lam <= 1.0
 
 
+def test_shrunk_cov_symmetric(prices):
+    daily = prices.pct_change().dropna()
+    cov = ledoit_wolf_covariance(daily)
+    np.testing.assert_allclose(cov.values, cov.values.T)
+
+
