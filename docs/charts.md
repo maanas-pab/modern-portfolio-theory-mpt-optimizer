@@ -125,3 +125,16 @@ It rises as the optimizer piles into PLTR/NET and drops at rebalances.
 **Weight trajectories** — line chart of the top holdings, showing
 individual drift paths a stacked area hides.
 
+## Against the benchmark
+
+![Rolling beta](../figures/rolling_beta.png)
+
+**Rolling beta** — 63-day beta of the max-Sharpe portfolio vs SPY.
+Above 1 means the portfolio amplifies market moves over that window.
+
+![Benchmark scatter](../figures/benchmark_scatter.png)
+
+**Portfolio vs benchmark** — monthly compounded returns with the
+identity line and an OLS fit; the slope is the realized beta and the
+intercept the realized alpha.
+
