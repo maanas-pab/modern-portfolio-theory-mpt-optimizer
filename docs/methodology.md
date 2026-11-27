@@ -34,3 +34,17 @@ S = (μ_p − rf) / σ_p
 
 Annualization uses 252 trading days: daily mean × 252, daily covariance × 252.
 
+## The three optimizations
+
+All problems are solved with `scipy.optimize.minimize` (SLSQP),
+long-only bounds `0 ≤ wᵢ ≤ 1` unless stated otherwise.
+
+| Portfolio | Objective | Constraints |
+|-----------|-----------|-------------|
+| Max Sharpe | minimize `−S(w)` | `Σwᵢ = 1` |
+| Min Volatility | minimize `√(wᵀΣw)` | `Σwᵢ = 1` |
+| Frontier point | minimize `√(wᵀΣw)` | `Σwᵢ = 1`, `wᵀμ = target` |
+| Risk Parity | minimize `Σᵢ (RCᵢ − 1/n)²` | `Σwᵢ = 1` |
+
+`RCᵢ` is the percentage risk contribution `(wᵢ · (Σw)ᵢ) / σ_p`.
+
