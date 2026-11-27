@@ -22,3 +22,10 @@ def test_shrunk_cov_symmetric(prices):
     np.testing.assert_allclose(cov.values, cov.values.T)
 
 
+def test_shrunk_cov_positive_definite(prices):
+    daily = prices.pct_change().dropna()
+    cov = ledoit_wolf_covariance(daily)
+    eigvals = np.linalg.eigvalsh(cov.values)
+    assert eigvals.min() > 0.0
+
+
