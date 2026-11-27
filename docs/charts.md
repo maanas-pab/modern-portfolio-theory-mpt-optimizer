@@ -88,3 +88,40 @@ for gains and red for losses.
 **Calendar-year returns** — every strategy's compounded return per
 year, side by side.
 
+## Allocations
+
+![Weights comparison](../figures/weights_comparison.png)
+
+**Allocation comparison** — grouped bars across max Sharpe, min
+volatility and equal weight.
+
+![Weight pies](../figures/weights_pies.png)
+
+**Weight breakdown** — pies with a top-6 + other rollup.
+
+![Risk contribution](../figures/risk_contribution.png)
+
+**Risk contributions** — percent of total portfolio risk per asset
+for the max-Sharpe portfolio, against the equal-risk line. PLTR and
+NET dominate both weight *and* risk.
+
+![Sector exposure](../figures/sector_exposure.png)
+
+**Sector exposure** — weights aggregated by theme.
+
+![Weight drift](../figures/weights_over_time.png)
+
+**Weight drift** — stacked weights over a monthly-rebalanced
+backtest; white lines mark rebalance events.
+
+![Concentration](../figures/concentration_over_time.png)
+
+**Concentration over time** — the Herfindahl-Hirschman index of the
+weight vector through the backtest, against the equal-weight floor.
+It rises as the optimizer piles into PLTR/NET and drops at rebalances.
+
+![Weight trajectories](../figures/weight_trajectories.png)
+
+**Weight trajectories** — line chart of the top holdings, showing
+individual drift paths a stacked area hides.
+
