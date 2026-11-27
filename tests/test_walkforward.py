@@ -95,3 +95,9 @@ def test_walk_forward_start_slice(prices):
     assert wf.returns.index.min() >= pd.Timestamp("2025-01-01")
 
 
+def test_window_weight_frame_shape(prices):
+    wf = walk_forward(prices, train_days=150, test_days=40)
+    frame = window_weight_frame(wf)
+    assert frame.shape == (wf.n_windows, prices.shape[1])
+
+
