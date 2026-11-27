@@ -83,3 +83,9 @@ def test_walk_forward_objectives(prices, objective):
     assert wf.n_windows >= 1
 
 
+def test_walk_forward_deterministic(prices):
+    a = walk_forward(prices, train_days=150, test_days=40)
+    b = walk_forward(prices, train_days=150, test_days=40)
+    np.testing.assert_allclose(a.returns.values, b.returns.values)
+
+
