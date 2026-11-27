@@ -38,3 +38,12 @@ pays `--cost` per unit of turnover (one-way, so `0.001` = 10 bps).
 - With `rebalance=none` and equal weights, the backtest equals
   buy-and-hold exactly (a sanity check in the test suite)
 
+## Caveats
+
+- In-sample optimization: weights are chosen with the full history,
+  then simulated on that same history — **results are look-ahead**
+- No slippage, market impact, or taxes
+- Survivorship bias: the universe is a fixed snapshot of tickers
+- Treat the backtest as a *comparison between weighting schemes*,
+  not a forecast
+
