@@ -12,3 +12,10 @@ from mpt.report import weights_table, performance_summary, print_report
 | `summary_table(dict_of_summaries)` | metric-rows × strategy-columns, rounded |
 | `print_report(name, summary, weights)` | console block |
 
+`performance_summary` keys: `annual_return`, `annual_vol`, `sharpe`,
+`sortino`, `max_drawdown`, `calmar`, `var_95`, `cvar_95`,
+`positive_days`, plus `beta` and `alpha` when a benchmark series is
+supplied.
+
+`summary_table` scales percentages to readable numbers (12.34 for
+12.34%) and leaves ratios like Sharpe at three decimals.
