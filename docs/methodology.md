@@ -66,3 +66,15 @@ under Gaussian fourth moments. The result is better conditioned
 
 Enable it with `--shrinkage`.
 
+## Risk metrics
+
+| Metric | Definition |
+|--------|-----------|
+| Sortino | annualized excess return / downside deviation |
+| Max drawdown | worst peak-to-trough equity decline |
+| Calmar | annualized excess return / \|max drawdown\| |
+| VaR 95% | 5th percentile of daily losses (historical or normal) |
+| CVaR 95% | mean loss beyond the VaR threshold (expected shortfall) |
+| Beta | `cov(r_p, r_b) / var(r_b)` |
+| HHI | `Σ wᵢ²` — concentration from `1/n` (equal) to `1` (single asset) |
+
