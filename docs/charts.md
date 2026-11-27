@@ -138,3 +138,38 @@ Above 1 means the portfolio amplifies market moves over that window.
 identity line and an OLS fit; the slope is the realized beta and the
 intercept the realized alpha.
 
+## Performance over time
+
+![Cumulative returns](../figures/cumulative_returns.png)
+
+**Cumulative growth** — growth of $1 for every strategy (monthly
+rebalance, 10 bps costs).
+
+![Drawdown](../figures/drawdown.png)
+
+**Underwater curves** — drawdown from peak for each strategy.
+
+![Rolling volatility](../figures/rolling_volatility.png)
+
+**Rolling volatility** — 63-day annualized vol.
+
+![Rolling Sharpe](../figures/rolling_sharpe.png)
+
+**Rolling Sharpe** — 126-day rolling Sharpe; shows how much the
+headline number depends on the window.
+
+![Metric comparison](../figures/metric_comparison.png)
+
+**Scoreboard** — return, volatility and max drawdown side by side.
+
+![Turnover](../figures/turnover.png)
+
+**Turnover at each rebalance** — the L1 distance snapped back at every
+rebalance event. This is the direct driver of the `total_cost` column.
+
+![Walk-forward](../figures/walk_forward.png)
+
+**Walk-forward equity** — the out-of-sample equity curve from rolling
+train/test windows (`--walk-forward`). Grey lines mark where the
+optimizer re-fit; everything between them is data it never saw.
+
