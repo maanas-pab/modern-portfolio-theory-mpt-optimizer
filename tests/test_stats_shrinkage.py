@@ -29,3 +29,9 @@ def test_shrunk_cov_positive_definite(prices):
     assert eigvals.min() > 0.0
 
 
+def test_intensity_in_attrs(prices):
+    daily = prices.pct_change().dropna()
+    cov = ledoit_wolf_covariance(daily)
+    assert "shrinkage_intensity" in cov.attrs
+
+
