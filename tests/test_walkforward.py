@@ -23,3 +23,8 @@ def test_windows_slide_by_test_days(prices):
     assert gap == 25
 
 
+def test_window_ordering(prices):
+    for train_start, train_end, test_end in rolling_windows(prices.index, 120, 30):
+        assert train_start <= train_end < test_end
+
+
