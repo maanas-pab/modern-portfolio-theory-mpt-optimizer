@@ -31,3 +31,10 @@ pays `--cost` per unit of turnover (one-way, so `0.001` = 10 bps).
 | `monthly` | first trading day of each month (≈12/yr) |
 | `quarterly` | first trading day of each quarter (≈4/yr) |
 
+## Interpreting results
+
+- `n_rebalances` counts how often the schedule fired
+- `total_cost` is the cumulative drag from turnover
+- With `rebalance=none` and equal weights, the backtest equals
+  buy-and-hold exactly (a sanity check in the test suite)
+
