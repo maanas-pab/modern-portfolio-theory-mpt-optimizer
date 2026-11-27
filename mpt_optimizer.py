@@ -55,3 +55,10 @@ __all__ = [
     "main",
 ]
 
+def main(argv=None) -> int:
+    """Run the full pipeline via :mod:`mpt.cli` (legacy signature)."""
+    from mpt.cli import main as _cli_main
+
+    return _cli_main(argv)
+
+
