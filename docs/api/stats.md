@@ -16,3 +16,11 @@ from mpt.stats import calculate_statistics, covariance_matrix
 | `ledoit_wolf_covariance(daily)` | shrunk cov, λ in `.attrs` |
 | `covariance_matrix(daily, shrinkage=False)` | dispatcher |
 
+```python
+daily, exp_returns, cov = calculate_statistics(prices)
+cov_shrunk = covariance_matrix(daily, shrinkage=True)
+print(cov_shrunk.attrs["shrinkage_intensity"])
+```
+
+`calculate_statistics` is the single entry point the CLI uses; the
+individual helpers exist so tests and notebooks can compose them.
