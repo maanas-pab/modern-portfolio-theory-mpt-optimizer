@@ -35,3 +35,12 @@ def test_intensity_in_attrs(prices):
     assert "shrinkage_intensity" in cov.attrs
 
 
+def test_dispatcher_flag(prices):
+    daily = prices.pct_change().dropna()
+    plain = covariance_matrix(daily, shrinkage=False)
+    shrunk = covariance_matrix(daily, shrinkage=True)
+    assert not np.allclose(plain.values, shrunk.values)
+    assert list(plain.index) == list(shrunk.index)
+    assert shrunk.attrs.get("shrinkage_intensity", -1) >= 0.0
+
+
