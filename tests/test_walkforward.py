@@ -76,3 +76,10 @@ def test_walk_forward_bad_objective(prices):
                      objective="drawdown")
 
 
+@pytest.mark.parametrize("objective", ["sharpe", "vol", "risk_parity"])
+def test_walk_forward_objectives(prices, objective):
+    wf = walk_forward(prices, train_days=150, test_days=40,
+                      objective=objective)
+    assert wf.n_windows >= 1
+
+
