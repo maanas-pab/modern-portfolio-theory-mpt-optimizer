@@ -99,3 +99,10 @@ mu   = [ (τΣ)⁻¹ + Pᵀ Ω⁻¹ P ]⁻¹ · [ (τΣ)⁻¹ pi + Pᵀ Ω⁻¹ 
 The `--black-litterman` flag builds "top-3 outperformer" views from the
 sample means and optimizes the max-Sharpe portfolio on the posterior.
 
+## Assumptions & limitations
+
+- Expected returns are backward-looking sample means — notoriously noisy
+- Single-period model: no path-dependent utility, no rebalancing inside the optimizer
+- Long-only, fully invested (shorts available via `budget="gross"`)
+- No transaction costs inside the optimizer (costs modeled in the backtest)
+- Past performance does not predict future results
