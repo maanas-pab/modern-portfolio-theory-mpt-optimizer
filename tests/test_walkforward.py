@@ -62,3 +62,11 @@ def test_walk_forward_total_return(prices):
     assert np.isclose(wf.total_return, wf.equity.iloc[-1] - 1.0)
 
 
+def test_walk_forward_summary_keys(prices):
+    wf = walk_forward(prices, train_days=150, test_days=40)
+    s = wf.summary(risk_free=0.02)
+    for key in ("annual_return", "annual_vol", "sharpe", "max_drawdown",
+                "n_windows"):
+        assert key in s
+
+
