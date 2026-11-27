@@ -33,3 +33,25 @@ sample covariance and against the Ledoit-Wolf shrunk covariance. The
 gap between the two lines is how much the optimizer's answer depends
 on a noisy covariance estimate.
 
+## Risk structure
+
+![Correlation heatmap](../figures/correlation_heatmap.png)
+
+**Correlation matrix** — daily-return correlations. CRSP/BEAM (0.72)
+and NET/DDOG (0.52) are the diversification failures; most pairs sit
+below 0.30, which is why the frontier bends so much.
+
+![Covariance heatmap](../figures/covariance_heatmap.png)
+
+**Covariance matrix** — annualized covariances feeding the optimizer.
+
+![Correlation vs volatility](../figures/correlation_vs_vol.png)
+
+**Diversification vs risk** — average correlation of each asset
+against its own volatility: the upper-right corner is the worst place
+to be (high vol, high correlation).
+
+![Asset risk-return](../figures/asset_risk_return.png)
+
+**Asset risk-return** — every ticker labeled, before any optimization.
+
