@@ -48,3 +48,13 @@ plus the bundled cache. ~293 tests, a few seconds.
 No. The workflow runs lint + pytest on Python 3.9–3.12 with no
 network calls.
 
+## Figures
+
+**My figures look different from the README.**
+Regenerate with `make figures` (the exact flags used are in the
+Makefile). Style constants live in `mpt/plotting/style.py`.
+
+**How do I add a new chart?**
+Write a `plot_*` function in the right `mpt/plotting/` submodule
+following the `setup_style()` → `finish()` contract, add a test in
+`tests/test_plotting.py`, and document it in `docs/charts.md`.
