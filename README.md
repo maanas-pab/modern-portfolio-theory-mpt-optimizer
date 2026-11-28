@@ -78,3 +78,33 @@ The first run downloads prices into `data/prices_3y.csv`; every run
 after that is instant and offline. The original single-file entry
 point still works: `python3 mpt_optimizer.py`.
 
+### CLI reference
+
+```bash
+python3 -m mpt.cli --period 5y --risk-free 0.03 --points 80 \
+    --shrinkage --rebalance monthly --cost 0.001
+```
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--period` | `3y` | History window (`1y`, `3y`, `5y`, `max`, …) |
+| `--interval` | `1d` | Price interval (`1d`, `1wk`, …) |
+| `--tickers` | 12 defaults | Custom universe (space-separated) |
+| `--risk-free` | `0.02` | Risk-free rate for Sharpe/Sortino |
+| `--points` | `60` | Frontier resolution (target-return grid) |
+| `--random` | `5000` | Monte-Carlo portfolios behind the frontier |
+| `--shrinkage` | off | Ledoit-Wolf shrunk covariance |
+| `--benchmark` | `SPY` | Benchmark for beta/alpha |
+| `--black-litterman` | off | Add a Black-Litterman max-Sharpe strategy |
+| `--rebalance` | `none` | `none` / `weekly` / `monthly` / `quarterly` |
+| `--cost` | `0.0` | One-way transaction cost per unit turnover |
+| `--walk-forward` | off | Rolling out-of-sample evaluation (no look-ahead) |
+| `--train` | `252` | Walk-forward training window (days) |
+| `--test` | `63` | Walk-forward test window (days) |
+| `--cache` | `data/prices_3y.csv` | Price cache path |
+| `--refresh` | off | Ignore cache, refetch from Yahoo |
+| `--out-dir` | `outputs` | Weight CSV destination |
+| `--figure-dir` | `figures` | Chart destination |
+| `--no-plot` | off | Skip chart generation |
+| `--no-backtest` | off | Skip the backtest |
+
