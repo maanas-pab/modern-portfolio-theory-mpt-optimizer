@@ -151,3 +151,19 @@ max Sharpe dominates on return and Sharpe, min vol on risk.
 See [docs/backtesting.md](docs/backtesting.md) for the model and its
 caveats — these are **in-sample** weights, not a forecast.
 
+### Walk-forward (honest, out-of-sample)
+
+`--walk-forward --train 252 --test 63` re-fits the max-Sharpe weights on
+each 1-year training window and holds them through the next quarter,
+touching only data the optimizer had never seen:
+
+| | In-sample | Out-of-sample |
+|---|---|---|
+| Annual return | 74.1% | 19.8% |
+| Sharpe | 1.42 | 0.37 |
+| Max drawdown | -41.1% | -50.7% |
+
+The gap is not a bug — it is what overfitting to noisy expected-return
+estimates costs. Any backtest that reports only the left column is
+hiding the right one.
+
