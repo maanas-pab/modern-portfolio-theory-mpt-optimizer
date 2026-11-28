@@ -197,3 +197,15 @@ Full doc set: [methodology](docs/methodology.md) ·
 [FAQ](docs/faq.md) · [troubleshooting](docs/troubleshooting.md) ·
 [changelog](CHANGELOG.md)
 
+## Testing
+
+```bash
+pip install -r requirements-dev.txt
+make test     # pytest - tests are fully offline, no API key needed
+make lint     # ruff check
+```
+
+Every chart has a smoke test that asserts a non-empty PNG is written;
+optimizer tests verify constraints (weights sum to 1, long-only bounds,
+target-return feasibility) against analytic answers.
+
