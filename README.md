@@ -138,3 +138,16 @@ python3 -m mpt.cli --period 5y --risk-free 0.03 --points 80 \
 Equal-weight baseline: return 23.34%, volatility 34.44%, Sharpe 0.620 —
 max Sharpe dominates on return and Sharpe, min vol on risk.
 
+### Backtest (monthly rebalance, 10 bps cost)
+
+| | Max Sharpe | Min Vol | Risk Parity | Equal Weight | Buy & Hold |
+|---|---|---|---|---|---|
+| Total return | 511.3% | 37.5% | 57.4% | 62.8% | 70.5% |
+| Annual return | 74.1% | 15.3% | 20.7% | 22.3% | 25.3% |
+| Sharpe | 1.388 | 0.437 | 0.564 | 0.588 | 0.604 |
+| Max drawdown | -41.3% | -33.4% | -32.8% | -32.6% | -37.8% |
+| Rebalances / cost | 36 / 0.21% | 36 / 0.36% | 36 / 0.41% | 36 / 0.41% | 0 / 0% |
+
+See [docs/backtesting.md](docs/backtesting.md) for the model and its
+caveats — these are **in-sample** weights, not a forecast.
+
