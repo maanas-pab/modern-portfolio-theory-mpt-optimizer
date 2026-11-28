@@ -217,3 +217,10 @@ target-return feasibility) against analytic answers.
 - **matplotlib** — the 30-chart gallery
 - **pytest + GitHub Actions** — 293 tests across Python 3.9–3.12
 
+## Limitations & next steps
+
+- Expected returns are backward-looking sample means — noisy estimators of future returns
+- Single-period, long-only model (shorts via `budget="gross"`; no leverage, taxes, or market impact)
+- Backtests are in-sample: they compare weighting schemes, they don't forecast — run `--walk-forward` for the honest number
+- Ideas: CVaR constraints, Black-Litterman views from a broker rather than top-pick heuristics, a Streamlit dashboard
+
