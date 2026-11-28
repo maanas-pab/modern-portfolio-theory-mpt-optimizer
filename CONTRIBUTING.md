@@ -40,3 +40,9 @@ Charts live in `mpt/plotting/` and follow one convention:
 
 Regenerate the gallery with `make figures`.
 
+## Pull request checklist
+
+- [ ] `make test` passes
+- [ ] `make lint` passes
+- [ ] New behavior has tests
+- [ ] README/docs updated if user-facing
