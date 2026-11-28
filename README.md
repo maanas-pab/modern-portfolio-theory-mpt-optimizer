@@ -224,3 +224,10 @@ target-return feasibility) against analytic answers.
 - Backtests are in-sample: they compare weighting schemes, they don't forecast — run `--walk-forward` for the honest number
 - Ideas: CVaR constraints, Black-Litterman views from a broker rather than top-pick heuristics, a Streamlit dashboard
 
+## Disclaimer
+
+Educational project — not investment advice. Past performance does not predict future results.
+
+## License
+
+[MIT](LICENSE)
