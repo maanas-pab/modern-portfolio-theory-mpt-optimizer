@@ -27,3 +27,25 @@ order. Cross-references link to the deeper explanation.
 | Max drawdown | worst peak-to-trough equity decline (≤ 0) |
 | Monte-Carlo cloud | thousands of random portfolios plotted for context |
 
+## N – S
+
+| Term | Meaning |
+|------|---------|
+| Parameter covariance | `covariance_matrix(daily, shrinkage=True)` — Ledoit-Wolf |
+| Rebalancing | snapping weights back to target on a schedule |
+| Risk contribution | weight × marginal risk; sums to total portfolio vol |
+| Risk parity | equalizing each asset's risk contribution |
+| Sensitivity | how much an output moves when an input changes |
+| Shrinkage | pulling sample covariance toward a structured target |
+| Sortino | like Sharpe, but divided by downside deviation only |
+| SLSQP | the scipy solver behind every optimization |
+
+## T – Z
+
+| Term | Meaning |
+|------|---------|
+| Tangency portfolio | the max-Sharpe portfolio where the CML touches the frontier |
+| Turnover | L1 distance between pre- and post-rebalance weights |
+| VaR | value at risk — a loss quantile (95% here) |
+| Walk-forward | refit on rolling train windows, score on unseen test windows |
+| Weight drift | how weights evolve between rebalances as prices move |
