@@ -23,3 +23,9 @@ make test          # or: python3 -m pytest tests/
 Please add a test for every new function. Aim for the same granularity
 as the existing suite - one behavior per test.
 
+## Lint
+
+```bash
+make lint          # or: python3 -m ruff check mpt tests
+```
+
