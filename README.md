@@ -167,3 +167,33 @@ The gap is not a bug — it is what overfitting to noisy expected-return
 estimates costs. Any backtest that reports only the left column is
 hiding the right one.
 
+## Project structure
+
+```
+mpt/
+├── config.py             # universe, themes, OptimizerConfig
+├── data.py               # yfinance download + CSV cache
+├── stats.py              # returns, covariance, Ledoit-Wolf shrinkage
+├── metrics.py            # Sharpe, Sortino, VaR, CVaR, beta, HHI, ...
+├── optimizer.py          # SLSQP: max-Sharpe, min-vol, risk parity
+├── frontier.py           # frontier tracing, Monte-Carlo, capital line
+├── backtest.py           # rebalancing engine with costs
+├── walkforward.py        # rolling train/test windows (no look-ahead)
+├── black_litterman.py    # equilibrium prior + investor views
+├── report.py             # tables, CSV export, console report
+├── cli.py                # argument parsing + pipeline orchestration
+└── plotting/             # 30 chart functions + shared style
+tests/                    # 293 offline tests (synthetic fixtures)
+figures/                  # generated chart gallery
+outputs/                  # generated weight CSVs
+data/prices_3y.csv        # cached prices for reproducible runs
+docs/                     # methodology, backtesting, gallery, API, FAQ
+mpt_optimizer.py          # backwards-compatible single-file entry point
+```
+
+Full doc set: [methodology](docs/methodology.md) ·
+[backtesting](docs/backtesting.md) · [chart gallery](docs/charts.md) ·
+[API reference](docs/api/index.md) · [glossary](docs/glossary.md) ·
+[FAQ](docs/faq.md) · [troubleshooting](docs/troubleshooting.md) ·
+[changelog](CHANGELOG.md)
+
