@@ -28,3 +28,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - 293 offline tests, GitHub Actions CI, ruff lint, Makefile, pyproject
 - Cached price data for reproducible offline runs
 
+## [1.0.0] - 2026-09-11
+
+### Added
+- Single-file MPT optimizer with efficient frontier and max-Sharpe
+  portfolio across 12 niche stocks
