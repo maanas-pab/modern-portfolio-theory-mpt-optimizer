@@ -55,3 +55,13 @@ Find the **exact asset weights that maximize the Sharpe Ratio** across a univers
 
 `SPY` is fetched alongside as the benchmark for beta/alpha.
 
+## Methodology (short version)
+
+For weight vector **w**, expected-return vector **μ**, and covariance matrix **Σ**:
+
+- Portfolio return `μ_p = wᵀμ`, volatility `σ_p = √(wᵀΣw)`, Sharpe `(μ_p − rf) / σ_p`
+- Optimizations are SLSQP, long-only `0 ≤ w ≤ 1`, fully invested `Σw = 1`
+- Optional Ledoit-Wolf shrinkage: `Σ_shrunk = (1−λ)Σ + λμI`
+
+Full derivations, metric definitions and assumptions: **[docs/methodology.md](docs/methodology.md)**.
+
