@@ -29,3 +29,14 @@ as the existing suite - one behavior per test.
 make lint          # or: python3 -m ruff check mpt tests
 ```
 
+## Charts
+
+Charts live in `mpt/plotting/` and follow one convention:
+
+1. one function per figure,
+2. `out_path` keyword with a default under `figures/`,
+3. `setup_style()` first, `finish()` last,
+4. a smoke test in `tests/test_plotting.py`.
+
+Regenerate the gallery with `make figures`.
+
