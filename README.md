@@ -21,3 +21,16 @@ Find the **exact asset weights that maximize the Sharpe Ratio** across a univers
 - **Backtesting engine** — weekly/monthly/quarterly rebalancing with transaction costs
 - **293 offline tests + CI** — synthetic fixtures, GitHub Actions across Python 3.9–3.12
 
+## A tour of the gallery
+
+| | |
+|:--:|:--:|
+| ![Correlation](figures/correlation_heatmap.png) | ![Cumulative](figures/cumulative_returns.png) |
+| *Correlation matrix — CRSP/BEAM and NET/DDOG are the diversification failures* | *Growth of $1 by strategy (monthly rebalance, 10 bps)* |
+| ![Drawdown](figures/drawdown.png) | ![Monthly](figures/monthly_returns.png) |
+| *Underwater curves* | *Monthly return calendar* |
+| ![Walk-forward](figures/walk_forward.png) | ![Shrinkage](figures/frontier_shrinkage.png) |
+| *Out-of-sample equity from rolling train/test windows* | *Frontier sensitivity to covariance shrinkage* |
+
+**[Full 30-chart gallery →](docs/charts.md)**
+
