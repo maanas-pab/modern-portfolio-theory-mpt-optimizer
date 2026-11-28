@@ -16,3 +16,9 @@ no combination of the universe's assets can earn it without shorts.
 Pick a target between `min(exp_returns)` and `max(exp_returns)`,
 or use `budget="gross"`.
 
+## Charts don't render
+
+Pass `--no-plot` to skip the gallery entirely, or check that
+`matplotlib` is installed in the environment running the CLI. The
+gallery needs a writable `--figure-dir` (default `figures/`).
+
