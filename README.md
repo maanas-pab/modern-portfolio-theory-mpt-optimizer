@@ -209,3 +209,11 @@ Every chart has a smoke test that asserts a non-empty PNG is written;
 optimizer tests verify constraints (weights sum to 1, long-only bounds,
 target-return feasibility) against analytic answers.
 
+## Tech stack
+
+- **yfinance** — historical price data
+- **pandas / numpy** — returns, expected returns, covariance matrix
+- **scipy.optimize (SLSQP)** — Sharpe maximization + frontier tracing
+- **matplotlib** — the 30-chart gallery
+- **pytest + GitHub Actions** — 293 tests across Python 3.9–3.12
+
