@@ -26,3 +26,25 @@ asset means). The optimizer raises `RuntimeError` naming the target.
 **What does `budget="gross"` do?**
 Relaxes `Σw = 1` to `Σ|w| = 1`, allowing long-short solutions.
 
+## Backtesting
+
+**Are the backtest numbers tradable?**
+No — they are in-sample. The weights were chosen on the same history
+they are simulated on. Use `--walk-forward` for an honest estimate;
+expect the Sharpe to drop a lot.
+
+**How is turnover cost applied?**
+At each rebalance, `cost = turnover × transaction_cost` is deducted
+from that day's return. `total_cost` in the output is the cumulative
+drag.
+
+## Tests & CI
+
+**How do I run the tests?**
+`pytest tests/` — everything is offline and uses synthetic fixtures
+plus the bundled cache. ~293 tests, a few seconds.
+
+**Does CI need secrets?**
+No. The workflow runs lint + pytest on Python 3.9–3.12 with no
+network calls.
+
