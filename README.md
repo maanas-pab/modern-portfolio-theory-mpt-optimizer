@@ -34,3 +34,24 @@ Find the **exact asset weights that maximize the Sharpe Ratio** across a univers
 
 **[Full 30-chart gallery →](docs/charts.md)**
 
+## Stock Universe
+
+12 niche / thematic growth names across clean energy, biotech, cloud, fintech and edtech:
+
+| Ticker | Company | Theme |
+|--------|---------|-------|
+| CELH | Celsius Holdings | Consumer / energy drinks |
+| ENPH | Enphase Energy | Solar microinverters |
+| FSLR | First Solar | Solar manufacturing |
+| CRSP | CRISPR Therapeutics | Gene editing |
+| BEAM | Beam Therapeutics | Gene editing |
+| DUOL | Duolingo | Edtech / language learning |
+| ETSY | Etsy | E-commerce |
+| PLTR | Palantir | AI / data analytics |
+| NET | Cloudflare | Cloud / edge |
+| DDOG | Datadog | Cloud observability |
+| U | Unity Software | Gaming / 3D engine |
+| AFRM | Affirm Holdings | Fintech / BNPL |
+
+`SPY` is fetched alongside as the benchmark for beta/alpha.
+
