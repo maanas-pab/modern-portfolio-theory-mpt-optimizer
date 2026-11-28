@@ -108,3 +108,33 @@ python3 -m mpt.cli --period 5y --risk-free 0.03 --points 80 \
 | `--no-plot` | off | Skip chart generation |
 | `--no-backtest` | off | Skip the backtest |
 
+## Sample results
+
+3-year window ending 2026-11-20, risk-free 2%, sample covariance:
+
+**Max Sharpe portfolio** — return 75.46%, volatility 51.70%, Sharpe **1.421**, Sortino 2.276
+
+| Ticker | Weight |
+|--------|--------|
+| PLTR | 60.02% |
+| NET | 37.31% |
+| AFRM | 1.69% |
+| U | 0.98% |
+
+**Min Volatility portfolio** — return 16.37%, volatility 30.30%, Sharpe 0.474
+
+| Ticker | Weight |
+|--------|--------|
+| ETSY | 24.33% |
+| FSLR | 18.51% |
+| DDOG | 17.96% |
+| CELH | 13.39% |
+| CRSP | 9.38% |
+| NET | 7.66% |
+| DUOL | 6.39% |
+| PLTR | 1.97% |
+| ENPH | 0.42% |
+
+Equal-weight baseline: return 23.34%, volatility 34.44%, Sharpe 0.620 —
+max Sharpe dominates on return and Sharpe, min vol on risk.
+
