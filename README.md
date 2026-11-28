@@ -65,3 +65,16 @@ For weight vector **w**, expected-return vector **μ**, and covariance matrix **
 
 Full derivations, metric definitions and assumptions: **[docs/methodology.md](docs/methodology.md)**.
 
+## Quickstart
+
+```bash
+git clone https://github.com/maanas-pab/modern-portfolio-theory-mpt-optimizer.git
+cd modern-portfolio-theory-mpt-optimizer
+pip install -r requirements.txt
+python3 -m mpt.cli            # or: make run
+```
+
+The first run downloads prices into `data/prices_3y.csv`; every run
+after that is instant and offline. The original single-file entry
+point still works: `python3 mpt_optimizer.py`.
+
